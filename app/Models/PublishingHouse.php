@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class PublishingHouse extends Model
 {
     use HasFactory;
+    protected $table = 'publishing_houses';
+    protected $fillable = [
+        'user_id',
+        'logo',
+        'established_year',
+        'description',
+        'total_books',
+    ];
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function schools()
+    {
+        return $this->hasMany(School::class);
+    }
 }
