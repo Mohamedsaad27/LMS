@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class BookFactory extends Factory
 {
+    protected $model = Book::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +19,12 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'subject_id' => $this->faker->numberBetween(1, 10),
+            'title' => $this->faker->word(),
+            'author' => $this->faker->name(),
+            'publication_year' => $this->faker->year(),
+            'cover_image' => $this->faker->imageUrl(),
+            'description' => $this->faker->text(),
         ];
     }
 }

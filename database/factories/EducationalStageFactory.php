@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\EducationalStage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EducationalStageFactory extends Factory
 {
+     protected $model = EducationalStage::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +19,9 @@ class EducationalStageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word(),
+            'description' => $this->faker->text(),
+            'school_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

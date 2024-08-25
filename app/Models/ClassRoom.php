@@ -13,7 +13,6 @@ class ClassRoom extends Model
         'grade_id',
         'name',
         'capacity',
-        'capacity',
         'description'
     ];
     public function grade(){

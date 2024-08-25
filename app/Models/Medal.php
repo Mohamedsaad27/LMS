@@ -10,4 +10,5 @@ class Medal extends Model
     use HasFactory;
     protected $table = 'medals';
     protected $fillable = ['name','description'];
+
 }

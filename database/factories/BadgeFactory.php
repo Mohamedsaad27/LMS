@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Badge;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class BadgeFactory extends Factory
 {
+    protected $model = Badge::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +19,8 @@ class BadgeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'description' => $this->faker->text(),
         ];
     }
 }
