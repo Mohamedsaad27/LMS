@@ -2,16 +2,21 @@
 
 namespace App\Api\Requests\AuthRequests;
 
+use App\Traits\ApiResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RegistrationRequest extends FormRequest
 {
+    use ApiResponseTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +27,22 @@ class RegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'user_type_id' => ['required', 'integer', 'exists:user_types,id'],
+            'gender' => ['required', 'string','in:male,female'],
+            'address' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255','unique:users'],
         ];
+    }
+//    public function messages(): array
+//    {
+//        []
+//    }
+    public function failedValidation(Validator $validator): void
+    {
+        throw new HttpResponseException($this->errorResponse($validator->errors(),422));
     }
 }

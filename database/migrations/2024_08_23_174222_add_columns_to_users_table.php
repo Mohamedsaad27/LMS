@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('user_type_id')->index()->after('password');
             $table->foreign('user_type_id')->references('id')->on('user_types');
-            $table->enum('gender', ['male', 'female'])->after('user_type_id');
-            $table->string('address')->nullable()->after('gender');
-            $table->string('phone')->nullable()->after('address');
+            $table->enum('gender', ['male', 'female'])->after('user_type_id')->nullable();
+            $table->string('address')->nullable()->after('gender')->nullable();
+            $table->string('phone')->nullable()->after('address')->nullable();
         });
 
     }

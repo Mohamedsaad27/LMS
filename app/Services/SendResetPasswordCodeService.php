@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Notification;
 
 class SendResetPasswordCodeService
 {
-    public function sendResetPasswordLink(string $email) :void {
-        Notification::route('mail', $email)->notify(new SendResetPasswordCodeNotification($this->generateResetPasswordLink($email)));
+    public function sendResetPasswordCode(string $email) :void {
+        Notification::route('mail', $email)->notify(new SendResetPasswordCodeNotification($this->generateResetPasswordCode($email)));
     }
-    public function generateResetPasswordLink($email) :string
+    public function generateResetPasswordCode($email) :string
     {
         $checkIfCodeIfExists = ResetPasswordCodeVerification::where('email', $email)->first();
         if ($checkIfCodeIfExists) $checkIfCodeIfExists->delete();
