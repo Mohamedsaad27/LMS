@@ -2,6 +2,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\Requests\AuthRequests\ChangePasswordRequest;
 use App\Api\Requests\AuthRequests\LoginRequest;
 use App\Api\Requests\AuthRequests\RegistrationRequest;
 use App\Api\Requests\AuthRequests\ResetPasswordRequest;
@@ -41,4 +42,17 @@ class AuthController extends Controller
     public function resetPassword(ResetPasswordRequest $resetPasswordRequest){
         return $this->authRepository->sendResetPasswordCode($resetPasswordRequest);
     }
+    public function verifyEmail(Request $request){
+        return $this->authRepository->verifyEmail($request);
+    }
+    public function changePassword(ChangePasswordRequest $request){
+        return $this->authRepository->changePassword($request);
+    }
+    public function resendRegistrationCode(Request $request){
+        return $this->authRepository->resendRegistrationCode($request);
+    }
+    public function verifyResetPasswordCode(Request $request){
+        return $this->authRepository->verifyResetPasswordCode($request);
+    }
+
 }

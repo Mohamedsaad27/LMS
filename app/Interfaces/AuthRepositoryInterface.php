@@ -17,7 +17,6 @@ interface AuthRepositoryInterface
     public function resetPassword(ResetPasswordRequest $resetPasswordRequest);
     public function sendResetPasswordCode(Request $request);
     public function refreshToken(Request $request);
-    public function forgotPassword(ForgotPasswordRequest $forgotPasswordRequest);
     public function verifyEmail(Request $request);
     public function changePassword(ChangePasswordRequest $changePasswordRequest);
     public function verifyResetPasswordCode(Request $request);

@@ -8,12 +8,12 @@ use App\Api\Requests\AuthRequests\LoginRequest;
 use App\Api\Requests\AuthRequests\RegistrationRequest;
 use App\Api\Requests\AuthRequests\ResetPasswordRequest;
 use App\Interfaces\AuthRepositoryInterface;
-use App\Models\EmailVerificationCode;
 use App\Models\ResetPasswordCodeVerification;
 use App\Models\User;
 use App\Services\SendResetPasswordCodeService;
 use App\Services\SendVerificationCodeService;
 use App\Traits\ApiResponseTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -145,19 +145,97 @@ class AuthRepository implements AuthRepositoryInterface
             return $this->errorResponse(['message' => $e->getMessage()], 500);
         }
     }
-    public function forgotPassword(ForgotPasswordRequest $forgotPasswordRequest){
 
-    }
     public function verifyEmail(Request $request){
+        try {
+            $request->validate([
+                'email' => 'required|string|email|exists:users,email',
+                'verification_code' => 'required|integer',
+            ]);
 
+            $email = $request->input('email');
+            $verification_code = $request->input('verification_code');
+            $user = User::where('email',$email)
+                          ->where('verification_code',$verification_code)
+                          ->first();
+            if(!$user){
+                return $this->errorResponse('User not found Or Code Invalid',401);
+            }
+        if ($user->email_verified_at) {
+        return $this->successResponse(null,'Email already verified', 200);
+        }
+        $user->email_verified_at = now();
+        $user->is_verified = true;
+        $user->save();
+        return $this->successResponse(null,'Email verified Successfully');
+        }catch (ValidationException $e){
+            return $this->errorResponse($e->getMessage(),422);
+        }catch (\Exception $exception){
+        return $this->errorResponse($exception->getMessage(),500);
+        }
     }
     public function changePassword(ChangePasswordRequest $changePasswordRequest){
-
+        try {
+            $validated = $changePasswordRequest->validated();
+            $user = Auth::user();
+            if(!Hash::check($validated['current_password'],$user->password)){
+                return $this->errorResponse('Your current password is incorrect',401);
+            }
+            $user->password = Hash::make($validated['new_password']);
+            $user->save();
+            return $this->successResponse(null,'Password successfully changed');
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage(),500);
+        }
     }
     public function verifyResetPasswordCode(Request $request){
+        $validatedData = $request->validate([
+            'email' => 'required|string|email|exists:reset_password_code_verification,email',
+            'code' => 'required|integer',
+        ]);
 
+        try {
+            $email = $validatedData['email'];
+            $code = $validatedData['code'];
+
+            $verificationRecord = ResetPasswordCodeVerification::where('email', $email)
+                ->where('code', $code)
+                ->first();
+
+            if (!$verificationRecord) {
+                return $this->errorResponse('Invalid or Expired Code', 401);
+            }
+
+            if ($verificationRecord->expired_at && Carbon::parse($verificationRecord->expired_at)->lt(now())) {
+                return $this->errorResponse('Expired Code', 400);
+            }
+
+            return $this->successResponse(null, 'Code verified successfully');
+        } catch (ValidationException $e) {
+            return $this->errorResponse($e->getMessage(), 422);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
     }
-    public function resendRegistrationCode(Request $request){
 
+    public function resendRegistrationCode(Request $request){
+        $request->validate([
+            'email' => 'required|exists:users,email'
+        ]);
+        try {
+            $user = User::where('email', $request->email)->first();
+            if (!$user) {
+                return $this->errorResponse('User not found', 400);
+            }
+            $code = rand(10000, 99999);
+            $user->update([
+                'verification_code' => $code,
+                'expired_at' => now()->addMinutes(30),
+            ]);
+            $this->sendVerificationCodeService->sendVerificationCode($user);
+            return $this->successResponse(null, 'Verification code resent successfully');
+        }catch (\Exception $exception) {
+            return $this->errorResponse(['message' => $exception->getMessage()], 500);
+        }
     }
 }
