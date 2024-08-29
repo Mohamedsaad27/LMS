@@ -1,11 +1,12 @@
 <?php
 
 use App\Api\Controllers\AuthController;
+use App\Http\Middleware\ApiLocalization;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware(ApiLocalization::class)->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
