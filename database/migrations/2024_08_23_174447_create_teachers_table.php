@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id()->index();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('school_id')->index();
+            $table->unsignedBigInteger('school_id')->nullable()->index();
             $table->foreign('school_id')->references('id')->on('schools');
             $table->date('hire_date')->nullable();
             $table->string('qualification', 255)->nullable();
