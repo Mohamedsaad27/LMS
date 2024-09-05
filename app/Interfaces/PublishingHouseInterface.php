@@ -13,6 +13,6 @@ interface PublishingHouseInterface
     public function store(StorePublishingHouseRequest $request);
     public function show($id);
     public function edit($id);
-    public function update(UpdatePublishingHouseRequest $request, $id);
+    public function update(Request $request, $id);
     public function destroy($id);
 }

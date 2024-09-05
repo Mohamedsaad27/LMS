@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('logo',100)->nullable();
             $table->date('established_year')->nullable();
-            $table->text('description',455)->nullable();
+            $table->text('description_en',455)->nullable();
+            $table->text('description_ar',455)->nullable();
             $table->smallInteger('total_books')->nullable();
             $table->timestamps();
         });

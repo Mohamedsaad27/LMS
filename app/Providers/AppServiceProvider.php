@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Interfaces\PublishingHouseInterface;
+use App\Repository\PublishingHouseRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(PublishingHouseInterface::class, PublishingHouseRepository::class);
+
     }
 
     /**

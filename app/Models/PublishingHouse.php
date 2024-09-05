@@ -13,7 +13,8 @@ class PublishingHouse extends Model
         'user_id',
         'logo',
         'established_year',
-        'description',
+        'description_en',
+        'description_ar',
         'total_books',
     ];
     public function user(){

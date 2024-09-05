@@ -27,15 +27,14 @@ class UpdatePublishingHouseRequest extends FormRequest
     {
         return [
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
-            'established_year' => ['nullable', 'integer'],
-            'description' => ['nullable', 'string'],
+            'established_year' => ['nullable', 'date'],
+            'description_ar' => ['nullable', 'string'],
+            'description_en' => ['nullable', 'string'],
             'total_books' => ['nullable', 'integer', 'min:1'],
         ];
     }
-    public function messages()
-    {
 
-    }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException($this->errorResponse($validator->errors(),422));

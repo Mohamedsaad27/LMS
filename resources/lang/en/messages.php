@@ -19,4 +19,13 @@ return [
     'verification_code_resent' => 'Verification code resent successfully.',
     'token_refreshed_successfully' => 'Token refreshed successfully.',
     'current_password_incorrect' => 'Your current password is incorrect.',
+    'no_publishing_house' => 'No publishing houses found.',
+    'unauthorized_access_to_publishing_houses' => 'You do not have permission to access publishing houses.',
+    'publishing_houses_retrieved_successfully' => 'Publishing houses retrieved successfully.',
+    'unauthorized_exception' => 'Unauthorized Access. Please check your permissions.',
+    'publishing_house_updated_successfully' => 'Publishing house updated successfully.',
+    'publishing_house_updated_failed' => 'Failed to update publishing house.',
+    'publishing_house_not_found' => 'Publishing house not found.',
+    'publishing_house_deleted_successfully' => 'Publishing house deleted successfully.',
+
 ];

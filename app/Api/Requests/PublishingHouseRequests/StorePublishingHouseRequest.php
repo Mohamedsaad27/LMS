@@ -29,7 +29,8 @@ class StorePublishingHouseRequest extends FormRequest
         return [
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
             'established_year' => ['nullable', 'integer'],
-            'description' => ['nullable', 'string'],
+            'description_ar' => ['nullable', 'string'],
+            'description_en' => ['nullable', 'string'],
             'total_books' => ['nullable', 'integer', 'min:1'],
         ];
     }

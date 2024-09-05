@@ -27,8 +27,8 @@ class RegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'name_en' => ['required', 'string', 'max:255'],
+            'name_ar' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'user_type_id' => ['required', 'integer', 'exists:user_types,id'],
@@ -37,10 +37,7 @@ class RegistrationRequest extends FormRequest
             'phone' => ['required', 'string', 'max:255','unique:users'],
         ];
     }
-//    public function messages(): array
-//    {
-//        []
-//    }
+
     public function failedValidation(Validator $validator): void
     {
         throw new HttpResponseException($this->errorResponse($validator->errors(),422));

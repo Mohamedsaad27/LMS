@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -36,8 +37,8 @@ class AuthRepository implements AuthRepositoryInterface
             $validatedData = $registrationRequest->validated();
             DB::beginTransaction();
             $user = User::create([
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
+                'name_ar' => $validatedData['name_ar'],
+                'name_en' => $validatedData['name_en'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'user_type_id' => $validatedData['user_type_id'],
@@ -48,27 +49,32 @@ class AuthRepository implements AuthRepositoryInterface
             if ($user) {
                 switch ($validatedData['user_type_id']) {
                     case '2':
+                        $user->assignRole('student');
                         Student::create([
                             'user_id' => $user->id,
                         ]);
                         break;
                     case '3':
+                        $user->assignRole('teacher');
                         Teacher::create([
                             'user_id' => $user->id,
                         ]);
                         break;
                     case '4':
+                        $user->assignRole('publishing-house');
                         PublishingHouse::create([
                             'user_id' => $user->id,
                         ]);
                         break;
                     case '5':
+                        $user->assignRole('school');
                         School::create([
                             'user_id' => $user->id,
                         ]);
                         break;
                     default:
-                            Admin::create([
+                        $user->assignRole('admin');
+                        Admin::create([
                                 'user_id' => $user->id,
                             ]);
                             break;
