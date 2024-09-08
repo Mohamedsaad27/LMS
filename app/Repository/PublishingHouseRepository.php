@@ -20,14 +20,14 @@ class PublishingHouseRepository implements PublishingHouseInterface
     use ApiResponseTrait;
     public function index(){
         try {
-            $publishingHouses = PublishingHouse::all();
+            $publishingHouses = PublishingHouse::with('user')->get();
             if ($publishingHouses->isEmpty()) {
                 return $this->errorResponse(trans('messages.no_publishing_house'),404);
             }
             return $this->successResponse(PublishingHouseResource::collection($publishingHouses),trans('messages.publishing_houses_retrieved_successfully'));
         }
         catch (\Exception $e){
-            return $this->errorResponse($e->getMessage(),500);
+            return $this->errorResponse(trans('messages.server_error'), 500);
         }
     }
     public function create(){}
@@ -46,7 +46,7 @@ class PublishingHouseRepository implements PublishingHouseInterface
                 return $this->errorResponse(trans('messages.publishing_house_not_found'), 404);
             }
 
-            if (!auth()->user()->hasRole('publishing-house')) {
+            if (!auth()->user()->hasRole('admin')) {
                 return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
             }
 
@@ -55,8 +55,9 @@ class PublishingHouseRepository implements PublishingHouseInterface
             if ($request->hasFile('logo')) {
                 $directoryPath = 'publishing_houses/logo/' . $id;
                 $logoPath = $request->file('logo')->store($directoryPath, 'public');
-                $validatedData['logo'] = $logoPath;
+                $validatedData['logo'] = $logoPath;  // This stores the relative path in the database
             }
+
 
             // Update only the fields that are present in the request
             $publishingHouse->update([
@@ -78,33 +79,53 @@ class PublishingHouseRepository implements PublishingHouseInterface
             return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse($e->getMessage(), 500);
+            return $this->errorResponse(trans('messages.server_error'), 500);
         }
     }
 
     public function destroy($id)
     {
         try {
+            // Fetch the publishing house by ID
             $publishingHouse = PublishingHouse::find($id);
-            $user = User::find($publishingHouse->user_id);
+
+            // Check if the publishing house exists
             if (!$publishingHouse) {
                 return $this->errorResponse(trans('messages.publishing_house_not_found'), 404);
             }
-            if (!auth()->user()->hasRole(['admin','publishing-house'])) {
+
+            // Check if the user is authorized
+            if (!auth()->user()->hasRole('admin')) {
                 return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
             }
+
+            // Fetch the associated user
+            $user = User::find($publishingHouse->user_id);
+
+            // If publishing house has a logo, delete it from storage
             if ($publishingHouse->logo) {
-                $logoPath = storage_path('app/public/' . $publishingHouse->logo);
+                $logoPath = public_path('storage/' . $publishingHouse->logo);
                 if (file_exists($logoPath)) {
                     unlink($logoPath);
                 }
             }
+            // Set Schools Related With This PH to NULL
+            foreach ($publishingHouse->schools as $school) {
+                $school->update(['publishing_house_id' => null]);
+            }
+
+            // Delete the publishing house and the associated user
             $publishingHouse->delete();
-            $user->delete();
+            if ($user) {
+                $user->delete();
+            }
+
             return $this->successResponse(trans('messages.publishing_house_deleted_successfully'));
+
         } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 500);
+            return $this->errorResponse(trans('messages.server_error'), 500);
         }
     }
+
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\Controllers\PublishingHouseController;
+use App\Api\Controllers\SchoolController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,6 @@ Route::middleware(['auth:sanctum', 'localization'])->group(function () {
 });
 
 
+Route::middleware(['auth:sanctum', 'localization'])->group(function () {
+    Route::resource('schools', SchoolController::class);
+});

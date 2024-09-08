@@ -80,7 +80,7 @@ class AuthRepository implements AuthRepositoryInterface
                             break;
                 }
                 DB::commit();
-//                $this->sendVerificationCodeService->sendVerificationCode($user);
+                $this->sendVerificationCodeService->sendVerificationCode($user);
                 $token = $user->createToken($registrationRequest->userAgent())->plainTextToken;
                 $user['token'] = $token;
                 return $this->successResponse(['user' =>$user],trans('messages.user_registered_successfully'));

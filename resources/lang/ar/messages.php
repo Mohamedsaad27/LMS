@@ -4,7 +4,7 @@ return [
     'user_registered_successfully' => 'تم تسجيل المستخدم بنجاح.',
     'email_not_verified' => 'لم يتم التحقق من بريدك الإلكتروني. تم إرسال رمز التحقق إلى بريدك الإلكتروني.',
     'login_successful' => 'تم تسجيل الدخول بنجاح.',
-    'invalid_credentials' => 'بيانات الاعتماد غير صحيحة.',
+    'invalid_credentials' => 'بيانات تسجيل الدخول غير صحيحة.',
     'logged_out_successfully' => 'تم تسجيل الخروج بنجاح.',
     'unauthenticated' => 'غير مصرح.',
     'user_profile_successful' => 'تم استرجاع ملف المستخدم بنجاح.',
@@ -27,6 +27,10 @@ return [
     'publishing_house_updated_successfully' => 'تم تحديث دار النشر بنجاح.',
     'publishing_house_updated_failed' => 'فشل في تحديث دار النشر.',
     'publishing_house_not_found' => 'لم يتم العثور على دار النشر.',
-    'publishing_house_deleted_successfully' => 'تم حذف دار النشر بنجاح'
+    'publishing_house_deleted_successfully' => 'تم حذف دار النشر بنجاح',
+    'no_schools' => 'لم يتم العثور علي مدارس ',
+    'schools_retrieved_successfully' => 'تم استرجاع المدارس ',
+    'school_not_found' => 'لم يتم العثور علي المدرسة',
+    'school_retrieved_successfully' => 'تم استرجاع المدرسة بنجاح'
 ];
 

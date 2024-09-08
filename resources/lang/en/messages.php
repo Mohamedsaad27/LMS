@@ -27,5 +27,9 @@ return [
     'publishing_house_updated_failed' => 'Failed to update publishing house.',
     'publishing_house_not_found' => 'Publishing house not found.',
     'publishing_house_deleted_successfully' => 'Publishing house deleted successfully.',
-
+    'server_error' => 'Server error.',
+    'no_schools' => 'No schools found.',
+    'schools_retrieved_successfully' => 'Schools retrieved successfully.',
+    'school_not_found' => 'School not found.',
+    'school_retrieved_successfully' => 'School retrieved successfully.',
 ];
