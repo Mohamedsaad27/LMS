@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('publishing_houses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('logo',100)->nullable();
             $table->date('established_year')->nullable();
             $table->text('description_en',455)->nullable();

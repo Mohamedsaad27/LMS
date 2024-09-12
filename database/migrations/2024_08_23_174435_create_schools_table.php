@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('publishing_house_id')->nullable();
-            $table->foreign('publishing_house_id')->references('id')->on('publishing_houses')->cascadeOnDelete();
+            $table->foreign('publishing_house_id')->references('id')->on('publishing_houses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('established_year')->nullable();
             $table->text('description',455)->nullable();
             $table->smallInteger('student_count')->nullable();

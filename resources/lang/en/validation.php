@@ -122,8 +122,50 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'user_id' => [
+            'required' => 'The user ID is required.',
+            'exists' => 'The selected user ID is invalid.',
+        ],
+        'publishing_house_id' => [
+            'required' => 'The publishing house ID is required.',
+            'exists' => 'The selected publishing house ID is invalid.',
+        ],
+        'established_year' => [
+            'required' => 'The established year is required.',
+            'integer' => 'The established year must be an integer.',
+            'digits' => 'The established year must be 4 digits long.',
+            'min' => 'The established year must be after 1800.',
+            'max' => 'The established year cannot be greater than the current year.',
+        ],
+        'student_count' => [
+            'required' => 'The student count is required.',
+            'integer' => 'The student count must be an integer.',
+            'min' => 'The student count cannot be less than 0.',
+        ],
+        'teacher_count' => [
+            'required' => 'The teacher count is required.',
+            'integer' => 'The teacher count must be an integer.',
+            'min' => 'The teacher count cannot be less than 0.',
+        ],
+        'logo' => [
+            'image' => 'The logo must be an image.',
+            'mimes' => 'The logo must be a file of type: jpeg, png, jpg, gif.',
+            'max' => 'The logo may not be greater than 2MB.',
+        ],
+        'type' => [
+            'required' => 'The school type is required.',
+            'in' => 'The school type must be either private or public.',
+        ],
     ],
 
-    'attributes' => [],
+    'attributes' => [
+        'user_id' => 'user ID',
+        'publishing_house_id' => 'publishing house ID',
+        'established_year' => 'established year',
+        'student_count' => 'student count',
+        'teacher_count' => 'teacher count',
+        'logo' => 'logo',
+        'type' => 'school type',
+    ],
 
 ];

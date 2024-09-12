@@ -2,6 +2,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\Requests\SchoolRequests\UpdateSchoolRequest;
 use App\Http\Controllers\Controller;
 use App\Interfaces\SchoolInterface;
 use Illuminate\Http\Request;
@@ -58,9 +59,9 @@ class SchoolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSchoolRequest $request, string $id)
     {
-        //
+        return $this->schoolsRepository->update($request,$id);
     }
 
     /**
@@ -68,6 +69,6 @@ class SchoolController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return $this->schoolsRepository->destroy($id);
     }
 }

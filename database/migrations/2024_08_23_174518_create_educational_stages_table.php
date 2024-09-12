@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('educational_stages', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->unsignedBigInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('schools');
+            $table->unsignedBigInteger('school_id')->nullable();
+            $table->foreign('school_id')->references('id')->on('schools')->onDelete('set null')->onUpdate('set null');
             $table->text('description')->nullable();
             $table->timestamps();
         });

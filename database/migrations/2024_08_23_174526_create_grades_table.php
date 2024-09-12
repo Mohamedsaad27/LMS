@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
 
-            $table->foreign('stage_id')->references('id')->on('educational_stages')->cascadeOnDelete();
+            $table->foreign('stage_id')->references('id')->on('educational_stages')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

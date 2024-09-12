@@ -21,6 +21,7 @@ return [
     'current_password_incorrect' => 'Your current password is incorrect.',
     'no_publishing_house' => 'No publishing houses found.',
     'unauthorized_access_to_publishing_houses' => 'You do not have permission to access publishing houses.',
+    'unauthorized_access_to_school' => 'You do not have permission to access school.',
     'publishing_houses_retrieved_successfully' => 'Publishing houses retrieved successfully.',
     'unauthorized_exception' => 'Unauthorized Access. Please check your permissions.',
     'publishing_house_updated_successfully' => 'Publishing house updated successfully.',
@@ -32,4 +33,7 @@ return [
     'schools_retrieved_successfully' => 'Schools retrieved successfully.',
     'school_not_found' => 'School not found.',
     'school_retrieved_successfully' => 'School retrieved successfully.',
+    'school_updated_successfully' => 'School updated successfully.',
+    'school_contain_errors' => 'School contain errors.',
+    'school_deleted_successfully' => 'School deleted successfully.',
 ];
