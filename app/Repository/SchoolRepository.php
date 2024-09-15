@@ -44,40 +44,86 @@ class SchoolRepository implements SchoolInterface
         }
     }
     public function edit($id){}
-    public function update(UpdateSchoolRequest $request, $id){
+//    public function update(UpdateSchoolRequest $request, $id){
+//        try {
+//            $validated = $request->validated();
+//            $school = School::find($id);
+//            if (!$school) {
+//                return $this->errorResponse(trans('messages.school_not_found'),404);
+//            }
+//            if(!auth()->user()->hasRole('publishing-house')){
+//                return $this->errorResponse(trans('messages.unauthorized_access_to_school'),403);
+//            }
+//            if ($request->hasFile('logo')) {
+//                $directoryPath = 'schools/logo/' . $id;
+//                $logoPath = $request->file('logo')->store($directoryPath, 'public');
+//                $validated['logo'] = $logoPath;
+//            }
+//            $publishingHouseId = PublishingHouse::where('user_id',Auth::user()->id)->first()->id;
+//            $school->publishing_house_id =  $publishingHouseId;
+//            $school->established_year = $validated['established_year'];
+//            $school->description = $validated['description'];
+//            $school->teacher_count = $validated['teacher_count'];
+//            $school->logo = $validated['logo'] ?? null;
+//            $school->type = $validated['type'];
+//            $school->save();
+//            return $this->successResponse(new SchoolResource($school),trans('messages.school_updated_successfully'));
+//        }catch (ModelNotFoundException $exception){
+//            return $this->errorResponse(trans('messages.school_not_found'),404);
+//        }catch (ValidationException $exception) {
+//            return $this->errorResponse($exception->errors(), 422);
+//        }
+//        catch (\Exception $exception){
+//            return $this->errorResponse($exception->getMessage(), 500);
+//        }
+//    }
+    public function update(UpdateSchoolRequest $request, $id)
+    {
         try {
             $validated = $request->validated();
             $school = School::find($id);
+
             if (!$school) {
-                return $this->errorResponse(trans('messages.school_not_found'),404);
+                return $this->errorResponse(trans('messages.school_not_found'), 404);
             }
-            if(!auth()->user()->hasRole('publishing-house')){
-                return $this->errorResponse(trans('messages.unauthorized_access_to_school'),403);
+
+            if (!auth()->user()->hasRole('publishing-house')) {
+                return $this->errorResponse(trans('messages.unauthorized_access_to_school'), 403);
             }
             if ($request->hasFile('logo')) {
-                $directoryPath = 'schools/logo/' . $id;
-                $logoPath = $request->file('logo')->store($directoryPath, 'public');
-                $validated['logo'] = $logoPath;
+                // Store the image in storage/user_images/{{user_id}} directory
+                $imagePath = $request->file('logo')->storeAs(
+                    'user_images/' . $school->id,
+                    time() . '_' . $request->file('user_image')->getClientOriginalName(),
+                    'public'
+                );
+
+                // Generate full URL
+                $imageUrl = asset('storage/' . $imagePath);
+                $validated['logo'] = $imageUrl;
             }
-            $publishingHouseId = PublishingHouse::where('user_id',Auth::user()->id)->first()->id;
-            $school->publishing_house_id =  $publishingHouseId;
-            $school->established_year = $validated['established_year'];
-            $school->description = $validated['description'];
-            $school->teacher_count = $validated['teacher_count'];
-            $school->logo = $validated['logo'] ?? null;
-            $school->type = $validated['type'];
+
+            // Assign the publishing house id
+            $publishingHouseId = PublishingHouse::where('user_id', Auth::user()->id)->first()->id;
+            $validated['publishing_house_id'] = $publishingHouseId;
+
+            // Use fill method for mass assignment
+            $school->fill($validated);
+
             $school->save();
-            return $this->successResponse(new SchoolResource($school),trans('messages.school_updated_successfully'));
-        }catch (ModelNotFoundException $exception){
-            return $this->errorResponse(trans('messages.school_not_found'),404);
-        }catch (ValidationException $exception) {
+
+            return $this->successResponse(new SchoolResource($school), trans('messages.school_updated_successfully'));
+
+        } catch (ModelNotFoundException $exception) {
+            return $this->errorResponse(trans('messages.school_not_found'), 404);
+        } catch (ValidationException $exception) {
             return $this->errorResponse($exception->errors(), 422);
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 500);
         }
     }
-        public function destroy($id){
+
+    public function destroy($id){
             try {
                 $school = School::find($id);
                 if (!$school) {

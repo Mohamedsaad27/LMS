@@ -24,7 +24,7 @@ class UpdateSchoolRequest extends FormRequest
             'student_count' => 'nullable|integer|min:0',
             'teacher_count' => 'nullable|integer|min:0',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'type' => 'required|string|in:primary,secondary,high_school',
+            'type' => 'nullable|string|in:primary,secondary,high_school',
         ];
     }
     public function failedValidation(Validator $validator)
