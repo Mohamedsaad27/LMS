@@ -27,7 +27,7 @@ class TeacherResource extends JsonResource
             'status' => $this->status,
             'salary' => $this->salary,
             'date_of_birth' => $this->date_of_birth,
-            'user' => $this->relationLoaded('user') ? new UserResource($this->user) : null,
+            'additional_data' => new UserResource($this->whenLoaded('user')),
             'school' => new SchoolResource($this->whenLoaded('school')), // school relation
             'subjects' => SubjectResource::collection($this->whenLoaded('subjects')), // subjects relation
         ];

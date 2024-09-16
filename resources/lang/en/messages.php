@@ -36,4 +36,5 @@ return [
     'school_updated_successfully' => 'School updated successfully.',
     'school_contain_errors' => 'School contain errors.',
     'school_deleted_successfully' => 'School deleted successfully.',
+    'teacher_retrieved_successfully' => 'Teacher retrieved successfully.',
 ];

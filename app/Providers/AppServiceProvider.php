@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
-use App\Interfaces\PublishingHouseInterface;
-use App\Interfaces\SchoolInterface;
-use App\Repository\PublishingHouseRepository;
-use App\Repository\SchoolRepository;
+use App\Repository\TeacherRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\SchoolRepositoryInterface;
+use App\Interfaces\TeacherRepositoryInterface;
+use App\Repository\SchoolRepositoryRepository;
+use App\Interfaces\PublishingRepositoryHouseInterface;
+use App\Repository\PublishingRepositoryHouseRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,8 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PublishingHouseInterface::class, PublishingHouseRepository::class);
-        $this->app->bind(SchoolInterface::class, SchoolRepository::class);
+        $this->app->bind(PublishingRepositoryHouseInterface::class, PublishingRepositoryHouseRepository::class);
+        $this->app->bind(SchoolRepositoryInterface::class, SchoolRepositoryRepository::class);
+        $this->app->bind(TeacherRepositoryInterface::class, TeacherRepository::class);
 
     }
 

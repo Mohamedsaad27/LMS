@@ -1,9 +1,10 @@
 <?php
 
-use App\Api\Controllers\PublishingHouseController;
-use App\Api\Controllers\SchoolController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Api\Controllers\SchoolController;
+use App\Api\Controllers\TeacherController;
+use App\Api\Controllers\PublishingHouseController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,4 +19,8 @@ Route::middleware(['auth:sanctum', 'localization'])->group(function () {
 
 Route::middleware(['auth:sanctum', 'localization'])->group(function () {
     Route::resource('schools', SchoolController::class);
+});
+
+Route::middleware(['auth:sanctum', 'localization'])->group(function () {
+    Route::resource('teachers', TeacherController::class);
 });

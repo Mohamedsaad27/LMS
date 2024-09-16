@@ -35,6 +35,13 @@ return [
     'school_retrieved_successfully' => 'تم استرجاع المدرسة بنجاح',
     'school_updated_successfully' => 'تم تحديث بيانات المدرسة بنجاح',
     'school_contain_errors' => 'يوجد اخطاء ف البيانات المعطاة',
-    'school_deleted_successfully' => 'تم حذف المدرسة بنجاح'
+    'school_deleted_successfully' => 'تم حذف المدرسة بنجاح',
+    'teacher_retrieved_successfully' => 'تم استرجاع المعلمين بنجاح',
+    'teacher_not_found' => 'لم يتم العثور علي المعلم',
+    'teacher_deleted_successfully' => 'تم حذف المعلم بنجاح',
+    'teacher_updated_successfully' => 'تم تحديث بيانات المعلم بنجاح',
+    'teacher_contain_errors' => 'يوجد اخطاء ف البيانات المعطاة',
+    'teacher_created_successfully' => 'تم إنشاء المعلم بنجاح',
+
 ];
 

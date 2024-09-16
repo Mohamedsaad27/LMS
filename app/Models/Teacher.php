@@ -28,6 +28,6 @@ class Teacher extends Model
         return $this->belongsTo(School::class);
     }
     public function subjects(){
-        return $this->belongsToMany(Subject::class);
+        return $this->hasMany(Subject::class);
     }
 }

@@ -5,13 +5,13 @@ namespace App\Api\Controllers;
 use App\Api\Requests\PublishingHouseRequests\StorePublishingHouseRequest;
 use App\Api\Requests\PublishingHouseRequests\UpdatePublishingHouseRequest;
 use App\Http\Controllers\Controller;
-use App\Interfaces\PublishingHouseInterface;
+use App\Interfaces\PublishingRepositoryHouseInterface;
 use Illuminate\Http\Request;
 
 class PublishingHouseController extends Controller
 {
     protected $publishingHouse;
-    public function __construct(PublishingHouseInterface $publishingHouse)
+    public function __construct(PublishingRepositoryHouseInterface $publishingHouse)
     {
         $this->publishingHouse = $publishingHouse;
     }

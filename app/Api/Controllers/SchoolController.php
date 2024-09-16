@@ -4,14 +4,14 @@ namespace App\Api\Controllers;
 
 use App\Api\Requests\SchoolRequests\UpdateSchoolRequest;
 use App\Http\Controllers\Controller;
-use App\Interfaces\SchoolInterface;
+use App\Interfaces\SchoolRepositoryInterface;
 use Illuminate\Http\Request;
 
 class SchoolController extends Controller
 {
     protected $schoolsRepository;
 
-    public function __construct(SchoolInterface $schoolsRepository)
+    public function __construct(SchoolRepositoryInterface $schoolsRepository)
     {
         $this->schoolsRepository = $schoolsRepository;
     }

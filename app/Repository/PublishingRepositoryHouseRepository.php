@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Api\Requests\PublishingHouseRequests\StorePublishingHouseRequest;
 use App\Api\Requests\PublishingHouseRequests\UpdatePublishingHouseRequest;
 use App\Http\Resources\PublishingHouseResource;
-use App\Interfaces\PublishingHouseInterface;
+use App\Interfaces\PublishingRepositoryHouseInterface;
 use App\Models\PublishingHouse;
 use App\Models\User;
 use App\Traits\ApiResponseTrait;
@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
-class PublishingHouseRepository implements PublishingHouseInterface
+class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseInterface
 {
     use ApiResponseTrait;
     public function index(){
