@@ -46,46 +46,15 @@ class AuthRepository implements AuthRepositoryInterface
                 'phone' => $validatedData['phone'],
                 'address' => $validatedData['address'],
             ]);
+            DB::commit();
             if ($user) {
-                switch ($validatedData['user_type_id']) {
-                    case '2':
-                        $user->assignRole('student');
-                        Student::create([
-                            'user_id' => $user->id,
-                        ]);
-                        break;
-                    case '3':
-                        $user->assignRole('teacher');
-                        Teacher::create([
-                            'user_id' => $user->id,
-                        ]);
-                        break;
-                    case '4':
-                        $user->assignRole('publishing-house');
-                        PublishingHouse::create([
-                            'user_id' => $user->id,
-                        ]);
-                        break;
-                    case '5':
-                        $user->assignRole('school');
-                        School::create([
-                            'user_id' => $user->id,
-                        ]);
-                        break;
-                    default:
-                        $user->assignRole('admin');
-                        Admin::create([
-                                'user_id' => $user->id,
-                            ]);
-                            break;
-                }
-                DB::commit();
                 $this->sendVerificationCodeService->sendVerificationCode($user);
                 $token = $user->createToken($registrationRequest->userAgent())->plainTextToken;
                 $user['token'] = $token;
                 return $this->successResponse(['user' =>$user],trans('messages.user_registered_successfully'));
             }
         }catch (\Exception $exception){
+            DB::rollBack();
             return $this->errorResponse($exception->getMessage(),500);
         }
     }

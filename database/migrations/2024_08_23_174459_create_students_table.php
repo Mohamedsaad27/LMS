@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('parent_contact', 20)->nullable();
             $table->string('photo', 255)->nullable();
             $table->timestamps();
-
+//            add fk from grades
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->onUpdate('set null');
             $table->foreign('school_id')->references('id')->on('schools')->cascadeOnDelete()->onUpdate('set null');
         });

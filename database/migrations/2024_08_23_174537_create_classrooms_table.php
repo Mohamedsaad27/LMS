@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
 
+            // add foreign key from schools table
+
             $table->foreign('grade_id')->references('id')
                 ->on('grades')->cascadeOnDelete();
         });

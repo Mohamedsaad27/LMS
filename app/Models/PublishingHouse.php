@@ -17,6 +17,7 @@ class PublishingHouse extends Model
         'description_ar',
         'total_books',
     ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

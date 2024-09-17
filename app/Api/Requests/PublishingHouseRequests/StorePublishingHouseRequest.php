@@ -27,6 +27,13 @@ class StorePublishingHouseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name_en' => ['required', 'string', 'max:255'],
+            'name_ar' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8'],
+            'gender' => ['nullable', 'string','in:male,female'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255','unique:users'],
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
             'established_year' => ['nullable', 'integer'],
             'description_ar' => ['nullable', 'string'],
@@ -34,9 +41,26 @@ class StorePublishingHouseRequest extends FormRequest
             'total_books' => ['nullable', 'integer', 'min:1'],
         ];
     }
-    public function messages()
+    public function messages(): array
     {
-
+        return [
+            'name_en.required' => 'The English name is required.',
+            'name_ar.required' => 'The Arabic name is required.',
+            'email.required' => 'The email address is required.',
+            'email.unique' => 'This email is already in use.',
+            'password.required' => 'The password is required.',
+            'password.min' => 'The password must be at least 8 characters.',
+            'gender.in' => 'The gender must be either male or female.',
+            'phone.unique' => 'This phone number is already in use.',
+            'logo.image' => 'The logo must be an image.',
+            'logo.mimes' => 'The logo must be a file of type: jpg, png, jpeg.',
+            'logo.max' => 'The logo may not be greater than 2048 kilobytes.',
+            'established_year.integer' => 'The established year must be a valid year.',
+            'total_books.integer' => 'The total books must be a number.',
+            'total_books.min' => 'The total books must be at least 1.',
+            'description_ar.string' => 'The Arabic description must be a string.',
+            'description_en.string' => 'The English description must be a string.',
+        ];
     }
     protected function failedValidation(Validator $validator)
     {

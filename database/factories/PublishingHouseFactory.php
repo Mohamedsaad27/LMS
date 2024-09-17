@@ -21,7 +21,7 @@ class PublishingHouseFactory extends Factory
         return [
             'user_id' => $this->faker->numberBetween(1, 10),
             'logo' => $this->faker->imageUrl(),
-            'established_year' => $this->faker->date(),
+            'established_year' => $this->faker->year(),
             'description_en' => $this->faker->text(),
             'description_ar' => $this->faker->text(),
             'total_books' => $this->faker->numberBetween(1, 10),

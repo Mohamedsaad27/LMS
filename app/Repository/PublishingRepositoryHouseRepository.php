@@ -2,18 +2,19 @@
 
 namespace App\Repository;
 
-use App\Api\Requests\PublishingHouseRequests\StorePublishingHouseRequest;
-use App\Api\Requests\PublishingHouseRequests\UpdatePublishingHouseRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Models\PublishingHouse;
+use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Dotenv\Repository\RepositoryInterface;
 use App\Http\Resources\PublishingHouseResource;
 use App\Interfaces\PublishingRepositoryHouseInterface;
-use App\Models\PublishingHouse;
-use App\Models\User;
-use App\Traits\ApiResponseTrait;
-use Dotenv\Repository\RepositoryInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Api\Requests\PublishingHouseRequests\StorePublishingHouseRequest;
+use App\Api\Requests\PublishingHouseRequests\UpdatePublishingHouseRequest;
 
 class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseInterface
 {
@@ -32,7 +33,37 @@ class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseIn
     }
     public function create(){}
     public function store(StorePublishingHouseRequest $request){
+//        dd($request);
+        try {
 
+            // if (!auth()->user()->hasRole('admin')) {
+            //     return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
+            // }
+
+            $validatedData = $request->validated();
+            DB::beginTransaction();
+            $user = User::create([
+                'name_ar' => $validatedData['name_ar'],
+                'name_en' => $validatedData['name_en'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'user_type_id' => 4,
+            ]);
+            $user->assignRole('publishing-house');
+            $publishingHouse = PublishingHouse::create([
+                'user_id' => $user->id,
+                'logo' => $validatedData['logo'] ?? 'default.png',
+                'established_year' => $validatedData['established_year'],
+                'description_ar' => $validatedData['description_ar'],
+                'description_en' => $validatedData['description_en'],
+                'total_books' => $validatedData['total_books'],
+            ]);
+            DB::commit();
+            return $this->successResponse(new PublishingHouseResource($publishingHouse),trans('messages.publishing_house_created_successfully'));
+        }catch (\Exception $e){
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage(), 500);
+        }
     }
     public function show($id){}
     public function edit($id){}

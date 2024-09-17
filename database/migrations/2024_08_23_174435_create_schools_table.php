@@ -13,17 +13,20 @@ return new class extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('publishing_house_id')->nullable();
-            $table->foreign('publishing_house_id')->references('id')->on('publishing_houses')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->date('established_year')->nullable();
+            $table->string('name_en',100);
+            $table->string('name_ar',100);
+            $table->string('email',100)->unique();
+            $table->string('password',100);
+            $table->string('phone',100)->nullable();
+            $table->string('address',100)->nullable();
+            $table->year('established_year')->nullable();
             $table->text('description',455)->nullable();
-            $table->smallInteger('student_count')->nullable();
-            $table->smallInteger('teacher_count')->nullable();
             $table->string('logo',100)->nullable();
             $table->enum('type',['primary','secondary','high_school'])->default('primary')->index();
+            $table->unsignedBigInteger('organization_id')->nullable();
+            $table->foreign('organization_id')->references('id')->on('organizations')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

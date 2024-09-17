@@ -19,13 +19,13 @@ return new class extends Migration
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('set null')->onUpdate('set null');
             $table->date('hire_date')->nullable();
             $table->string('qualification', 255)->nullable();
-            $table->string('subject_specialization', 255)->nullable();
             $table->integer('experience_years')->default(0);
             $table->enum('status', ['active', 'inactive'])->default('active')->index();
             $table->string('photo', 255)->nullable();
             $table->decimal('salary', 10, 2)->nullable();
             $table->date('date_of_birth')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

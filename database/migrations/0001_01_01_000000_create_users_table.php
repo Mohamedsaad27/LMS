@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('user_type', ['admin','organization','school','teacher','student']);
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
             $table->integer('verification_code')->nullable();
             $table->time('expired_at')->nullable();
             $table->boolean('is_verified')->default(false);

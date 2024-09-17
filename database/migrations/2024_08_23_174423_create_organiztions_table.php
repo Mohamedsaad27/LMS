@@ -11,16 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('publishing_houses', function (Blueprint $table) {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('name_en',100);
+            $table->string('name_ar',100);
+            $table->string('email',100)->unique();
+            $table->string('password',100);
+            $table->string('phone',100)->nullable();
+            $table->string('address',100)->nullable();
             $table->string('logo',100)->nullable();
-            $table->date('established_year')->nullable();
+            $table->year('established_year')->nullable();
             $table->text('description_en',455)->nullable();
             $table->text('description_ar',455)->nullable();
             $table->smallInteger('total_books')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

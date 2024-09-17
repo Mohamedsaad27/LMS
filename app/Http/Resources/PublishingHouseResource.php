@@ -23,7 +23,14 @@ class PublishingHouseResource extends JsonResource
             'established_year' => $this->established_year,
             'description' => $locale == 'ar' ? $this->description_ar : $this->description_en,
             'total_books' => $this->total_books,
-            'user' => $this->relationLoaded('user') ? new UserResource($this->user) : null,
+            'address' => $this->user->address,
+            'phone' => $this->user->phone,
+            'email' => $this->user->email,
+            'gender' => $this->user->gender,
+            'user_type' => $this->user->type->type,
+            // 'created_at' => $this->created_at,
+            // 'updated_at' => $this->updated_at,
+
         ];
     }
 }
