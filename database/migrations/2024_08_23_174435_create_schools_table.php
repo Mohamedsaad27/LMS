@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('phone',100)->nullable();
             $table->string('address',100)->nullable();
             $table->year('established_year')->nullable();
-            $table->text('description',455)->nullable();
+            $table->text('description_en')->nullable();
+            $table->text('description_en')->nullable();
             $table->string('logo',100)->nullable();
             $table->enum('type',['primary','secondary','high_school'])->default('primary')->index();
             $table->unsignedBigInteger('organization_id')->nullable();

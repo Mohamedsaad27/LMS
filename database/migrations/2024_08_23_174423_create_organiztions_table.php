@@ -23,7 +23,6 @@ return new class extends Migration
             $table->year('established_year')->nullable();
             $table->text('description_en',455)->nullable();
             $table->text('description_ar',455)->nullable();
-            $table->smallInteger('total_books')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

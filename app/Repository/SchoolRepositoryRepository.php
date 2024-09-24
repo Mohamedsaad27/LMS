@@ -6,7 +6,7 @@ use App\Api\Requests\SchoolRequests\UpdateSchoolRequest;
 use App\Http\Resources\SchoolResource;
 use App\Interfaces\CrudInterface;
 use App\Interfaces\SchoolRepositoryInterface;
-use App\Models\PublishingHouse;
+use App\Models\Organization;
 use App\Models\School;
 use App\Models\User;
 use App\Traits\ApiResponseTrait;
@@ -72,7 +72,7 @@ class SchoolRepositoryRepository implements SchoolRepositoryInterface
             }
 
             // Assign the publishing house id
-            $publishingHouseId = PublishingHouse::where('user_id', Auth::user()->id)->first()->id;
+            $publishingHouseId = Organization::where('user_id', Auth::user()->id)->first()->id;
             $validated['publishing_house_id'] = $publishingHouseId;
 
             // Use fill method for mass assignment

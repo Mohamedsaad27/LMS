@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\PublishingHouse;
+use App\Models\Organization;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +13,6 @@ class PublishingHouseSeeder extends Seeder
      */
     public function run(): void
     {
-        PublishingHouse::factory()->count(10)->create();
+        Organization::factory()->count(10)->create();
     }
 }

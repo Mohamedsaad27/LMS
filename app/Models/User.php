@@ -60,7 +60,7 @@ class User extends Authenticatable
      return $this->belongsTo(UserType::class, 'user_type_id');
     }
     public function publishing_house(){
-        return $this->hasone(PublishingHouse::class, 'user_id');
+        return $this->hasone(Organization::class, 'user_id');
     }
     public function teacher(){
         return $this->hasone(Teacher::class, 'user_id');

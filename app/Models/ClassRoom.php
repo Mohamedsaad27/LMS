@@ -11,11 +11,15 @@ class ClassRoom extends Model
     protected $table = 'classrooms';
     protected $fillable = [
         'grade_id',
+        'school_id',
         'name',
         'capacity',
         'description'
     ];
     public function grade(){
         return $this->belongsTo(Grade::class);
+    }
+    public function school(){
+        return $this->belongsTo(School::class);
     }
 }

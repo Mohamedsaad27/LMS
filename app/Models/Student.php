@@ -12,6 +12,7 @@ class Student extends Model
     protected $fillable = [
         'user_id',
         'school_id',
+        'grade_id',
         'date_of_birth',
         'enrollment_date',
         'grade',
@@ -23,5 +24,8 @@ class Student extends Model
     }
     public function school(){
         return $this->belongsTo(School::class);
+    }
+    public function grade(){
+        return $this->belongsTo(Grade::class);
     }
 }

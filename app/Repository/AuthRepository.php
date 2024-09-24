@@ -9,7 +9,7 @@ use App\Api\Requests\AuthRequests\RegistrationRequest;
 use App\Api\Requests\AuthRequests\ResetPasswordRequest;
 use App\Interfaces\AuthRepositoryInterface;
 use App\Models\Admin;
-use App\Models\PublishingHouse;
+use App\Models\Organization;
 use App\Models\ResetPasswordCodeVerification;
 use App\Models\School;
 use App\Models\Student;

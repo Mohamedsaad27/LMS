@@ -10,20 +10,24 @@ class School extends Model
     use HasFactory;
     protected $table = 'schools';
     protected $fillable = [
-        'user_id',
-        'publishing_house_id',
-        'established_year',
-        'description',
-        'student_count',
-        'teacher_count',
+        'name_en',
+        'name_ar',
+        'description_en',
+        'description_ar',
+        'email',
+        'password',
+        'phone',
+        'address',
         'logo',
+        'established_year',
         'type',
+        'organization_id'
     ];
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function publishing_house(){
-        return $this->belongsTo(PublishingHouse::class);
+    public function organization(){
+        return $this->belongsTo(Organization::class);
     }
     public function teachers(){
         return $this->hasMany(Teacher::class);
@@ -31,7 +35,9 @@ class School extends Model
     public function students(){
         return $this->hasMany(Student::class);
     }
-    public function education_stages(){
-        return $this->hasMany(EducationalStage::class);
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class);
     }
+
 }

@@ -11,7 +11,7 @@ class Subject extends Model
     protected $table = 'subjects';
     protected $fillable = [
         'grade_id',
-        'teacher_id',
+        'organization_id',
         'name',
         'description',
     ];
@@ -23,5 +23,8 @@ class Subject extends Model
     }
     public function book(){
         return $this->hasOne(Book::class);
+    }
+    public function organization(){
+        return $this->belongsTo(Organization::class);
     }
 }

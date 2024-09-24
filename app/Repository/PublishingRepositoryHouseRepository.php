@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\PublishingHouse;
+use App\Models\Organization;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +21,7 @@ class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseIn
     use ApiResponseTrait;
     public function index(){
         try {
-            $publishingHouses = PublishingHouse::with('user')->get();
+            $publishingHouses = Organization::with('user')->get();
             if ($publishingHouses->isEmpty()) {
                 return $this->errorResponse(trans('messages.no_publishing_house'),404);
             }
@@ -50,7 +50,7 @@ class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseIn
                 'user_type_id' => 4,
             ]);
             $user->assignRole('publishing-house');
-            $publishingHouse = PublishingHouse::create([
+            $publishingHouse = Organization::create([
                 'user_id' => $user->id,
                 'logo' => $validatedData['logo'] ?? 'default.png',
                 'established_year' => $validatedData['established_year'],
@@ -71,7 +71,7 @@ class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseIn
     {
 
         try {
-            $publishingHouse = PublishingHouse::find($id);
+            $publishingHouse = Organization::find($id);
 
             if (!$publishingHouse) {
                 return $this->errorResponse(trans('messages.publishing_house_not_found'), 404);
@@ -118,7 +118,7 @@ class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseIn
     {
         try {
             // Fetch the publishing house by ID
-            $publishingHouse = PublishingHouse::find($id);
+            $publishingHouse = Organization::find($id);
 
             // Check if the publishing house exists
             if (!$publishingHouse) {

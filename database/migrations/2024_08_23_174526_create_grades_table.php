@@ -17,6 +17,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
         });
+        Schema::table('students', function (Blueprint $table) {
+           $table->unsignedBigInteger('grade_id');
+           $table->foreign('grade_id')->references('id')->on('grades');
+        });
     }
 
     /**

@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('grade_id')->nullable();
+            $table->unsignedBigInteger('school_id')->nullable();
             $table->string('name', 100);
             $table->integer('capacity')->default(0);
             $table->text('description')->nullable();
             $table->timestamps();
 
             // add foreign key from schools table
-
+            $table->foreign('school_id')->references('id')->on('schools');
             $table->foreign('grade_id')->references('id')
                 ->on('grades')->cascadeOnDelete();
         });

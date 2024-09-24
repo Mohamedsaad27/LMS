@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\PublishingHouse;
+use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PublishingHouse>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Organization>
  */
 class PublishingHouseFactory extends Factory
 {
-    protected $model = PublishingHouse::class;
+    protected $model = Organization::class;
     /**
      * Define the model's default state.
      *
