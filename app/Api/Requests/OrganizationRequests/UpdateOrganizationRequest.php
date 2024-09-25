@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Api\Requests\PublishingHouseRequests;
+namespace App\Api\Requests\OrganizationRequests;
 
 use App\Traits\ApiResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdatePublishingHouseRequest extends FormRequest
+class UpdateOrganizationRequest extends FormRequest
 {
     use ApiResponseTrait;
     /**

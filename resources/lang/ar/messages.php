@@ -42,6 +42,7 @@ return [
     'teacher_updated_successfully' => 'تم تحديث بيانات المعلم بنجاح',
     'teacher_contain_errors' => 'يوجد اخطاء ف البيانات المعطاة',
     'teacher_created_successfully' => 'تم إنشاء المعلم بنجاح',
-
+    'email_already_exists' => 'البريد الإلكتروني مستخدم مسبقاً.',
+    'organization_created_successfully' => 'تم إنشاء المؤسسة بنجاح',
 ];
 

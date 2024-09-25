@@ -2,8 +2,8 @@
 
 namespace App\Interfaces;
 
-use App\Api\Requests\PublishingHouseRequests\StorePublishingHouseRequest;
-use App\Api\Requests\PublishingHouseRequests\UpdatePublishingHouseRequest;
+use App\Api\Requests\OrganizationRequests\StoreOrganizationRequest;
+use App\Api\Requests\OrganizationRequests\UpdateOrganizationRequest;
 use App\Api\Requests\SchoolRequests\StoreSchoolRequest;
 use App\Api\Requests\SchoolRequests\UpdateSchoolRequest;
 use Illuminate\Http\Request;

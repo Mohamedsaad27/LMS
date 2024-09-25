@@ -2,29 +2,30 @@
 
 namespace App\Repository;
 
-use App\Api\Requests\AuthRequests\ChangePasswordRequest;
-use App\Api\Requests\AuthRequests\ForgotPasswordRequest;
-use App\Api\Requests\AuthRequests\LoginRequest;
-use App\Api\Requests\AuthRequests\RegistrationRequest;
-use App\Api\Requests\AuthRequests\ResetPasswordRequest;
-use App\Interfaces\AuthRepositoryInterface;
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Admin;
-use App\Models\Organization;
-use App\Models\ResetPasswordCodeVerification;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\User;
-use App\Services\SendResetPasswordCodeService;
-use App\Services\SendVerificationCodeService;
-use App\Traits\ApiResponseTrait;
-use Carbon\Carbon;
+use App\Models\Organization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Interfaces\AuthRepositoryInterface;
+use App\Models\ResetPasswordCodeVerification;
+use App\Services\SendVerificationCodeService;
+use App\Services\SendResetPasswordCodeService;
+use Illuminate\Validation\ValidationException;
+use App\Api\Requests\AuthRequests\LoginRequest;
+use App\Api\Requests\AuthRequests\RegistrationRequest;
+use App\Api\Requests\AuthRequests\ResetPasswordRequest;
+use App\Api\Requests\AuthRequests\ChangePasswordRequest;
+use App\Api\Requests\AuthRequests\ForgotPasswordRequest;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -41,17 +42,17 @@ class AuthRepository implements AuthRepositoryInterface
                 'name_en' => $validatedData['name_en'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
-                'user_type_id' => $validatedData['user_type_id'],
+                'user_type' => $validatedData['user_type'],
                 'gender' => $validatedData['gender'],
                 'phone' => $validatedData['phone'],
                 'address' => $validatedData['address'],
             ]);
             DB::commit();
             if ($user) {
-                $this->sendVerificationCodeService->sendVerificationCode($user);
+                // $this->sendVerificationCodeService->sendVerificationCode($user);
                 $token = $user->createToken($registrationRequest->userAgent())->plainTextToken;
                 $user['token'] = $token;
-                return $this->successResponse(['user' =>$user],trans('messages.user_registered_successfully'));
+                return $this->successResponse(['user' => new UserResource($user)],trans('messages.user_registered_successfully'));
             }
         }catch (\Exception $exception){
             DB::rollBack();

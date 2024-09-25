@@ -31,7 +31,7 @@ class RegistrationRequest extends FormRequest
             'name_ar' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'user_type_id' => ['required', 'integer', 'exists:user_types,id'],
+            'user_type' => ['required', 'string', 'in:admin,organization,school,teacher,student'],
             'gender' => ['required', 'string','in:male,female'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255','unique:users'],

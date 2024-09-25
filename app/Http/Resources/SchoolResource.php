@@ -26,7 +26,7 @@ class SchoolResource extends JsonResource
             'logo' => $this->logo,
             'type' => $this->type,
             'additional_data' => new UserResource($this->whenLoaded('user')), // User relation
-            'publishing_house' => new PublishingHouseResource($this->whenLoaded('publishing_house')), // Publishing house relation
+            'publishing_house' => new OrganizationResource($this->whenLoaded('publishing_house')), // Publishing house relation
             'teachers' => TeacherResource::collection($this->whenLoaded('teachers')), // Teachers relation
             'students' => StudentResource::collection($this->whenLoaded('students')), // Students relation
             'education_stages' => EducationalStageResource::collection($this->whenLoaded('education_stages')), // Education stages relation

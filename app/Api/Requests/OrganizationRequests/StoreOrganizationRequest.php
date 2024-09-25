@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Requests\PublishingHouseRequests;
+namespace App\Api\Requests\OrganizationRequests;
 
 use App\Traits\ApiResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class StorePublishingHouseRequest extends FormRequest
+class StoreOrganizationRequest extends FormRequest
 {
     use ApiResponseTrait;
     /**
@@ -29,16 +29,14 @@ class StorePublishingHouseRequest extends FormRequest
         return [
             'name_en' => ['required', 'string', 'max:255'],
             'name_ar' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'string', 'email', 'max:255','unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'gender' => ['nullable', 'string','in:male,female'],
             'address' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255','unique:users'],
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
             'established_year' => ['nullable', 'integer'],
             'description_ar' => ['nullable', 'string'],
             'description_en' => ['nullable', 'string'],
-            'total_books' => ['nullable', 'integer', 'min:1'],
         ];
     }
     public function messages(): array
@@ -56,8 +54,6 @@ class StorePublishingHouseRequest extends FormRequest
             'logo.mimes' => 'The logo must be a file of type: jpg, png, jpeg.',
             'logo.max' => 'The logo may not be greater than 2048 kilobytes.',
             'established_year.integer' => 'The established year must be a valid year.',
-            'total_books.integer' => 'The total books must be a number.',
-            'total_books.min' => 'The total books must be at least 1.',
             'description_ar.string' => 'The Arabic description must be a string.',
             'description_en.string' => 'The English description must be a string.',
         ];

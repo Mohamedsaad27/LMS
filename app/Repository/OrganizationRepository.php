@@ -9,64 +9,71 @@ use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Dotenv\Repository\RepositoryInterface;
-use App\Http\Resources\PublishingHouseResource;
-use App\Interfaces\PublishingRepositoryHouseInterface;
+use App\Http\Resources\OrganizationResource;
+use App\Interfaces\OrganizationRepositoryInterface;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Api\Requests\PublishingHouseRequests\StorePublishingHouseRequest;
-use App\Api\Requests\PublishingHouseRequests\UpdatePublishingHouseRequest;
+use App\Api\Requests\OrganizationRequests\StoreOrganizationRequest;
+use App\Api\Requests\OrganizationRequests\UpdateOrganizationRequest;
 
-class PublishingRepositoryHouseRepository implements PublishingRepositoryHouseInterface
+class OrganizationRepository implements OrganizationRepositoryInterface
 {
     use ApiResponseTrait;
     public function index(){
         try {
-            $publishingHouses = Organization::with('user')->get();
+            $publishingHouses = Organization::with('schools','subjects')->get();
             if ($publishingHouses->isEmpty()) {
                 return $this->errorResponse(trans('messages.no_publishing_house'),404);
             }
-            return $this->successResponse(PublishingHouseResource::collection($publishingHouses),trans('messages.publishing_houses_retrieved_successfully'));
+            return $this->successResponse(OrganizationResource::collection($publishingHouses),trans('messages.publishing_houses_retrieved_successfully'));
         }
         catch (\Exception $e){
             return $this->errorResponse(trans('messages.server_error'), 500);
         }
     }
-    public function create(){}
-    public function store(StorePublishingHouseRequest $request){
-//        dd($request);
+    public function store(StoreOrganizationRequest $request){
         try {
-
             // if (!auth()->user()->hasRole('admin')) {
             //     return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
             // }
 
             $validatedData = $request->validated();
             DB::beginTransaction();
-            $user = User::create([
+            if($request->hasFile('logo')){
+                $image = $request->file('logo');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $imagePath = public_path('images/organizations/logos'.$imageName);
+                $image->move(public_path('images/organizations/logos'),$imageName);
+                $validatedData['logo'] = $imagePath;
+            }
+            if (Organization::where('email', $validatedData['email'])->exists()) {
+                return $this->errorResponse(trans('messages.email_already_exists'), 422);
+            }
+            $organization = Organization::create([
                 'name_ar' => $validatedData['name_ar'],
                 'name_en' => $validatedData['name_en'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
-                'user_type_id' => 4,
-            ]);
-            $user->assignRole('publishing-house');
-            $publishingHouse = Organization::create([
-                'user_id' => $user->id,
                 'logo' => $validatedData['logo'] ?? 'default.png',
                 'established_year' => $validatedData['established_year'],
                 'description_ar' => $validatedData['description_ar'],
                 'description_en' => $validatedData['description_en'],
-                'total_books' => $validatedData['total_books'],
+                'phone' => $validatedData['phone'],
+                'address' => $validatedData['address'],
             ]);
             DB::commit();
-            return $this->successResponse(new PublishingHouseResource($publishingHouse),trans('messages.publishing_house_created_successfully'));
-        }catch (\Exception $e){
+            return $this->successResponse(new OrganizationResource($organization),trans('messages.organization_created_successfully'));
+        } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
-            return $this->errorResponse($e->getMessage(), 500);
+            if ($e->errorInfo[1] == 1062) {
+                return $this->errorResponse(trans('messages.email_already_exists'), 422);
+            }
+            return $this->errorResponse(trans('messages.server_error'), 500);
+        } catch (\Exception $e){
+            DB::rollBack();
+            return $this->errorResponse(trans('messages.server_error'), 500);
         }
     }
-    public function show($id){}
-    public function edit($id){}
     public function update(Request $request, $id)
     {
 

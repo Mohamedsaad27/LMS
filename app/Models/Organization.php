@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Organization extends Model
 {
     use HasFactory;
-    protected $table = 'publishing_houses';
+    protected $table = 'organizations';
     protected $fillable = [
         'name_en',
         'name_ar',

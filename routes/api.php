@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Api\Controllers\SchoolController;
 use App\Api\Controllers\TeacherController;
-use App\Api\Controllers\PublishingHouseController;
+use App\Api\Controllers\OrganizationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
 require base_path('routes/auth.php');
 
 Route::middleware(['auth:sanctum', 'localization'])->group(function () {
-    Route::resource('publishing-house', PublishingHouseController::class);
+    Route::resource('organization', OrganizationController::class);
 });
 
 
