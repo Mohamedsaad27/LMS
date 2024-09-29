@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Api\Requests\SchoolRequests\StoreSchoolRequest;
 use App\Api\Requests\SchoolRequests\UpdateSchoolRequest;
 use App\Http\Resources\SchoolResource;
 use App\Interfaces\CrudInterface;
@@ -21,7 +22,7 @@ class SchoolRepositoryRepository implements SchoolRepositoryInterface
     use ApiResponseTrait;
     public function index(){
         try {
-            $schools = School::with('publishing_house')->get();
+            $schools = School::with('organization')->get();
             if($schools->isEmpty()){
                 return $this->errorResponse(trans('messages.no_schools'),404);
             }
@@ -31,10 +32,12 @@ class SchoolRepositoryRepository implements SchoolRepositoryInterface
         }
     }
     public function create(){}
-    public function store(Request $request){}
+    public function store(StoreSchoolRequest $request){
+
+    }
     public function show($id){
         try {
-            $school = School::with(['user','publishing_house'])->findOrFail($id);
+            $school = School::with(['user','organization'])->findOrFail($id);
             return $this->successResponse( new SchoolResource($school),trans('messages.school_retrieved_successfully'));
         }catch (ModelNotFoundException $exception){
             return $this->errorResponse(trans('messages.school_not_found'),404);

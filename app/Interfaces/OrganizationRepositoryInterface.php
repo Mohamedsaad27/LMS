@@ -10,6 +10,6 @@ interface OrganizationRepositoryInterface
 {
     public function index();
     public function store(StoreOrganizationRequest $request);
-    public function update(Request $request, $id);
+    public function update(UpdateOrganizationRequest $request, $id);
     public function destroy($id);
 }
