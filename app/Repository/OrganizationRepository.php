@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Organization;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Dotenv\Repository\RepositoryInterface;
 use App\Http\Resources\OrganizationResource;
 use App\Interfaces\OrganizationRepositoryInterface;
+use PHPUnit\Framework\Constraint\FileExists;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Api\Requests\OrganizationRequests\StoreOrganizationRequest;
@@ -21,14 +23,14 @@ class OrganizationRepository implements OrganizationRepositoryInterface
     use ApiResponseTrait;
     public function index(){
         try {
-            $organization = Organization::with('schools','subjects')->get();
+            $organization = Organization::with('schools')->get();
             if ($organization->isEmpty()) {
                 return $this->errorResponse(trans('messages.no_publishing_house'),404);
             }
             return $this->successResponse(OrganizationResource::collection($organization),trans('messages.publishing_houses_retrieved_successfully'));
         }
         catch (\Exception $e){
-            return $this->errorResponse(trans('messages.server_error'), 500);
+            return $this->errorResponse($e->getMessage(), 500);
         }
     }
     public function store(StoreOrganizationRequest $request){
@@ -42,9 +44,12 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             if($request->hasFile('logo')){
                 $image = $request->file('logo');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
-                $imagePath = public_path('images/organizations/logos'.$imageName);
-                $image->move(public_path('images/organizations/logos'),$imageName);
-                $validatedData['logo'] = $imagePath;
+                $imagePath = 'uploads/images/organizations/';
+                if(!File::isDirectory($imagePath)){
+                    File::makeDirectory($imagePath, 0777, true, true);
+                }
+                $image->move(public_path($imagePath), $imageName);
+                $validatedData['logo'] = env('APP_URL') . '/' .$imagePath . '/' . $imageName;
             }
             if (Organization::where('email', $validatedData['email'])->exists()) {
                 return $this->errorResponse(trans('messages.email_already_exists'), 422);
@@ -55,11 +60,11 @@ class OrganizationRepository implements OrganizationRepositoryInterface
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'logo' => $validatedData['logo'] ?? 'default.png',
-                'established_year' => $validatedData['established_year'],
-                'description_ar' => $validatedData['description_ar'],
-                'description_en' => $validatedData['description_en'],
-                'phone' => $validatedData['phone'],
-                'address' => $validatedData['address'],
+                'established_year' => $validatedData['established_year'] ?? null,
+                'description_ar' => $validatedData['description_ar']?? null,
+                'description_en' => $validatedData['description_en']?? null,
+                'phone' => $validatedData['phone']?? null,
+                'address' => $validatedData['address']?? null,
             ]);
             DB::commit();
             return $this->successResponse(new OrganizationResource($organization),trans('messages.organization_created_successfully'));
@@ -71,7 +76,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             return $this->errorResponse(trans('messages.server_error'), 500);
         } catch (\Exception $e){
             DB::rollBack();
-            return $this->errorResponse(trans('messages.server_error'), 500);
+            return $this->errorResponse($e->getMessage(), 500);
         }
     }
     public function update(UpdateOrganizationRequest $request, $id)
@@ -86,21 +91,33 @@ class OrganizationRepository implements OrganizationRepositoryInterface
 //                return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
 //            }
             DB::beginTransaction();
-            if ($request->hasFile('logo')) {
-                $imageFile = $request->file('logo');
-                $imageName = time().'.'.$imageFile->getClientOriginalExtension();
-                $imagePath = public_path('images/organizations/logos'.$imageName);
-                $imageFile->move(public_path('images/organizations/logos'),$imageName);
-                $validatedData['logo'] = $imagePath;
-            }else{
-                $validatedData['logo'] = null;
+            if($request->hasFile('logo')){
+                $image = $request->file('logo');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $imagePath = 'uploads/images/organizations/';
+                if(!File::isDirectory($imagePath)){
+                    File::makeDirectory($imagePath, 0777, true, true);
+                }
+                $image->move(public_path($imagePath), $imageName);
+                $validatedData['logo'] = env('APP_URL') . '/' .$imagePath . '/' . $imageName;
             }
-            $organization->update($validatedData);
+            $organization->update([
+                'name_ar' => $validatedData['name_ar'] ?? $organization->name_ar,
+                'name_en' => $validatedData['name_en'] ?? $organization->name_en,
+                'email' => $validatedData['email'] ?? $organization->email,
+                'password' => Hash::make($validatedData['password']) ?? $organization->password,
+                'established_year' => $validatedData['established_year'] ?? $organization->established_year,
+                'description_ar' => $validatedData['description_ar']?? $organization->description_ar,
+                'description_en' => $validatedData['description_en']?? $organization->description_en,
+                'phone' => $validatedData['phone']?? $organization->phone,
+                'address' => $validatedData['address']?? $organization->address,
+                'logo' => $validatedData['logo'] ?? $organization->logo,
+            ]);
             DB::commit();
             return $this->successResponse($organization,trans('messages.publishing_house_updated_successfully'));
         }catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse(trans('messages.server_error'), 500);
+            return $this->errorResponse($e->getMessage(), 500);
         }
     }
 
@@ -111,18 +128,18 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             if (!$organization) {
                 return $this->errorResponse(trans('messages.publishing_house_not_found'), 404);
             }
-            if (!auth()->user()->hasRole('admin')) {
-                return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
-            }
+//            if (!auth()->user()->hasRole('admin')) {
+//                return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
+//            }
 
             if ($organization->logo) {
-                $logoPath = public_path('images/organizations/logos' . $organization->logo);
+                $logoPath = public_path('uploads/organizations/' . $organization->logo);
                 if (file_exists($logoPath)) {
                     unlink($logoPath);
                 }
             }
             foreach ($organization->schools as $school) {
-                $school->update(['publishing_house_id' => null]);
+                $school->update(['organization_id' => null]);
             }
             $organization->delete();
             return $this->successResponse(trans('messages.publishing_house_deleted_successfully'));

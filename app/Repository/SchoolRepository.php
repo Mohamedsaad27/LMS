@@ -15,9 +15,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\ValidationException;
 
-class SchoolRepositoryRepository implements SchoolRepositoryInterface
+class SchoolRepository implements SchoolRepositoryInterface
 {
     use ApiResponseTrait;
     public function index(){
@@ -33,7 +34,36 @@ class SchoolRepositoryRepository implements SchoolRepositoryInterface
     }
     public function create(){}
     public function store(StoreSchoolRequest $request){
-
+        $validated = $request->validated();
+        try {
+            if($request->hasFile('logo')){
+                $image = $request->file('logo');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $imagePath = public_path('uploads/images/schools');
+                if(!File::isDirectory(public_path($imagePath))){
+                    File::makeDirectory($imagePath, 0777, true,true);
+                }
+                $image->move(public_path($imagePath), $imageName);
+                $validated['logo'] = env('APP_URL'). '/' . $imagePath.'/'.$imageName;
+            }
+            $school = School::create([
+                'name_en' => $validated['name_en'],
+                'name_ar' => $validated['name_ar'],
+                'description_en' => $validated['description_en'],
+                'description_ar' => $validated['description_ar'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'address' => $validated['address'],
+                'logo' => $validated['logo'] ?? null,
+                'established_year' => $validated['established_year'],
+                'type' => $validated['type'],
+                'organization_id' => $validated['organization_id'],
+            ]);
+            dd($school);
+            return $this->successResponse($school,trans('messages.school_created_successfully'), 200);
+        }catch (\Exception $exception){
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
+        }
     }
     public function show($id){
         try {

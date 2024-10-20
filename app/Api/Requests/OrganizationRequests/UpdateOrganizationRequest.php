@@ -28,10 +28,11 @@ class UpdateOrganizationRequest extends FormRequest
         return [
             'name_en' => 'nullable|string|min:3|max:255',
             'name_ar' => 'nullable|string|min:3|max:255',
+            'email' => 'nullable|string|min:3|max:255',
+            'password' => 'nullable|string|min:3|max:255',
+            'phone' => 'nullable|string|min:3|max:255',
             'description_en' => 'nullable|string|min:3|max:255',
             'description_ar' => 'nullable|string|min:3|max:255',
-            'phone' => 'nullable|string|min:3|max:255',
-            'email' => 'nullable|string|min:3|max:255',
             'address' => 'nullable|string|min:3|max:255',
             'logo' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg',
             'established_year' => 'nullable|date',

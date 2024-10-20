@@ -13,7 +13,7 @@ class StoreSchoolRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,22 +24,26 @@ class StoreSchoolRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_en' => 'required|string|max:255',
-            'name_ar' => 'required|string|max:255',
-            'description_en' => 'required|string',
-            'description_ar' => 'required|string',
-            'email' => 'required|email|unique:schools',
-            'password' => 'required|string|min:8',
-            'phone' => 'required|string|max:15',
-            'address' => 'required|string',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'established_year' => 'required|integer',
-            'type' => 'required|string',
-            'organization_id' => 'required|exists:organizations,id'
+            'name_en' => 'required|string|max:100',
+            'name_ar' => 'required|string|max:100',
+            'email' => 'required|email|unique:schools,email|max:100',
+            'password' => 'required|string|min:8|max:100',
+            'phone' => 'nullable|string|max:100',
+            'address' => 'nullable|string|max:100',
+            'established_year' => 'nullable|digits:4|integer|min:1900|max:' . date('Y'),
+            'description_ar' => 'nullable|string',
+            'description_en' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'type' => 'required|in:primary,secondary,high_school',
+            'organization_id' => 'nullable|exists:organizations,id',
         ];
     }
+
+
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->errorResponse($validator->errors(),422));
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

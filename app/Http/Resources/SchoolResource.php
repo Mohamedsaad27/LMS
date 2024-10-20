@@ -8,24 +8,21 @@ use Illuminate\Support\Facades\App;
 
 class SchoolResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(Request $request): array
-    {
-        $locale = App::getLocale();
-        return [
-            'id' => $this->id,
-            'school_name' => $locale == 'ar' ?  $this->user->name_ar : $this->user->name_en,
-            'established_year' => $this->established_year,
-            'description' => $this->description,
-            'student_count' => $this->student_count,
-            'teacher_count' => $this->teacher_count,
-            'logo' => $this->logo,
-            'type' => $this->type,
-            'organization' => new OrganizationResource($this->whenLoaded('organization')), // Publishing house relation
-        ];
-    }
+
+    // public function toArray(Request $request): array
+    // {
+    //     $lang = $request->header('lang');
+    //     return [
+    //         'id' => $this->id,
+    //         'school_name' => $lang == 'ar' ?  $this->name_ar : $this->name_en,
+    //         'established_year' => $this->established_year,
+    //         'description' => $lang == 'ar' ? $this->description_ar : $this->description_en,
+    //         'email' => $this->email,
+    //         'phone' => $this->phone,
+    //         'address' => $this->address,
+    //         'logo' => $this->logo,
+    //         'type' => $this->type,
+    //         'organization' => new OrganizationResource($this->whenLoaded('organization')), // Publishing house relation
+    //     ];
+    // }
 }

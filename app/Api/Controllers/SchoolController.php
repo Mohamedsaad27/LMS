@@ -2,6 +2,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\Requests\SchoolRequests\StoreSchoolRequest;
 use App\Api\Requests\SchoolRequests\UpdateSchoolRequest;
 use App\Http\Controllers\Controller;
 use App\Interfaces\SchoolRepositoryInterface;
@@ -35,9 +36,9 @@ class SchoolController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSchoolRequest $request)
     {
-        //
+      return $this->schoolsRepository->store($request);
     }
 
     /**
