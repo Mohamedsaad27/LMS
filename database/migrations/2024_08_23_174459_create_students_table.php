@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('school_id')->nullable()->default(null);
             $table->date('date_of_birth')->nullable();
             $table->date('enrollment_date')->nullable();
-            $table->string('grade', 50)->nullable();
             $table->string('parent_contact', 20)->nullable();
             $table->string('photo', 255)->nullable();
             $table->timestamps();

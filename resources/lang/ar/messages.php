@@ -44,5 +44,7 @@ return [
     'teacher_created_successfully' => 'تم إنشاء المعلم بنجاح',
     'email_already_exists' => 'البريد الإلكتروني مستخدم مسبقاً.',
     'organization_created_successfully' => 'تم إنشاء المؤسسة بنجاح',
+    'student_deleted_successfully' => 'تم حذف الطالب بنجاح',
+    'student_updated_successfully' => 'تم تحديث بيانات الطالب بنجاح',
 ];
 

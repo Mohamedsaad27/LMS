@@ -52,6 +52,21 @@ class AuthRepository implements AuthRepositoryInterface
                 // $this->sendVerificationCodeService->sendVerificationCode($user);
                 $token = $user->createToken($registrationRequest->userAgent())->plainTextToken;
                 $user['token'] = $token;
+                switch($validatedData['user_type']){
+                    case 'student':
+                        Student::create([
+                            'user_id' => $user->id,
+                        ]);
+                        break;
+                    case 'teacher':
+                        Teacher::create([
+                            'user_id' => $user->id,
+                        ]);
+                        break;
+                   default:
+                        break;
+                }
+
                 return $this->successResponse(['user' => new UserResource($user)],trans('messages.user_registered_successfully'));
             }
         }catch (\Exception $exception){

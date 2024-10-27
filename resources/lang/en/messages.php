@@ -39,4 +39,6 @@ return [
     'teacher_retrieved_successfully' => 'Teacher retrieved successfully.',
     'email_already_exists' => 'Email already exists.',
     'organization_created_successfully' => 'Organization created successfully.',
+    'student_deleted_successfully' => 'Student deleted successfully.',
+    'student_updated_successfully' => 'Student updated successfully.',
 ];

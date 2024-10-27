@@ -15,18 +15,19 @@ class StudentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $locale = App::getLocale();
+        $lang = $request->header('lang');
         return [
             'id' => $this->id,
-            'school_name' => $locale == 'ar' ?  $this->user->name_ar : $this->user->name_en,
-            'school_id' => $this->school_id,
+            'name' => $lang == 'ar' ? ($this->user->name_ar ?? '') : ($this->user->name_en ?? ''),
+            'email' => $this->user->email,
+            'gender' => $this->user->gender,
+            'address' => $this->user->address,
+            'phone' => $this->user->phone,
+            'school_name' => $lang == 'ar' ? ($this->school->name_ar ?? '') : ($this->school->name_en ?? ''),
             'date_of_birth' => $this->date_of_birth,
             'enrollment_date' => $this->enrollment_date,
-            'grade' => $this->grade,
             'parent_contact' => $this->parent_contact,
             'photo' => $this->photo,
-            'user' => new UserResource($this->whenLoaded('user')), // User relation
-            'school' => new SchoolResource($this->whenLoaded('school')), // School relation
         ];
     }
 }

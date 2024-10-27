@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('students', function (Blueprint $table) {
-           $table->unsignedBigInteger('grade_id');
-           $table->foreign('grade_id')->references('id')->on('grades');
+           $table->unsignedBigInteger('grade_id')->nullable()->default(null);
+           $table->foreign('grade_id')->references('id')->on('grades')->cascadeOnDelete()->onUpdate('set null');
         });
     }
 
