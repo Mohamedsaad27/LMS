@@ -25,13 +25,7 @@ class SchoolController extends Controller
         return $this->schoolsRepository->index();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+  
 
     /**
      * Store a newly created resource in storage.
@@ -47,14 +41,6 @@ class SchoolController extends Controller
     public function show(string $id)
     {
         return $this->schoolsRepository->show($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**

@@ -2,21 +2,22 @@
 
 namespace App\Repository;
 
+use App\Models\User;
+use App\Models\School;
+use App\Models\Organization;
+use Illuminate\Http\Request;
+use App\Traits\ApiResponseTrait;
+use App\Interfaces\CrudInterface;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\SchoolResource;
+use App\Interfaces\SchoolRepositoryInterface;
+use Illuminate\Validation\ValidationException;
 use App\Api\Requests\SchoolRequests\StoreSchoolRequest;
 use App\Api\Requests\SchoolRequests\UpdateSchoolRequest;
-use App\Http\Resources\SchoolResource;
-use App\Interfaces\CrudInterface;
-use App\Interfaces\SchoolRepositoryInterface;
-use App\Models\Organization;
-use App\Models\School;
-use App\Models\User;
-use App\Traits\ApiResponseTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Validation\ValidationException;
 
 class SchoolRepository implements SchoolRepositoryInterface
 {
@@ -32,10 +33,10 @@ class SchoolRepository implements SchoolRepositoryInterface
             return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
-    public function create(){}
+   
     public function store(StoreSchoolRequest $request){
-        $validated = $request->validated();
         try {
+            $validated = $request->validated();
             if($request->hasFile('logo')){
                 $image = $request->file('logo');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -46,23 +47,25 @@ class SchoolRepository implements SchoolRepositoryInterface
                 $image->move(public_path($imagePath), $imageName);
                 $validated['logo'] = env('APP_URL'). '/' . $imagePath.'/'.$imageName;
             }
+            DB::beginTransaction();
             $school = School::create([
                 'name_en' => $validated['name_en'],
                 'name_ar' => $validated['name_ar'],
                 'description_en' => $validated['description_en'],
                 'description_ar' => $validated['description_ar'],
                 'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
                 'phone' => $validated['phone'],
                 'address' => $validated['address'],
                 'logo' => $validated['logo'] ?? null,
-                'established_year' => $validated['established_year'],
                 'type' => $validated['type'],
                 'organization_id' => $validated['organization_id'],
             ]);
-            dd($school);
-            return $this->successResponse($school,trans('messages.school_created_successfully'), 200);
+            DB::commit();
+            return $this->successResponse(new SchoolResource($school),trans('messages.school_created_successfully'), 200);
         }catch (\Exception $exception){
-            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
+            DB::rollBack();
+            return $this->errorResponse($exception->getMessage(), trans('messages.server_error'), 500);
         }
     }
     public function show($id){
@@ -70,14 +73,12 @@ class SchoolRepository implements SchoolRepositoryInterface
             $school = School::with(['user','organization'])->findOrFail($id);
             return $this->successResponse( new SchoolResource($school),trans('messages.school_retrieved_successfully'));
         }catch (ModelNotFoundException $exception){
-            return $this->errorResponse(trans('messages.school_not_found'),404);
+            return $this->errorResponse($exception->getMessage(),trans('messages.school_not_found'),404);
         }
         catch (\Exception $exception){
-            return $this->errorResponse(trans('messages.server_error'), 500);
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
-    public function edit($id){}
-
     public function update(UpdateSchoolRequest $request, $id)
     {
         try {
@@ -85,23 +86,14 @@ class SchoolRepository implements SchoolRepositoryInterface
             $school = School::find($id);
 
             if (!$school) {
-                return $this->errorResponse(trans('messages.school_not_found'), 404);
+                return $this->errorResponse(trans('messages.school_not_found'),trans('messages.school_not_found'), 404);
             }
 
             if (!auth()->user()->hasRole('publishing-house')) {
-                return $this->errorResponse(trans('messages.unauthorized_access_to_school'), 403);
+                return $this->errorResponse(trans('messages.unauthorized_access_to_school'),trans('messages.unauthorized_access_to_school'), 403);
             }
             if ($request->hasFile('logo')) {
-                // Store the image in storage/user_images/{{user_id}} directory
-                $imagePath = $request->file('logo')->storeAs(
-                    'user_images/' . $school->id,
-                    time() . '_' . $request->file('user_image')->getClientOriginalName(),
-                    'public'
-                );
-
-                // Generate full URL
-                $imageUrl = asset('storage/' . $imagePath);
-                $validated['logo'] = $imageUrl;
+               
             }
 
             // Assign the publishing house id
@@ -116,11 +108,11 @@ class SchoolRepository implements SchoolRepositoryInterface
             return $this->successResponse(new SchoolResource($school), trans('messages.school_updated_successfully'));
 
         } catch (ModelNotFoundException $exception) {
-            return $this->errorResponse(trans('messages.school_not_found'), 404);
+            return $this->errorResponse(trans('messages.school_not_found'),trans('messages.school_not_found'),404);
         } catch (ValidationException $exception) {
-            return $this->errorResponse($exception->errors(), 422);
+            return $this->errorResponse($exception->errors(),trans('messages.validation_error'), 422);
         } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 500);
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
 
@@ -128,10 +120,10 @@ class SchoolRepository implements SchoolRepositoryInterface
             try {
                 $school = School::find($id);
                 if (!$school) {
-                    return $this->errorResponse(trans('messages.school_not_found'),404);
+                    return $this->errorResponse(trans('messages.school_not_found'),trans('messages.school_not_found'),404);
                 }
                 if(!auth()->user()->hasRole('publishing-house')){
-                    return $this->errorResponse(trans('messages.unauthorized_access_to_school'),403);
+                    return $this->errorResponse(trans('messages.unauthorized_access_to_school'),trans('messages.unauthorized_access_to_school'),403);
                 }
                 $user = User::find($school->user_id);
                 if ($school->logo) {
@@ -152,7 +144,7 @@ class SchoolRepository implements SchoolRepositoryInterface
                 return $this->successResponse(trans('messages.school_deleted_successfully'));
             }catch (\Exception $exception){
                 DB::rollBack();
-                return $this->errorResponse($exception->getMessage(), 500);
+                return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
             }
         }
 

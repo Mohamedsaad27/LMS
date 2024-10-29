@@ -12,11 +12,12 @@ trait ApiResponseTrait
             'data' => $data,
         ], $code);
     }
-    public function errorResponse($message, $code)
-    {
-        return response()->json([
-            'success' => false,
-            'message' => $message,
-        ], $code);
-    }
+    public function errorResponse($error, $message, $code)
+{
+    return response()->json([
+        'success' => false,
+        'error' => $error,
+        'message' => $message,
+    ], $code);
+}
 }

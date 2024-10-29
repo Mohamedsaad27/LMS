@@ -35,10 +35,6 @@ class OrganizationRepository implements OrganizationRepositoryInterface
     }
     public function store(StoreOrganizationRequest $request){
         try {
-            // if (!auth()->user()->hasRole('admin')) {
-            //     return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
-            // }
-
             $validatedData = $request->validated();
             DB::beginTransaction();
             if($request->hasFile('logo')){

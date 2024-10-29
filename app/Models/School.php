@@ -19,13 +19,9 @@ class School extends Model
         'phone',
         'address',
         'logo',
-        'established_year',
         'type',
         'organization_id'
     ];
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
     public function organization(){
         return $this->belongsTo(Organization::class);
     }

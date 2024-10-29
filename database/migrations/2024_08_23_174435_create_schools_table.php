@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password',100);
             $table->string('phone',100)->nullable();
             $table->string('address',100)->nullable();
-            $table->year('established_year')->nullable();
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->string('logo',100)->nullable();

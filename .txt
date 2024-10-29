@@ -1,0 +1,33 @@
+- Each product has a set of images 
+- Each product has a range of sizes and colors 
+- If the product contains more than one color, each color has an image 
+- If the product has more than one color, each color will have a different quantity
+- If the product has more than one size, each size will have a different price 
+- If the product has more than one size, each size will have a different quantity
+
+- Carts
+-cartItems
+-favorite
+-favoriteItems
+- orders
+- orderItems
+-shippings 
+-shipping Zones (Qena=> 30 , Qus=> 50 , Luxor => 80)
+-brands
+-categories
+-discounts
+-notifications for new products
+-emails for =>  
+	1- Verification Emails
+	2- Reset Password
+	3- WelcomeAfterRegister
+	4-Request Order From Website
+	5- when Contact Us   
+-contact us
+-related products
+-users 
+- userAddresses
+-about Us 
+-contact Us
+- reviews
+- recently viewed products
