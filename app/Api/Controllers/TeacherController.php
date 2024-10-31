@@ -2,11 +2,12 @@
 
 namespace App\Api\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\TeacherResource;
 use App\Models\Teacher;
-use App\Repository\TeacherRepository;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Repository\TeacherRepository;
+use App\Http\Resources\TeacherResource;
+use App\Api\Requests\TeacherRequests\UpdateTeacherRequest;
 
 class TeacherController extends Controller
 {
@@ -33,11 +34,7 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        return $this->teacherRepository->store($request);
-    }
-
+ 
     /**
      * Display the specified resource.
      *
@@ -56,7 +53,7 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTeacherRequest $request, $id)
     {
         return $this->teacherRepository->update($request, $id);
     }

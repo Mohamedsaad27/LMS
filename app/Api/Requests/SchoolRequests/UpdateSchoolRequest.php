@@ -18,28 +18,28 @@ class UpdateSchoolRequest extends FormRequest
     }
     public function rules(): array
     {
+        $schoolId = $this->route('school');
+
         return [
-            'established_year' => 'nullable|date',
-            'description' => 'nullable|string|max:1000',
-            'student_count' => 'nullable|integer|min:0',
-            'teacher_count' => 'nullable|integer|min:0',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'type' => 'nullable|string|in:primary,secondary,high_school',
+            'name_en' => 'nullable|string|max:100',
+            'name_ar' => 'nullable|string|max:100',
+            'email' => 'nullable|email|unique:schools,email,' . $schoolId,
+            'description_ar' => 'nullable|string',
+            'description_en' => 'nullable|string',
+            'password' => 'required|string|min:8|max:100',
+            'phone' => 'nullable|string|max:100|unique:schools,phone,' . $schoolId,
+            'address' => 'nullable|string|max:100',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'type' => 'nullable|in:primary,secondary,high_school',
+            'organization_id' => 'nullable|exists:organizations,id',
         ];
     }
     public function failedValidation(Validator $validator)
     {
-        $errors = $validator->errors()->messages();
-        $firstErrors = collect($errors)->map(function($messages) {
-            return $messages[0];  // Get only the first error message
-        });
-
         throw new HttpResponseException(
             response()->json([
-                'message' => $firstErrors->first(), // Show only the first error globally
-                'errors' => $firstErrors
+                'errors' => $validator->errors(),
             ], 422)
         );
     }
-
 }

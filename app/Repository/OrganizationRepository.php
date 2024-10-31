@@ -25,12 +25,12 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         try {
             $organization = Organization::with('schools')->get();
             if ($organization->isEmpty()) {
-                return $this->errorResponse(trans('messages.no_publishing_house'),404);
+                return $this->errorResponse(null,trans('messages.no_publishing_house'),404);
             }
             return $this->successResponse(OrganizationResource::collection($organization),trans('messages.publishing_houses_retrieved_successfully'));
         }
         catch (\Exception $e){
-            return $this->errorResponse($e->getMessage(), 500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function store(StoreOrganizationRequest $request){
@@ -48,7 +48,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
                 $validatedData['logo'] = env('APP_URL') . '/' .$imagePath . '/' . $imageName;
             }
             if (Organization::where('email', $validatedData['email'])->exists()) {
-                return $this->errorResponse(trans('messages.email_already_exists'), 422);
+                return $this->errorResponse(null,trans('messages.email_already_exists'), 422);
             }
             $organization = Organization::create([
                 'name_ar' => $validatedData['name_ar'],
@@ -67,12 +67,11 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
             if ($e->errorInfo[1] == 1062) {
-                return $this->errorResponse(trans('messages.email_already_exists'), 422);
+                return $this->errorResponse($e->getMessage(),trans('messages.email_already_exists'), 422);
             }
-            return $this->errorResponse(trans('messages.server_error'), 500);
         } catch (\Exception $e){
             DB::rollBack();
-            return $this->errorResponse($e->getMessage(), 500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function update(UpdateOrganizationRequest $request, $id)
@@ -81,7 +80,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         try {
             $organization = Organization::find($id);
             if (!$organization) {
-                return $this->errorResponse(trans('messages.publishing_house_not_found'), 404);
+                return $this->errorResponse(null,trans('messages.publishing_house_not_found'), 404);
             }
 //            if (!auth()->user()->hasRole('admin')) {
 //                return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
@@ -113,7 +112,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             return $this->successResponse($organization,trans('messages.publishing_house_updated_successfully'));
         }catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse($e->getMessage(), 500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
 
@@ -122,7 +121,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         try {
             $organization = Organization::find($id);
             if (!$organization) {
-                return $this->errorResponse(trans('messages.publishing_house_not_found'), 404);
+                return $this->errorResponse(null,trans('messages.publishing_house_not_found'), 404);
             }
 //            if (!auth()->user()->hasRole('admin')) {
 //                return $this->errorResponse(trans('messages.unauthorized_access_to_publishing_houses'), 403);
@@ -140,7 +139,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             $organization->delete();
             return $this->successResponse(trans('messages.publishing_house_deleted_successfully'));
         } catch (\Exception $e) {
-            return $this->errorResponse(trans('messages.server_error'), 500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
 

@@ -30,7 +30,7 @@ class StoreSchoolRequest extends FormRequest
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'password' => 'required|string|min:8|max:100',
-            'phone' => 'nullable|string|max:100',
+            'phone' => 'nullable|string|max:100|unique:schools,phone|max:100',
             'address' => 'nullable|string|max:100',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'type' => 'required|in:primary,secondary,high_school',

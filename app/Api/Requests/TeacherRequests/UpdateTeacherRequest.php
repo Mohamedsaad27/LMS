@@ -11,7 +11,7 @@ class UpdateTeacherRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true; // Assuming the user is authorized to make this request
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdateTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'school_id' => 'nullable|exists:schools,id',
+            'experience_years' => 'nullable|integer|min:0', 
+            'hire_date' => 'nullable|date',
+            'qualification' => 'nullable|string|max:255', 
+            'salary' => 'nullable|numeric', 
+            'status' => 'nullable|in:active,inactive',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'date_of_birth' => 'nullable|date',
         ];
     }
 }

@@ -15,7 +15,7 @@ class TeacherResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-            $locale = App::getLocale();
+        $locale = $request->header('lang');
         return [
             'id' => $this->id,
             'teacher_name' => $locale == 'ar' ?  $this->user->name_ar : $this->user->name_en,
@@ -27,9 +27,7 @@ class TeacherResource extends JsonResource
             'status' => $this->status,
             'salary' => $this->salary,
             'date_of_birth' => $this->date_of_birth,
-            'additional_data' => new UserResource($this->whenLoaded('user')),
             'school' => new SchoolResource($this->whenLoaded('school')), // school relation
-            'subjects' => SubjectResource::collection($this->whenLoaded('subjects')), // subjects relation
         ];
     }
 }

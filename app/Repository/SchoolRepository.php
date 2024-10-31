@@ -33,10 +33,11 @@ class SchoolRepository implements SchoolRepositoryInterface
             return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
-   
+
     public function store(StoreSchoolRequest $request){
         try {
             $validated = $request->validated();
+            dd($validated);
             if($request->hasFile('logo')){
                 $image = $request->file('logo');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -70,7 +71,7 @@ class SchoolRepository implements SchoolRepositoryInterface
     }
     public function show($id){
         try {
-            $school = School::with(['user','organization'])->findOrFail($id);
+            $school = School::with(['organization'])->findOrFail($id);
             return $this->successResponse( new SchoolResource($school),trans('messages.school_retrieved_successfully'));
         }catch (ModelNotFoundException $exception){
             return $this->errorResponse($exception->getMessage(),trans('messages.school_not_found'),404);
@@ -88,25 +89,19 @@ class SchoolRepository implements SchoolRepositoryInterface
             if (!$school) {
                 return $this->errorResponse(trans('messages.school_not_found'),trans('messages.school_not_found'), 404);
             }
-
-            if (!auth()->user()->hasRole('publishing-house')) {
-                return $this->errorResponse(trans('messages.unauthorized_access_to_school'),trans('messages.unauthorized_access_to_school'), 403);
-            }
             if ($request->hasFile('logo')) {
-               
+                $imageName = $request->file('logo');
+                $imageName = time().'.'.$imageName->getClientOriginalExtension();
+                $imagePath = public_path('uploads/images/schools');
+               if(!File::isDirectory(public_path($imagePath))){
+                   File::makeDirectory($imagePath, 0777, true,true);
+               }
+                $imageName->move(public_path($imagePath), $imageName);
+               $validated['logo'] = env('APP_URL'). '/' . $imagePath.'/'.$imageName;
             }
-
-            // Assign the publishing house id
-            $publishingHouseId = Organization::where('user_id', Auth::user()->id)->first()->id;
-            $validated['publishing_house_id'] = $publishingHouseId;
-
-            // Use fill method for mass assignment
             $school->fill($validated);
-
             $school->save();
-
             return $this->successResponse(new SchoolResource($school), trans('messages.school_updated_successfully'));
-
         } catch (ModelNotFoundException $exception) {
             return $this->errorResponse(trans('messages.school_not_found'),trans('messages.school_not_found'),404);
         } catch (ValidationException $exception) {
