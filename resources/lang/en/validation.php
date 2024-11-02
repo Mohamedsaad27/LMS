@@ -156,6 +156,27 @@ return [
             'required' => 'The school type is required.',
             'in' => 'The school type must be either private or public.',
         ],
+        'name_ar' => [
+            'required' => 'The arabic name is required.',
+            'string' => 'The arabic name must be a string.',
+            'max' => 'The arabic name may not be greater than 255 characters.',
+        ],
+        'name_en' => [
+            'required' => 'The english name is required.',
+            'string' => 'The english name must be a string.',
+            'max' => 'The english name may not be greater than 255 characters.',
+        ],
+        'description_ar' => [
+            'nullable' => 'The arabic description is optional.',
+            'string' => 'The arabic description must be a string.',
+        ],
+        'description_en' => [
+            'nullable' => 'The english description is optional.',
+            'string' => 'The english description must be a string.',
+        ],
+        'grade_id' => [
+            'exists' => 'The selected grade ID is invalid.',
+        ],
     ],
 
     'attributes' => [
@@ -166,6 +187,11 @@ return [
         'teacher_count' => 'teacher count',
         'logo' => 'logo',
         'type' => 'school type',
+        'name_ar' => 'arabic name',
+        'name_en' => 'english name',
+        'description_ar' => 'arabic description',
+        'description_en' => 'english description',
+        'grade_id' => 'grade ID',
     ],
 
 ];

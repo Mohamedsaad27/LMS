@@ -18,17 +18,18 @@ class StudentRepository implements StudentRepositoryInterface
     }
  
     public function update(Request $request, $id){
+        try{
         $validatedData = $request->validate([
-            'school_id' => 'required|exists:schools,id',
-            'grade_id' => 'required|exists:grades,id',
-            'date_of_birth' => 'required|date',
-            'enrollment_date' => 'required|date',
-            'parent_contact' => 'required|string',
+            'school_id' => 'nullable|exists:schools,id',
+            'grade_id' => 'nullable|exists:grades,id',
+            'date_of_birth' => 'nullable|date',
+            'enrollment_date' => 'nullable|date',
+            'parent_contact' => 'nullable|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         if($request->hasFile('photo')){
             $image = $request->file('photo');
-            $iamgeName = time().'.'.$request->photo->extension();
+            $iamgeName = time().'.'.$image->getClientOriginalExtension();
             $iamgePath = public_path('uploads/images/students');
             if(!File::isDirectory(public_path($iamgePath))){
                 File::makeDirectory($iamgePath, 0777, true,true);
@@ -37,13 +38,17 @@ class StudentRepository implements StudentRepositoryInterface
             $validatedData['photo'] = env('APP_URL'). '/' . $iamgePath.'/'.$iamgeName;
         }
         $student = Student::find($id);
-        $student->update($validatedData);
+        $student->fill($validatedData);
+        $student->save();
         return $this->successResponse(new StudentResource($student),trans('messages.student_updated_successfully'));
+    }catch(\Exception $e){
+        return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
     }
+    }   
     public function destroy($id){
         $student = Student::find($id);
         if(!$student){
-            return $this->errorResponse(trans('messages.student_not_found'),404);
+            return $this->errorResponse(null,trans('messages.student_not_found'),404);
         }
         $student->delete();
         return $this->successResponse(null,trans('messages.student_deleted_successfully'));

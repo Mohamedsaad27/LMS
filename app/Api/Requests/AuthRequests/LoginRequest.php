@@ -38,7 +38,9 @@ class LoginRequest extends FormRequest
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->errorResponse($validator->errors(), 422));
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+        ], 422));
     }
 
 }

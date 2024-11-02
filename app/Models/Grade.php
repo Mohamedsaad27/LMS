@@ -9,11 +9,11 @@ class Grade extends Model
 {
     use HasFactory;
     protected $table = 'grades';
-    protected $fillable = ['stage_id','name','description'];
-    public function educational_stage(){
-        return $this->belongsTo(EducationalStage::class);
-    }
+    protected $fillable = ['name','description'];
     public function classrooms(){
         return $this->hasMany(Classroom::class);
+    }
+    public function units(){
+        return $this->hasMany(Unit::class);
     }
 }

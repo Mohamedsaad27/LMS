@@ -71,7 +71,7 @@ class AuthRepository implements AuthRepositoryInterface
             }
         }catch (\Exception $exception){
             DB::rollBack();
-            return $this->errorResponse($exception->getMessage(),500);
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function login(LoginRequest $loginRequest){
@@ -81,17 +81,17 @@ class AuthRepository implements AuthRepositoryInterface
                 $user = Auth::user();
                 if (!$user->is_verified) {
                     $this->sendVerificationCodeService->sendVerificationCode($user);
-                    return $this->errorResponse(trans('messages.email_not_verified'), 403);
+                    return $this->errorResponse(null,trans('messages.email_not_verified'), 403);
                 }
                 $token = $user->createToken($loginRequest->userAgent())->plainTextToken;
                 $user['token'] = $token;
                 return $this->successResponse(
                     ['user' =>$user],trans('messages.login_successful'),200);
             }else{
-                return $this->errorResponse(trans('messages.invalid_credentials'),401);
+                return $this->errorResponse(null,trans('messages.invalid_credentials'),401);
             }
         }catch (\Exception $exception){
-            return $this->errorResponse($exception->getMessage(),500);
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function logout(Request $request){
@@ -100,7 +100,7 @@ class AuthRepository implements AuthRepositoryInterface
             $request->user()->currentAccessToken()->delete();
             return $this->successResponse(null,trans('messages.logged_out_successfully'));
         } catch(\Exception $e){
-            return $this->errorResponse(['message' => $e->getMessage()],500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function profile()
@@ -108,11 +108,11 @@ class AuthRepository implements AuthRepositoryInterface
         try {
             $user = Auth::user();
             if (!$user){
-                return    $this->errorResponse(trans('messages.unauthenticated'),401);
+                return    $this->errorResponse(null,trans('messages.unauthenticated'),401);
             }
             return  $this->successResponse(['user' => $user], trans('messages.user_profile_successful'));
         }catch (\Exception $exception){
-            return $this->errorResponse(['message'=>$exception->getMessage()],500);
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function sendResetPasswordCode(Request $request){
@@ -122,15 +122,15 @@ class AuthRepository implements AuthRepositoryInterface
         ]);
             $user = User::where('email',$validatedData['email'])->first();
             if (!$user){
-                return $this->errorResponse(trans('messages.user_not_found'),401);
+                return $this->errorResponse(null,trans('messages.user_not_found'),401);
             }
             $this->sendResetPasswordCodeService->sendResetPasswordCode($user->email);
             return  $this->successResponse(null,trans('messages.reset_password_code_sent'));
         }catch (ValidationException $exception){
-            return $this->errorResponse($exception->getMessage(),422);
+                return $this->errorResponse($exception->getMessage(),trans('messages.validation_error'),422);
         }
         catch (\Exception $e){
-            return $this->errorResponse($e->getMessage(),500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function resetPassword(ResetPasswordRequest $resetPasswordRequest){
@@ -141,22 +141,22 @@ class AuthRepository implements AuthRepositoryInterface
                 ->first();
 
             if (!$emailVerificationCode) {
-                return $this->errorResponse(trans('messages.invalid_or_expired_code'), 401);
+                return $this->errorResponse(null,trans('messages.invalid_or_expired_code'), 401);
             }
 
             $user = User::where('email', $validated['email'])->first();
             if (!$user) {
-                return $this->errorResponse(trans('messages.user_not_found'), 404);
+                return $this->errorResponse(null,trans('messages.user_not_found'), 404);
             }
             $user->password = Hash::make($validated['password']);
             $user->save();
             $emailVerificationCode->delete();
             return $this->successResponse(null,trans('messages.password_reset_successful'));
         }catch (ValidationException $exception){
-            return $this->errorResponse($exception->getMessage(),422);
+            return $this->errorResponse($exception->getMessage(),trans('messages.validation_error'),422);
         }
         catch (\Exception $e){
-            return $this->errorResponse($e->getMessage(),500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
     public function refreshToken(Request $request)
@@ -165,10 +165,10 @@ class AuthRepository implements AuthRepositoryInterface
             $user = Auth::user();
             $request->user()->currentAccessToken()->delete();
             $token = $user->createToken($request->userAgent())->plainTextToken;
-            return $this->successResponse(['token' => $token], trans('messages.token_refreshed_successfully'), 200);
+                return $this->successResponse(['token' => $token], trans('messages.token_refreshed_successfully'), 200);
 
         } catch (\Exception $e) {
-            return $this->errorResponse(['message' => $e->getMessage()], 500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
 
@@ -185,7 +185,7 @@ class AuthRepository implements AuthRepositoryInterface
                           ->where('verification_code',$verification_code)
                           ->first();
             if(!$user){
-                return $this->errorResponse(trans('messages.user_not_found'),401);
+                return $this->errorResponse(null,trans('messages.user_not_found'),401);
             }
         if ($user->email_verified_at) {
         return $this->successResponse(null,trans('messages.email_already_verified'), 200);
@@ -195,9 +195,9 @@ class AuthRepository implements AuthRepositoryInterface
         $user->save();
         return $this->successResponse(null,trans('messages.email_verified_successfully'));
         }catch (ValidationException $e){
-            return $this->errorResponse($e->getMessage(),422);
+            return $this->errorResponse($e->getMessage(),trans('messages.validation_error'),422);
         }catch (\Exception $exception){
-        return $this->errorResponse($exception->getMessage(),500);
+        return $this->errorResponse($exception->getMessage(),trans('messages.server_error'),500);
         }
     }
     public function changePassword(ChangePasswordRequest $changePasswordRequest)
@@ -206,17 +206,17 @@ class AuthRepository implements AuthRepositoryInterface
             $validated = $changePasswordRequest->validated();
             $user = auth()->user();
             if (!Hash::check($validated['current_password'], $user->password)) {
-                return $this->errorResponse( __('messages.current_password_incorrect'),400);
+                return $this->errorResponse(null, __('messages.current_password_incorrect'),400);
             }
             $user->password = Hash::make($validated['new_password']);
             $user->save();
             return $this->successResponse(null, __('messages.password_changed_successfully'));
         }catch (ValidationException $exception){
-            return $this->errorResponse($exception->getMessage(),422);
+            return $this->errorResponse($exception->getMessage(),trans('messages.validation_error'),422);
         }
         catch (\Exception $exception) {
             \Log::error($exception->getMessage(), ['trace' => $exception->getTraceAsString()]);
-            return $this->errorResponse(['message' => $exception->getMessage()], 500);
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
 
     }
@@ -235,18 +235,18 @@ class AuthRepository implements AuthRepositoryInterface
                 ->first();
 
             if (!$verificationRecord) {
-                return $this->errorResponse(trans('messages.user_not_found'), 401);
+                return $this->errorResponse(null,trans('messages.user_not_found'), 401);
             }
 
             if ($verificationRecord->expired_at && Carbon::parse($verificationRecord->expired_at)->lt(now())) {
-                return $this->errorResponse(trans('messages.invalid_or_expired_code'), 400);
+                return $this->errorResponse(null,trans('messages.invalid_or_expired_code'), 400);
             }
 
             return $this->successResponse(null, trans('messages.code_verified_successfully'));
         } catch (ValidationException $e) {
-            return $this->errorResponse($e->getMessage(), 422);
+            return $this->errorResponse($e->getMessage(),trans('messages.validation_error'), 422);
         } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 500);
+            return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
 
@@ -257,7 +257,7 @@ class AuthRepository implements AuthRepositoryInterface
         try {
             $user = User::where('email', $request->email)->first();
             if (!$user) {
-                return $this->errorResponse(trans('messages.user_not_found'), 400);
+                return $this->errorResponse(null,trans('messages.user_not_found'), 400);
             }
             $code = rand(10000, 99999);
             $user->update([
@@ -267,7 +267,7 @@ class AuthRepository implements AuthRepositoryInterface
             $this->sendVerificationCodeService->sendVerificationCode($user);
             return $this->successResponse(null, trans('messages.verification_code_resent'));
         }catch (\Exception $exception) {
-            return $this->errorResponse(['message' => $exception->getMessage()], 500);
+            return $this->errorResponse($exception->getMessage(),trans('messages.server_error'), 500);
         }
     }
 }

@@ -46,5 +46,14 @@ return [
     'organization_created_successfully' => 'تم إنشاء المؤسسة بنجاح',
     'student_deleted_successfully' => 'تم حذف الطالب بنجاح',
     'student_updated_successfully' => 'تم تحديث بيانات الطالب بنجاح',
+    'validation_error' => 'يوجد اخطاء ف البيانات المعطاة',
+    'error_occurred' => 'حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.',
+    'server_error' => 'حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.',
+    'teacher_not_found' => 'لم يتم العثور علي المعلم',
+    'Unit_retrieved_successfully' => 'تم استرجاع الوحدات بنجاح',
+    'Unit_updated_successfully' => 'تم تحديث الوحدة بنجاح',
+    'Unit_deleted_successfully' => 'تم حذف الوحدة بنجاح',
+    'Unit_created_successfully' => 'تم إنشاء الوحدة بنجاح',
+    
 ];
 
