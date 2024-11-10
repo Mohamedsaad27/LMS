@@ -7,11 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UnitResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         $locale = $request->header('lang') ?? 'en';
@@ -20,6 +15,7 @@ class UnitResource extends JsonResource
             'name' => $locale == 'ar' ? $this->name_ar : $this->name_en,
             'description' => $locale == 'ar' ? $this->description_ar : $this->description_en,
             'grade' => new GradeResource($this->whenLoaded('grade')),
+            'subject' => $this->subject->name,
         ];
     }
 }

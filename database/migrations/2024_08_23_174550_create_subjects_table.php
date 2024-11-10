@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name', 100);
             $table->text('description')->nullable();
             $table->timestamps();
-            // remove teacher_id and add fk organization_id
             $table->foreign('grade_id')->references('id')->on('grades')->cascadeOnDelete();
             $table->foreign('organization_id')->references('id')->on('organizations')->cascadeOnDelete();
         });

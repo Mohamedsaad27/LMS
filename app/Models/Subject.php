@@ -27,4 +27,7 @@ class Subject extends Model
     public function organization(){
         return $this->belongsTo(Organization::class);
     }
+    public function units(){
+        return $this->hasMany(Unit::class);
+    }
 }

@@ -30,6 +30,7 @@ class UnitRepository implements UnitRepositoryInterface{
                 'description_ar' => 'nullable|string',
                 'description_en' => 'nullable|string',
                 'grade_id' => 'nullable|exists:grades,id',
+                'subject_id' => 'nullable|exists:subjects,id',
             ]);
             if ($validator->fails()) {
                 return $this->errorResponse($validator->errors(), trans('messages.validation_error'), 422);
@@ -48,6 +49,7 @@ class UnitRepository implements UnitRepositoryInterface{
                 'description_ar' => 'nullable|string',
                 'description_en' => 'nullable|string',
                 'grade_id' => 'nullable|exists:grades,id',
+                'subject_id' => 'nullable|exists:subjects,id',
             ]);
             if ($validator->fails()) {
                 return $this->errorResponse($validator->errors(), trans('messages.validation_error'), 422);

@@ -18,7 +18,9 @@ return new class extends Migration
             $table->text('description_en')->nullable();
             $table->text('description_ar')->nullable();
             $table->unsignedBigInteger('grade_id')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable();
             $table->foreign('grade_id')->references('id')->on('grades')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('subject_id')->references('id')->on('subjects')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
             $table->softDeletes();
         });
