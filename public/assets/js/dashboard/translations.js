@@ -1,4 +1,4 @@
-import translations from "./language.js";
+import translations from "./languages.js";
 
 document.querySelectorAll("input[name='language']").forEach(languageOption => {
     languageOption.addEventListener("change", (event) => {
@@ -16,10 +16,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const setLanguage = (language) => {
     const elements = document.querySelectorAll("[data-i18n]");
+    const inputElements = document.querySelectorAll("[input-data-i18n]");
     elements.forEach((element) => {
         const translationKey = element.getAttribute("data-i18n");
         element.textContent = translations[language][translationKey];
     });
+    inputElements.forEach((element) => {
+        const translationKey = element.getAttribute("input-data-i18n");
+        element.placeholder = translations[language][translationKey];
+    })
     document.dir = language === "ar" ? "rtl" : "ltr";
     document.querySelectorAll('link[rel="stylesheet"]').forEach(style => {
         if (style.href.includes('/assets/css/dashboard/rtl.css') || style.href.includes('/assets/css/dashboard/ltr.css')) {
