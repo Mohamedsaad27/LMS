@@ -83,7 +83,7 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="../../pages/tables/bootstrap-tables.html">
+                            <a  class="nav-link" href="{{route('organizations.index')}}">
                                 <span class="sidebar-text" data-i18n="organization_list">Organizations List</span>
                             </a>
                         </li>

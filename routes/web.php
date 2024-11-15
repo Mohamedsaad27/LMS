@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\OrganizationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,4 +24,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', function () {
         return view('dashboard.index');
     });
+    Route::resource('organizations', OrganizationController::class);
 });
+ // -------------------------- Organization Route -------------------------------- //

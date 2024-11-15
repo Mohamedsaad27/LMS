@@ -142,6 +142,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             return $this->errorResponse($e->getMessage(),trans('messages.server_error'), 500);
         }
     }
-
-
+    public function show(Organization $organization){}
+    public function edit(){}
+    public function create(){}
 }
