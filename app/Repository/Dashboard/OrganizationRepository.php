@@ -2,10 +2,11 @@
 
 namespace App\Repository\Dashboard;
 use App\Models\Organization;
+use Illuminate\Support\Benchmark;
+use Illuminate\Support\Facades\DB;
 use  App\Interfaces\OrganizationRepositoryInterface;
 use App\Api\Requests\OrganizationRequests\StoreOrganizationRequest;
 use App\Api\Requests\OrganizationRequests\UpdateOrganizationRequest;
-use Illuminate\Support\Facades\DB;
 
 class OrganizationRepository implements OrganizationRepositoryInterface
 {

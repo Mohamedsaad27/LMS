@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Interfaces\OrganizationRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Benchmark;
 
 class OrganizationController extends Controller 
 {
@@ -17,5 +17,8 @@ class OrganizationController extends Controller
         $organizations = $this->organizationRepository->index();
         return view('dashboard.organization.index', compact('organizations')) ;
     }
-    
+    public function create(){
+         $this->organizationRepository->create();
+        return view('dashboard.organization.create') ;
+    }
 }

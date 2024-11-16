@@ -23,7 +23,7 @@ Route::group(['prefix' => 'admin'], function () {
     // ------------------------------ DASHBOARD ROUTE ------------------------------ //
     Route::get('/dashboard', function () {
         return view('dashboard.index');
-    });
+    })->name('admin.dashboard');
     Route::resource('organizations', OrganizationController::class);
 });
  // -------------------------- Organization Route -------------------------------- //
