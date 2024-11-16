@@ -10,7 +10,10 @@ document.querySelectorAll("input[name='language']").forEach(languageOption => {
 
 document.addEventListener("DOMContentLoaded", () => {
     const language = localStorage.getItem("lang") || "en";
-    document.querySelector(`input[name='language'][value='${language}']`).checked = true;
+    const languageOption = document.querySelector(`input[name='language'][value='${language}']`);
+    if (languageOption) {
+        languageOption.checked = true;
+    }
     setLanguage(language);
 });
 
