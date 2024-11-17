@@ -19,7 +19,7 @@ Route::get('/', function () {
     |--------------------------------------------------------------------------
 */
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin'], function () {
 
     // ------------------------------ DASHBOARD ROUTE ------------------------------ //
     Route::get('/dashboard', function () {

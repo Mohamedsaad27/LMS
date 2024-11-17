@@ -14,32 +14,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="{{ env('APP_NAME') }}">
-    {{-- <meta name="description" content=""> --}}
-    {{-- <meta name="keywords" content="" /> --}}
-    {{-- <link rel="canonical" href=""> --}}
-
-    <!-- Open Graph / Facebook "when shared on social media platforms"-->
-    {{-- <meta property="og:type" content="website"> --}}
-    {{-- <meta property="og:url" content=""> --}}
-    {{-- <meta property="og:title" content=""> --}}
-    {{-- <meta property="og:description" content=""> --}}
-    {{-- <meta property="og:image" content=""> --}}
-
-    <!-- Twitter -->
-    {{-- <meta property="twitter:card" content="">
-    <meta property="twitter:url" content="">
-    <meta property="twitter:title" content="">
-    <meta property="twitter:description" content="">
-    <meta property="twitter:image" content=""> --}}
-
-    <!-- Favicon -->
-    {{-- <link rel="apple-touch-icon" sizes="120x120" href="">
-    <link rel="icon" type="image/png" sizes="32x32" href="">
-    <link rel="icon" type="image/png" sizes="16x16" href="">
-    <link rel="manifest" href="">
-    <link rel="mask-icon" href="" color="">
-    <meta name="msapplication-TileColor" content="">
-    <meta name="theme-color" content=""> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" as="style" type="text/css">
 
     <!-- Sweet Alert -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.14.5/sweetalert2.min.css"
@@ -327,8 +303,8 @@
         <footer class="bg-white rounded shadow p-5 mb-4 mt-4">
             <div class="row">
                 <div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
-                    <p class="mb-0 text-center text-lg-start">© 2019-<span class="current-year"></span> <a
-                            class="text-primary fw-normal" href="https://themesberg.com" target="_blank">LMS</a></p>
+                    <p class="mb-0 text-center text-lg-start">© 2024-<span class="current-year"></span> <a
+                            class="text-primary fw-normal" href="https://themesberg.com" target="_blank">Madrasty</a></p>
                 </div>
                 <div class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
                     <!-- List -->

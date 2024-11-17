@@ -3,7 +3,24 @@
 
 @section('content')
     @include('layouts.dashboard.breadcrumb', ['component' => 'Organizations'])
-
+    @if (session('success'))
+        <script>
+            iziToast.success({
+                title: 'Success',
+                message: '{{ session('success') }}',
+                position: 'topRight'
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            iziToast.error({
+                title: 'Error',
+                message: '{{ session('error') }}',
+                position: 'topRight'
+            });
+        </script>
+    @endif
     <div class="container-fluid px-4">
         <!-- Header Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -79,7 +96,7 @@
                                     </td>
                                     <td class="px-4">
                                         <div class="d-flex gap-2">
-                                            <a href="{{ route('organization.edit', $organization->id) }}"
+                                            <a href="{{ route('organizations.edit', $organization->id) }}"
                                                 class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
                                                 title="Edit Organization">
                                                 <i class="fas fa-edit"></i>
@@ -107,7 +124,7 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Cancel</button>
-                                                        <form action="{{ route('organization.destroy', $organization->id) }}"
+                                                        <form action="{{ route('organizations.destroy', $organization->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')

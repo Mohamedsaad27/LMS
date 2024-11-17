@@ -11,7 +11,7 @@ interface OrganizationRepositoryInterface
 {
     public function index();
     public function show(Organization $organization);
-    public function edit();
+    public function edit(Organization $organization);
     public function create();
     
     public function store(StoreOrganizationRequest $request);

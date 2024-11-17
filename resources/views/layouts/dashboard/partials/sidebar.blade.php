@@ -78,7 +78,7 @@
                 <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
                     <ul class="flex-column nav">
                         <li class="nav-item ">
-                            <a class="nav-link" href="../../pages/tables/bootstrap-tables.html">
+                            <a class="nav-link" href="{{route('organizations.create')}}">
                                 <span class="sidebar-text" data-i18n="add_organization">Add Organization</span>
                             </a>
                         </li>

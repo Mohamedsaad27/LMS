@@ -58,9 +58,5 @@ class StoreOrganizationRequest extends FormRequest
             'description_en.string' => 'The English description must be a string.',
         ];
     }
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'errors' => $validator->errors(),
-        ], 422));    }
+  
 }
