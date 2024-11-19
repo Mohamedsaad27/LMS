@@ -41,15 +41,22 @@ class OrganizationRepository implements OrganizationRepositoryInterface
     }
     public function edit(Organization $organization)
     {
-        
+        return $organization;
     }
     
     public function update(UpdateOrganizationRequest $request,$id)
     {
-        
+        $validatedData = $request->validated();
+        try{
+            $organization = Organization::findOrFail($id);
+            $organization->update($validatedData);
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
   
     public function destroy($id){
-
+        $organization = Organization::findOrFail($id);
+        $organization->delete();
     }
 }

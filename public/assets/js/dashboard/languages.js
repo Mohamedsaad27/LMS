@@ -24,6 +24,9 @@ const translations = {
         selectLanguage: "Select a language",
         english: "English",
         arabic: "Arabic",
+        add_school: "Add School",
+        school_list: "Schools List",
+        schools: "Schools",
     },
     ar: {
         // login page
@@ -49,6 +52,9 @@ const translations = {
         selectLanguage: "إختر لغة",
         english: "الانجليزية",
         arabic: "العربية",
+        add_school: "إضافة المدرسة",
+        school_list: "قائمة المدارس",
+        schools: "المدارس",
     },
 };
 

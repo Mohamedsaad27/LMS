@@ -67,7 +67,7 @@
                                     <td class="px-4">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-sm me-3">
-                                                <img src="{{ asset('uploads/images/organizations/1729457967.jpg') }}"
+                                                <img src="{{ asset($organization->logo) }}"
                                                     alt="{{ $organization->name_en }}" class="rounded-circle"
                                                     style="width: 40px; height: 40px; object-fit: cover;">
                                             </div>
@@ -96,6 +96,11 @@
                                     </td>
                                     <td class="px-4">
                                         <div class="d-flex gap-2">
+                                            <a href="{{ route('organizations.show', $organization->id) }}"
+                                                class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
+                                                title="Show Organization">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                             <a href="{{ route('organizations.edit', $organization->id) }}"
                                                 class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
                                                 title="Edit Organization">
@@ -106,8 +111,8 @@
                                                 title="Delete Organization">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
-                                        </div>
-
+                                        </div>  
+                                    
                                         <!-- Delete Modal -->
                                         <div class="modal fade" id="deleteModal{{ $organization->id }}" tabindex="-1"
                                             aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -129,8 +134,11 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger">Delete</button>
-                                    </td>
-
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -180,4 +188,5 @@
             }
         </style>
     @endpush
+    
 @endsection

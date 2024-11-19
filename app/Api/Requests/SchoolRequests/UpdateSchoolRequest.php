@@ -26,7 +26,6 @@ class UpdateSchoolRequest extends FormRequest
             'email' => 'nullable|email|unique:schools,email,' . $schoolId,
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
-            'password' => 'required|string|min:8|max:100',
             'phone' => 'nullable|string|max:100|unique:schools,phone,' . $schoolId,
             'address' => 'nullable|string|max:100',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -34,12 +33,16 @@ class UpdateSchoolRequest extends FormRequest
             'organization_id' => 'nullable|exists:organizations,id',
         ];
     }
-    public function failedValidation(Validator $validator)
+    public function messages(): array
     {
-        throw new HttpResponseException(
-            response()->json([
-                'errors' => $validator->errors(),
-            ], 422)
-        );
+        return [
+            'logo.max' => 'The logo may not be greater than 2 MB.',
+            'email.unique' => 'The email has already been taken.',
+            'phone.unique' => 'The phone number has already been taken.',
+            'organization_id.exists' => 'The selected organization is invalid.',
+            'type.in' => 'The selected type is invalid. Allowed types are: primary, secondary, high_school.',
+            'logo.image' => 'The logo must be an image.',
+            'logo.mimes' => 'The logo must be a file of type: jpeg, png, jpg, gif, svg.',
+        ];
     }
 }

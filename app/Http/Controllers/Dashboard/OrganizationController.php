@@ -8,6 +8,7 @@ use Illuminate\Support\Benchmark;
 use App\Http\Controllers\Controller;
 use App\Interfaces\OrganizationRepositoryInterface;
 use App\Api\Requests\OrganizationRequests\StoreOrganizationRequest;
+use App\Api\Requests\OrganizationRequests\UpdateOrganizationRequest;
 
 class OrganizationController extends Controller
 {
@@ -23,7 +24,7 @@ class OrganizationController extends Controller
     }
     public function create()
     {
-        $this->organizationRepository->create();
+        $organizations = $this->organizationRepository->create();
         return view('dashboard.organization.create');
     }
     public function store(StoreOrganizationRequest $request)
@@ -33,13 +34,23 @@ class OrganizationController extends Controller
     }
     public function show(Organization $organization)
     {
-        $this->organizationRepository->show($organization);
+        $organization = $this->organizationRepository->show($organization);
+        return view('dashboard.organization.show', compact('organization'));
     }// Controller Method
     public function edit(Organization $organization)
     {
         $organization = $this->organizationRepository->edit($organization);
         return view('dashboard.organization.edit', compact('organization'));
     }
-
+    public function update(UpdateOrganizationRequest $request, $id)
+    {
+        $this->organizationRepository->update($request, $id);
+        return redirect()->route('organizations.index')->with('success', 'Organization updated successfully');
+    }
+    public function destroy($id)
+    {
+        $this->organizationRepository->destroy($id);
+        return redirect()->back()->with('success', 'Organization deleted successfully');
+    }
 }
 

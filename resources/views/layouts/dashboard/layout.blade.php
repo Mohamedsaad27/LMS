@@ -16,7 +16,7 @@
     <meta name="title" content="{{ env('APP_NAME') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" as="style" type="text/css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Sweet Alert -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.14.5/sweetalert2.min.css"
         as="style" type="text/css">
@@ -33,7 +33,7 @@
 
     <!-- Addition style -->
     @stack('styles')
-
+    @stack('scripts')
 </head>
 
 <body>
