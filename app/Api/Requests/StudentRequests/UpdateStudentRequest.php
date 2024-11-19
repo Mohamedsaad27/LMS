@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Api\Requests\TeacherRequests\StudentRequests;
+namespace App\Api\Requests\StudentRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreStudentRequest extends FormRequest
+class UpdateStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

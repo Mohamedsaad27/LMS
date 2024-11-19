@@ -60,7 +60,7 @@
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-400">
                             <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3 fw-bolder" data-i18n="title_login">Sign in to LMS</h1>
+                                <h1 class="mb-0 h3 fw-bolder" data-i18n="title_login">Sign in to Madrasty</h1>
                             </div>
                             <form action="{{ route('login') }}" method="POST" class="mt-4">
                                 @csrf

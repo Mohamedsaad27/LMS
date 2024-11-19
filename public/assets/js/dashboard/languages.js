@@ -27,6 +27,9 @@ const translations = {
         add_school: "Add School",
         school_list: "Schools List",
         schools: "Schools",
+        add_student: "Add Student",
+        student_list: "Students List",
+        students: "Students",
     },
     ar: {
         // login page
@@ -55,6 +58,9 @@ const translations = {
         add_school: "إضافة المدرسة",
         school_list: "قائمة المدارس",
         schools: "المدارس",
+        add_student: "إضافة الطالب",
+        student_list: "قائمة الطلاب",
+        students: "الطلاب",
     },
 };
 

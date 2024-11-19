@@ -6,6 +6,7 @@ use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dashboard\SchoolController;
+use App\Http\Controllers\Dashboard\StudentController;
 use App\Http\Controllers\Dashboard\OrganizationController;
 
 Route::get('/', function () {
@@ -38,6 +39,9 @@ Route::group(['prefix' => 'admin'], function () {
 
     // -------------------------- School Route -------------------------------- //
     Route::resource('schools', SchoolController::class);
+
+    // -------------------------- Student Route -------------------------------- //
+    Route::resource('students', StudentController::class);
 });
 
 Route::get('/dashboard', function () {
