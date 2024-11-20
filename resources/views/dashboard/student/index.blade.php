@@ -67,12 +67,12 @@
                                 <td class="px-4">
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-sm me-3">
-                                            <img src="{{ asset($student->profile_picture) }}"
+                                            <img src="{{ asset($student->photo) }}"
                                                 alt="{{ $student->name }}" class="rounded-circle"
                                                 style="width: 40px; height: 40px; object-fit: cover;">
                                         </div>
                                         <div>
-                                            <h6 class="mb-0">{{ $student->name ?? 'N/A' }}</h6>
+                                            <h6 class="mb-0">{{ $student->user->name_en ?? 'N/A' }}</h6>
                                         </div>
                                     </div>
                                 </td>
@@ -80,11 +80,11 @@
                                     <div class="d-flex flex-column">
                                         <span class="text-dark">
                                             <i
-                                                class="fas fa-envelope me-2 text-muted"></i><span class="text-muted">Email :</span> : {{ $student->email ?? 'N/A' }}
+                                                class="fas fa-envelope me-2 text-muted"></i><span class="text-muted">Email :</span> : {{ $student->user->email ?? 'N/A' }}
                                         </span>
                                         <span class="text-dark mt-1">
                                             <i
-                                                class="fas fa-phone me-2 text-muted"></i><span class="text-muted">Phone :</span> {{ $student->phone ?? 'N/A' }}
+                                                class="fas fa-phone me-2 text-muted"></i><span class="text-muted">Phone :</span> {{ $student->user->phone ?? 'N/A' }}
                                         </span>
                                     </div>
                                 </td>
@@ -152,4 +152,42 @@
         </div>
     </div>
 </div>
+@push('styles')
+<style>
+    .btn-light-primary {
+        color: #556ee6;
+        background-color: rgba(85, 110, 230, 0.1);
+        border-color: transparent;
+    }
+
+    .btn-light-primary:hover {
+        color: #fff;
+        background-color: #556ee6;
+    }
+
+    .btn-light-danger {
+        color: #f46a6a;
+        background-color: rgba(244, 106, 106, 0.1);
+        border-color: transparent;
+    }
+
+    .btn-light-danger:hover {
+        color: #fff;
+        background-color: #f46a6a;
+    }
+
+    .avatar-sm {
+        width: 40px;
+        height: 40px;
+    }
+
+    .table> :not(caption)>*>* {
+        padding: 1rem 0.75rem;
+    }
+
+    .modal-content {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+</style>
+@endpush    
 @endsection

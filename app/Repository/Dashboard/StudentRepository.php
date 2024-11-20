@@ -2,42 +2,41 @@
 
 namespace App\Repository\Dashboard;
 
-use App\Api\Requests\StudentRequests\StoreStudentRequest;
-use App\Api\Requests\StudentRequests\UpdateStudentRequest;
-use App\Interfaces\StudentRepositoryInterface;
+use App\Models\User;
 use App\Models\Grade;
 use App\Models\School;
 use App\Models\Student;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use App\Interfaces\StudentRepositoryInterface;
+use App\Api\Requests\StudentRequests\StoreStudentRequest;
+use App\Api\Requests\StudentRequests\UpdateStudentRequest;
 
-class StudentRepository implements StudentRepositoryInterface{
+class StudentRepository implements StudentRepositoryInterface
+{
     private $student;
-    public function __construct(Student $student){
+    public function __construct(Student $student)
+    {
         $this->student = $student;
     }
     public function index()
     {
-        $students = $this->student->with('user','school','grade')->get();
+        $students = $this->student->with('user', 'school', 'grade')->get();
         return $students;
     }
-    public function create(){
-        $schools = DB::Table('schools')->select('id','name_en')->get();
-        $grades = DB::Table('grades')->select('id','name')->get();
-        return compact('schools','grades');
+    public function create()
+    {
+        $schools = DB::Table('schools')->select('id', 'name_en')->get();
+        $grades = DB::Table('grades')->select('id', 'name')->get();
+        return compact('schools', 'grades');
     }
-    public function store(StoreStudentRequest $request){
+    public function store(StoreStudentRequest $request)
+    {
         $validated = $request->validated();
         try {
-            if ($request->hasFile('photo')) {
-                $image = $request->file('photo');
-                $imagePath = 'Uploads/Students/' .time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('Uploads/Students'), $imagePath);
-                $validated['photo'] = $imagePath;
-            }
             DB::beginTransaction();
-          $user = User::create([
+            $user = User::create([
                 'name_en' => $validated['name_en'],
                 'name_ar' => $validated['name_ar'],
                 'email' => $validated['email'],
@@ -48,7 +47,13 @@ class StudentRepository implements StudentRepositoryInterface{
                 'user_type' => 'student',
                 'is_verified' => 1,
             ]);
-           $student = $this->student->create([
+            if ($request->hasFile('photo')) {
+                $image = $request->file(key: 'photo');
+                $imageName = 'Uploads/Students/' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('Uploads/Students'), $imageName);
+                $validated['photo'] = $imageName;
+            }
+            $student = $this->student->create([
                 'user_id' => $user->id,
                 'school_id' => $validated['school_id'],
                 'date_of_birth' => $validated['date_of_birth'],
@@ -57,23 +62,28 @@ class StudentRepository implements StudentRepositoryInterface{
                 'grade_id' => $validated['grade_id'],
             ]);
             DB::commit();
-        if ($student && $user) {
-            return redirect()->route('students.index')->with('success', 'Student created successfully');
-        }
-        }catch (\Exception $e){
+            if ($student && $user) {
+                return redirect()->route('students.index')->with('success', 'Student created successfully');
+            }
+        } catch (\Exception $e) {
+            Log::error('Error creating student: ' . $e->getMessage());
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function show(Student $student){
-     return  $student->with('user','school','grade')->get();
+    public function show(Student $student)
+    {
+         $student = $this->student->with('user', 'school', 'grade')->find($student->id);
+         return $student;
+    }   
+    public function edit(Student $student)
+    {
+        $schools = DB::Table('schools')->select('id', 'name_en')->get();
+        $grades = DB::Table('grades')->select('id', 'name')->get();
+        return compact('student', 'schools', 'grades');
     }
-    public function edit(Student $student){
-      $schools = DB::Table('schools')->select('id','name_en')->get();
-      $grades = DB::Table('grades')->select('id','name')->get();
-        return compact('student','schools','grades');
-    }
-    public function update(UpdateStudentRequest $request, Student $student){
+    public function update(UpdateStudentRequest $request, Student $student)
+    {
         $validated = $request->validated();
         try {
             if ($request->hasFile('photo')) {
@@ -109,7 +119,8 @@ class StudentRepository implements StudentRepositoryInterface{
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function destroy(Student $student){
+    public function destroy(Student $student)
+    {
         try {
             $student->delete();
             return redirect()->route('students.index')->with('success', 'Student deleted successfully');

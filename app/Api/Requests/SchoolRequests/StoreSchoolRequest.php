@@ -38,11 +38,26 @@ class StoreSchoolRequest extends FormRequest
         ];
     }
 
-
-    protected function failedValidation(Validator $validator)
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
     {
-        throw new HttpResponseException(response()->json([
-            'errors' => $validator->errors(),
-        ], 422));
+        return [
+            'name_en.required' => 'The English name is required.',
+            'name_ar.required' => 'The Arabic name is required.',
+            'email.required' => 'The email is required.',
+            'password.required' => 'The password is required.',
+            'type.required' => 'The type is required.',
+            'organization_id.exists' => 'The organization must exist.',
+            'email.unique' => 'The email must be unique.',
+            'phone.unique' => 'The phone must be unique.',
+            'logo.image' => 'The logo must be an image.',
+            'logo.mimes' => 'The logo must be a valid image format (jpeg, png, jpg, gif, svg).',
+            'logo.max' => 'The logo must be less than 2MB in size.',
+            
+        ];
     }
 }

@@ -34,9 +34,9 @@ class StudentController extends Controller
         $this->studentRepository->store($request);
         return redirect()->route('dashboard.student.index');
     }
-    public function edit($id){
-        $student = $this->studentRepository->edit($id);
-        return view('dashboard.student.edit', compact('student'));
+    public function edit(Student $student){
+        $data = $this->studentRepository->edit($student);
+        return view('dashboard.student.edit', $data);
     }
     public function update(UpdateStudentRequest $request ,Student $student){
         $this->studentRepository->update($request, $student);
@@ -44,7 +44,7 @@ class StudentController extends Controller
     }
     public function destroy(Student $student){
         $this->studentRepository->destroy($student);
-        return redirect()->route('dashboard.student.index')->with('success','Student deleted successfully');
+        return redirect()->route('students.index')->with('success','Student deleted successfully');
 
     }
 }

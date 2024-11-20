@@ -30,9 +30,9 @@ class StoreStudentRequest extends FormRequest
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'school_id' => 'required|string|max:255|exists:schools,id',
-            'date_of_birth' => 'required|date',
-            'parent_contact' => 'required|string|max:255',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'date_of_birth' => 'nullable|date',
+            'parent_contact' => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'grade_id' => 'required|string|exists:grades,id',
         ];
     }
@@ -54,9 +54,7 @@ class StoreStudentRequest extends FormRequest
             'school_id.exists' => 'School does not exist.',
             'date_of_birth.required' => 'Date of birth is required.',
             'date_of_birth.date' => 'Invalid date of birth format.',
-            'parent_contact.required' => 'Parent contact is required.',
             'parent_contact.max' => 'Parent contact must not be more than 255 characters.',
-            'photo.required' => 'Photo is required.',
             'photo.image' => 'File must be an image.',
             'photo.mimes' => 'Photo must be a file of type: jpeg, png, jpg, gif, svg.',
             'photo.max' => 'Photo size must not be more than 2048 kilobytes.',
