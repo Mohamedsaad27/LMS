@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ App::currentLocale() }}" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -15,7 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="{{ env('APP_NAME') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" as="style" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css"
+        as="style" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Sweet Alert -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.14.5/sweetalert2.min.css"
@@ -31,6 +32,14 @@
     <!-- Preloader CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard/preloader.css') }}">
 
+    <!-- izitoast -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+
+    @if (LaravelLocalization::getCurrentLocaleDirection() == 'rtl')
+        <link rel="stylesheet" href="{{ asset('assets/css/dashboard/rtl.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('assets/css/dashboard/ltr.css') }}">
+    @endif
     <!-- Addition style -->
     @stack('styles')
     @stack('scripts')
@@ -74,8 +83,9 @@
                         <!-- Search form -->
                         <form class="navbar-search form-inline" id="navbar-search-main">
                             <div class="input-group input-group-merge search-bar">
-                                <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Search"
-                                    input-data-i18n="search" aria-label="Search" aria-describedby="topbar-addon">
+                                <input type="text" class="form-control" id="topbarInputIconLeft"
+                                    placeholder="{{ __('dashboard.search') }}" aria-label="Search"
+                                    aria-describedby="topbar-addon">
                             </div>
                         </form>
                         <!-- / Search form -->
@@ -96,8 +106,7 @@
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-center mt-2 py-0">
                                 <div class="list-group list-group-flush">
                                     <a href="#"
-                                        class="text-center text-primary fw-bold border-bottom border-light py-3"
-                                        data-i18n="notif">Notifications</a>
+                                        class="text-center text-primary fw-bold border-bottom border-light py-3">{{ __('dashboard.notif') }}</a>
                                     <a href="#" class="list-group-item list-group-item-action border-bottom">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
@@ -240,7 +249,7 @@
                                             d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
                                             clip-rule="evenodd"></path>
                                     </svg>
-                                    <span data-i18n="my_profile">My Profile</span>
+                                    <span>{{ __('dashboard.my_profile') }}</span>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor"
@@ -249,7 +258,7 @@
                                             d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
                                             clip-rule="evenodd"></path>
                                     </svg>
-                                    <span data-i18n="settings">Settings</span>
+                                    <span>{{ __('dashboard.settings') }}</span>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor"
@@ -258,28 +267,12 @@
                                             d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
                                             clip-rule="evenodd"></path>
                                     </svg>
-                                    <span data-i18n="messages">Messages</span>
+                                    <span>{{ __('dashboard.messages') }}</span>
                                 </a>
-                                <div class="dropdown-item d-flex align-items-center">
-                                    <div class="form-check d-flex justify-content-center w-50">
-                                        <div>
-                                            <input class="form-check-input" type="radio" name="language"
-                                                id="ar" value="ar">
-                                            <label class="form-check-label" for="ar">
-                                                ar
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="form-check d-flex justify-content-center w-50">
-                                        <div>
-                                            <input class="form-check-input" type="radio" name="language"
-                                                id="en" value="en">
-                                            <label class="form-check-label" for="en">
-                                                en
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                {{-- Commponent Langauge Switcher  --}}
+                                <x-lang-switcher />
+
                                 <div role="separator" class="dropdown-divider my-1"></div>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor"
@@ -288,7 +281,7 @@
                                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
                                         </path>
                                     </svg>
-                                    <span data-i18n="logout"></span>
+                                    <span>{{ __('dashboard.logout') }}</span>
                                 </a>
                             </div>
                         </li>
@@ -304,7 +297,8 @@
             <div class="row">
                 <div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
                     <p class="mb-0 text-center text-lg-start">© 2024-<span class="current-year"></span> <a
-                            class="text-primary fw-normal" href="https://themesberg.com" target="_blank">Madrasty</a></p>
+                            class="text-primary fw-normal" href="https://themesberg.com" target="_blank">Madrasty</a>
+                    </p>
                 </div>
                 <div class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
                     <!-- List -->
@@ -365,14 +359,18 @@
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
+    <!-- izitoast -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
     <!-- LMS JS -->
     <script src="{{ asset('assets/js/dashboard/lms.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
-
-    <!-- Language JS -->
-    <script src="{{ asset('assets/js/dashboard/translations.js') }}" type="module"></script>
+    
+    {{-- Custom Scripts --}}
+    @stack('scripts')
+    @stack('alerts')
 
 </body>
 

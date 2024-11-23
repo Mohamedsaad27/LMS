@@ -27,18 +27,3 @@
         </div>
     </div>
 @endsection
-@push('syles')
-<style>
-    .form-control{
-        border: 1px solid #e5e7eb;
-        border-radius: 5px;
-        padding: 15px; /* Increased padding for larger field */
-        font-size: 18px; /* Increased font size for larger field */
-        color: #333;
-        font-weight: 400;
-        transition: all 0.3s ease;
-        box-shadow: none;
-        
-    }
-</style>
-@endpush

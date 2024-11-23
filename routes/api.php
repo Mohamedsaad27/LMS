@@ -7,30 +7,34 @@ use App\Api\Controllers\SchoolController;
 use App\Api\Controllers\StudentController;
 use App\Api\Controllers\TeacherController;
 use App\Api\Controllers\OrganizationController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
-require base_path('routes/auth.php');
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    })->middleware('auth:sanctum');
 
-Route::middleware(['auth:sanctum', 'localization'])->group(function () {
-    Route::resource('organization', OrganizationController::class);
-});
+    require base_path('routes/auth.php');
+
+    Route::middleware(['auth:sanctum', 'localization'])->group(function () {
+        Route::resource('organization', OrganizationController::class);
+    });
 
 
-Route::middleware(['auth:sanctum', 'localization'])->group(function () {
-    Route::resource('schools', SchoolController::class);
-});
+    Route::middleware(['auth:sanctum', 'localization'])->group(function () {
+        Route::resource('schools', SchoolController::class);
+    });
 
-Route::middleware(['auth:sanctum', 'localization'])->group(function () {
-    Route::resource('teachers', TeacherController::class);
-});
+    Route::middleware(['auth:sanctum', 'localization'])->group(function () {
+        Route::resource('teachers', TeacherController::class);
+    });
 
-Route::middleware(['auth:sanctum', 'localization'])->group(function () {
-    Route::resource('students', StudentController::class);
-});
+    Route::middleware(['auth:sanctum', 'localization'])->group(function () {
+        Route::resource('students', StudentController::class);
+    });
 
-Route::middleware(['auth:sanctum', 'localization'])->group(function () {
-    Route::resource('units', UnitController::class);
+    Route::middleware(['auth:sanctum', 'localization'])->group(function () {
+        Route::resource('units', UnitController::class);
+    });
 });
