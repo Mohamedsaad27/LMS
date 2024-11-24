@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Api\Requests\GradeRequest\StoreGradeRequest;
+use App\Api\Requests\GradeRequest\UpdateGradeRequest;
 use App\Http\Controllers\Controller;
 use App\Interfaces\GradeRepositoryInterface;
+use App\Models\Grade;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -33,7 +35,9 @@ class GradeController extends Controller
      */
     public function create()
     {
-        return view("dashboard.grade.create");
+        $educationalStages = $this->gradeRepository->create();
+
+        return view("dashboard.grade.create", compact('educationalStages'));
     }
 
     /**
@@ -46,9 +50,8 @@ class GradeController extends Controller
 
             return redirect()->route("grades.index")->with("success", __('dashboard.grade_created_successfully'));
         } catch (\Exception $e) {
-            return redirect()->route("grades.create")->with("error", __('dashboard.error_occurred_try_again'));
+            return redirect()->route("grades.create")->with("error", __('dashboard.error_occurred_try_again') . $e->getMessage());
         }
-
     }
 
     /**
@@ -62,24 +65,38 @@ class GradeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Grade $grade)
     {
-        //
+        $educationalStages = $this->gradeRepository->edit();
+
+        return view("dashboard.grade.edit", compact('educationalStages', 'grade'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateGradeRequest $request, Grade $grade)
     {
-        //
+        try {
+            $grade = $this->gradeRepository->update($request, $grade);
+
+            return redirect()->route("grades.index")->with("success", __('dashboard.grade_updated_successfully'));
+        } catch (\Exception $e) {
+            return redirect()->route("grades.edit", $grade)->with("error", __('dashboard.error_occurred_try_again'));
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Grade $grade)
     {
-        //
+        try {
+            $this->gradeRepository->destroy($grade);
+
+            return redirect()->route("grades.index")->with("success", __('dashboard.grade_deleted_successfully'));
+        } catch (\Exception $e) {
+            return redirect()->route("grades.index")->with("error", __('dashboard.error_occurred_try_again'));
+        }
     }
 }

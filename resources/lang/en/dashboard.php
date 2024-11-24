@@ -37,6 +37,9 @@ return [
     'submit' => 'Submit',
     'back_to_list' => 'Back to List',
     'actions' => 'Actions',
+    'view_description' => 'View Description',
+    'close' => 'Close',
+    'error_occurred_try_again' => 'An error occurred. Please try again.',
 
     // Grade
     'grade' => 'Grade',
@@ -49,8 +52,17 @@ return [
     'enter_grade_name' => 'Enter Grade Name',
     'enter_grade_description' => 'Enter Grade Description',
     'search_grade' => 'Search Grades...',
-
-
-]
-
-    ?>
+    'grade_name_en' => 'Grade Name in English',
+    'enter_grade_name_en' => 'Enter Grade Name in English',
+    'grade_name_ar' => 'Grade Name in Arabic',
+    'enter_grade_name_ar' => 'Enter Grade Name in Arabic',
+    'description_en' => 'Description in English',
+    'enter_grade_description_en' => 'Enter Description in English',
+    'description_ar' => 'Description in Arabic',
+    'enter_grade_description_ar' => 'Enter Description in Arabic',
+    'educational_stage' => 'Educational Stage',
+    'select_educational_stage' => 'Select Educational Stage',
+    'grade_created_successfully' => 'Grade created successfully',
+    'grade_updated_successfully' => 'Grade updated successfully',
+    'grade_deleted_successfully' => 'Grade deleted successfully',
+];

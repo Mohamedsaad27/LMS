@@ -8950,11 +8950,6 @@ textarea.form-control-lg {
     border-top-right-radius: 0.4375rem;
 }
 
-.modal-header .btn-close {
-    padding: 0.5rem 0.5rem;
-    margin: -0.5rem -0.5rem -0.5rem auto;
-}
-
 .modal-title {
     margin-bottom: 0;
     line-height: 1.5;

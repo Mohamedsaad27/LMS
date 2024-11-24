@@ -41,6 +41,8 @@ return [
         'back_to_list' => 'العودة إلى القائمة',
         'error_occurred_try_again' => 'حدث خطأ، حاول مرة أخرى',
         'actions' => 'الإجراءات',
+        'view_description' => 'عرض الوصف',
+        'close' => 'إغلاق',
 
         // Grade
         'grade' => 'صف',
@@ -50,5 +52,17 @@ return [
         'enter_grade_description' => 'أدخل وصف الصف',
         'grade_created_successfully' => 'تم إنشاء الصف بنجاح',
         'search_grade' => 'بحث عن صف',
+        'grade_name_en' => 'اسم الصف بالإنجليزية',
+        'enter_grade_name_en' => 'أدخل اسم الصف بالإنجليزية',
+        'grade_name_ar' => 'اسم الصف بالعربية',
+        'enter_grade_name_ar' => 'أدخل اسم الصف بالعربية',
+        'description_en' => 'الوصف بالإنجليزية',
+        'enter_grade_description_en' => 'أدخل وصف الصف بالإنجليزية',
+        'description_ar' => 'الوصف بالعربية',
+        'enter_grade_description_ar' => 'أدخل وصف الصف بالعربية',
+        'educational_stage' => 'مرحلة التعليمية',
+        'select_educational_stage' => 'إختر مرحلة التعليمية',
+        'grade_updated_successfully' => 'تم تحديث الصف بنجاح',
+        'grade_deleted_successfully' => 'تم حذف الصف بنجاح',
 ];
 

@@ -429,6 +429,11 @@
     text-align: right !important;
 }
 
+.modal-header .btn-close {
+    padding: 0.5rem 0.5rem;
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
 /**
  * = Sidebars
  */
