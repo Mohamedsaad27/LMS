@@ -32,7 +32,7 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         $this->studentRepository->store($request);
-        return redirect()->route('dashboard.student.index');
+        return redirect()->route('students.index');
     }
     public function edit(Student $student){
         $data = $this->studentRepository->edit($student);
@@ -40,11 +40,11 @@ class StudentController extends Controller
     }
     public function update(UpdateStudentRequest $request ,Student $student){
         $this->studentRepository->update($request, $student);
-        return redirect()->route('dashboard.student.index')->with('success','Student updated successfully');
+        return redirect()->route('students.index')->with('success', trans('messages.student_updated_successfully'));
     }
     public function destroy(Student $student){
         $this->studentRepository->destroy($student);
-        return redirect()->route('students.index')->with('success','Student deleted successfully');
+        return redirect()->route('students.index')->with('success', trans('messages.student_deleted_successfully'));
 
     }
 }

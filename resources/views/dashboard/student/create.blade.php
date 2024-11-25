@@ -1,12 +1,12 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Create Student')
+@section('title', trans('messages.create_student'))
 @section('content')
-    @include('layouts.dashboard.breadcrumb', ['component' => 'Create Student'])
+    @include('layouts.dashboard.breadcrumb', ['component' => trans('messages.create_student')])
     <div class="container-fluid px-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h3 text-gray-800 mb-0">Create Student</h2>
+            <h2 class="h3 text-gray-800 mb-0">{{ trans('messages.create_student') }}</h2>
             <a href="{{ route('students.index') }}" class="btn btn-secondary">
-                Back to List
+                {{ trans('messages.back_to_list') }}
             </a>
         </div>
         <div class="row">

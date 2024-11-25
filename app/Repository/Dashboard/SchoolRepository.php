@@ -16,7 +16,7 @@ class SchoolRepository implements SchoolRepositoryInterface
         $this->school = $school;
     }
     public function index(){
-        $schools = $this->school->with('teachers','students','classrooms')->all();
+        $schools = $this->school->with('teachers','students','classrooms')->get();
         return $schools;
     }
     public function create(){

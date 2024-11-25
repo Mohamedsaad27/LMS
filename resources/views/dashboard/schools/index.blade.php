@@ -1,12 +1,12 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Schools')
+@section('title', trans('messages.schools'))
 
 @section('content')
-    @include('layouts.dashboard.breadcrumb', ['component' => 'Schools'])
+    @include('layouts.dashboard.breadcrumb', ['component' => trans('messages.schools')])
     @if (session('success'))
         <script>
             iziToast.success({
-                title: 'Success',
+                title: trans('messages.success'),
                 message: '{{ session('success') }}',
                 position: 'topRight'
             });
@@ -15,7 +15,7 @@
     @if (session('error'))
         <script>
             iziToast.error({
-                title: 'Error',
+                title: trans('messages.error'),
                 message: '{{ session('error') }}',
                 position: 'topRight'
             });
@@ -24,9 +24,9 @@
     <div class="container-fluid px-4">
         <!-- Header Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h3 text-gray-800 mb-0">Schools</h2>
+            <h2 class="h3 text-gray-800 mb-0">{{ trans('messages.schools') }}</h2>
             <a href="{{ route('schools.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Add School
+                <i class="fas fa-plus me-2"></i>{{ trans('messages.add_school') }}
             </a>
         </div>
 
@@ -39,7 +39,7 @@
                             <span class="input-group-text bg-light border-0">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
-                            <input type="text" class="form-control border-0 bg-light" placeholder="Search schools...">
+                            <input type="text" class="form-control border-0 bg-light" placeholder="{{ trans('messages.search_schools') }}">
                         </div>
                     </div>
                 </div>
@@ -51,10 +51,10 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="px-4 py-3 text-muted">#</th>
-                                <th class="px-4 py-3 text-muted">School</th>
-                                <th class="px-4 py-3 text-muted">Contact Info</th>
-                                <th class="px-4 py-3 text-muted">Location</th>
-                                <th class="px-4 py-3 text-muted">Actions</th>
+                                <th class="px-4 py-3 text-muted">{{ trans('messages.school') }}</th>
+                                <th class="px-4 py-3 text-muted">{{ trans('messages.contact_info') }}</th>
+                                <th class="px-4 py-3 text-muted">{{ trans('messages.location') }}</th>
+                                <th class="px-4 py-3 text-muted">{{ trans('messages.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +72,7 @@
                                                 data-image-url="{{ asset($school->logo) }}">
                                         </div>
                                         <div>
-                                            <h6 class="mb-0">{{ $school->name_en ?? 'N/A' }}</h6>
+                                            <h6 class="mb-0">{{ $school->name_en ?? trans('messages.na') }}</h6>
                                         </div>
                                     </div>
                                 </td>
@@ -80,36 +80,35 @@
                                     <div class="d-flex flex-column">
                                         <span class="text-dark">
                                             <i class="fas fa-envelope me-2 text-muted"></i><span
-                                                class="text-muted">Email :</span> {{ $school->email ?? 'N/A' }}
+                                                class="text-muted">{{ trans('messages.email') }} :</span> {{ $school->email ?? trans('messages.na') }}
                                         </span>
                                         <span class="text-dark mt-1">
-                                            <i class="fas fa-phone me-2 text-muted"></i><span class="text-muted">Phone
-                                                :</span> {{ $school->phone ?? 'N/A' }}
+                                            <i class="fas fa-phone me-2 text-muted"></i><span class="text-muted">{{ trans('messages.phone') }} :</span> {{ $school->phone ?? trans('messages.na') }}
                                         </span>
                                     </div>
                                 </td>
                                 <td class="px-4">
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-map-marker-alt me-2 text-muted"></i>
-                                        <span>{{ $school->address ?? 'N/A' }}</span>
+                                        <span>{{ $school->address ?? trans('messages.na') }}</span>
                                     </div>
                                 </td>
                                 <td class="px-4">
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('schools.show', $school->id) }}"
                                             class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
-                                            title="Show School">
+                                            title="{{ trans('messages.show_school') }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="{{ route('schools.edit', $school->id) }}"
                                             class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
-                                            title="Edit School">
+                                            title="{{ trans('messages.edit_school') }}">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-light-danger delete-school-btn"
                                             data-school-id="{{ $school->id }}"
                                             data-school-name="{{ $school->name_en }}"
-                                            title="Delete School">
+                                            title="{{ trans('messages.delete_school') }}">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
@@ -117,7 +116,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No schools found</td>
+                                    <td colspan="5" class="text-center">{{ trans('messages.no_schools_found') }}</td>
                                 </tr>
                             @endforelse
 
@@ -136,7 +135,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center p-0">
-                    <img src="" id="modalImage" class="img-fluid" alt="School Logo">
+                    <img src="" id="modalImage" class="img-fluid" alt="{{ trans('messages.school_logo') }}">
                 </div>
             </div>
         </div>
@@ -147,23 +146,23 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-bottom">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete School</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">{{ trans('messages.delete_school') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body py-4">
                     <div class="text-center mb-4">
                         <i class="fas fa-exclamation-circle text-danger fa-3x mb-3"></i>
-                        <h5 class="mb-2">Confirm Deletion</h5>
-                        <p class="text-muted mb-0">Are you sure you want to delete <span id="schoolNameSpan" class="fw-bold"></span>?</p>
-                        <p class="text-muted small mb-0">This action cannot be undone.</p>
+                        <h5 class="mb-2">{{ trans('messages.confirm_deletion') }}</h5>
+                        <p class="text-muted mb-0">{{ trans('messages.are_you_sure') }} <span id="schoolNameSpan" class="fw-bold"></span>?</p>
+                        <p class="text-muted small mb-0">{{ trans('messages.action_cannot_be_undone') }}.</p>
                     </div>
                 </div>
                 <div class="modal-footer border-top">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('messages.cancel') }}</button>
                     <form id="deleteForm" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete School</button>
+                        <button type="submit" class="btn btn-danger">{{ trans('messages.delete_school') }}</button>
                     </form>
                 </div>
             </div>

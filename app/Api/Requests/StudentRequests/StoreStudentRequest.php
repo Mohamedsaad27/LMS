@@ -29,7 +29,7 @@ class StoreStudentRequest extends FormRequest
             'gender' => 'nullable|string|in:male,female',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
-            'school_id' => 'required|string|max:255|exists:schools,id',
+            'school_id' => 'nullable|string|max:255|exists:schools,id',
             'date_of_birth' => 'nullable|date',
             'parent_contact' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',

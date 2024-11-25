@@ -22,8 +22,8 @@ class StoreGradeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_en' => 'required|string|max:255|alpha',
-            'name_ar' => 'required|string|max:255|alpha',
+            'name_en' => 'required|string|max:255',
+            'name_ar' => 'required|string|max:255',
             'description_en' => 'nullable|string',
             'description_ar' => 'nullable|string',
             'educational_stage_id' => 'required|integer|exists:educational_stages,id',

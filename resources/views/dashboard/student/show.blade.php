@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Show Student')
+@section('title', trans('messages.show_student'))
 @section('content')
-    @include('layouts.dashboard.breadcrumb', ['component' => 'Show Student'])
+    @include('layouts.dashboard.breadcrumb', ['component' => trans('messages.show_student')])
 
     <div class="container-fluid py-4">
         <div class="row">
@@ -31,21 +31,21 @@
                         <p class="text-muted mb-3">{{ $student->user->name_ar }}</p>
                         <div class="d-flex justify-content-center gap-2 mb-3">
                             <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-envelope me-1"></i> Message
+                                <i class="fas fa-envelope me-1"></i> {{ trans('messages.message') }}
                             </button>
                             <button class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-edit me-1"></i> Edit Profile
+                                <i class="fas fa-edit me-1"></i> {{ trans('messages.edit_profile') }}
                             </button>
                         </div>
                     </div>
                     <div class="card-footer bg-light">
                         <div class="row text-center">
                             <div class="col">
-                                <h6 class="mb-0">Grade</h6>
+                                <h6 class="mb-0">{{ trans('messages.grade') }}</h6>
                                 <small class="text-muted">{{ $student->grade->name }}</small>
                             </div>
                             <div class="col border-start">
-                                <h6 class="mb-0">Enrolled</h6>
+                                <h6 class="mb-0">{{ trans('messages.enrolled') }}</h6>
                                 <small class="text-muted">{{ \Carbon\Carbon::parse($student->enrollment_date)->format('M Y') }}</small>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                 <!-- Contact Information -->
                 <div class="card shadow-sm mt-4">
                     <div class="card-header bg-light">
-                        <h5 class="card-title mb-0">Contact Information</h5>
+                        <h5 class="card-title mb-0">{{ trans('messages.contact_information') }}</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
@@ -73,7 +73,7 @@
                             </li>
                             <li>
                                 <i class="fas fa-phone-square text-primary me-2"></i>
-                                Parent-Contact: {{ $student->parent_contact }}
+                                {{ trans('messages.parent_contact') }}: {{ $student->parent_contact }}
                             </li>
                         </ul>
                     </div>
@@ -84,14 +84,14 @@
             <div class="col-lg-8">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Academic Information</h5>
+                        <h5 class="card-title mb-0">{{ trans('messages.academic_information') }}</h5>
                         <div class="dropdown">
                             <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-print me-2"></i>Print Report</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i>Download PDF</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-print me-2"></i> {{ trans('messages.print_report') }}</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i> {{ trans('messages.download_pdf') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -99,11 +99,11 @@
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <div class="border rounded p-3">
-                                    <h6 class="text-muted mb-2">School</h6>
+                                    <h6 class="text-muted mb-2">{{ trans('messages.school') }}</h6>
                                     <div class="d-flex align-items-center">
                                         @if($student->school->logo)
                                             <img src="{{ asset($student->school->logo) }}" 
-                                                 alt="School Logo" 
+                                                 alt="{{ trans('messages.school_logo') }}" 
                                                  class="me-2" 
                                                  style="width: 40px; height: 40px; object-fit: contain;">
                                         @endif
@@ -116,21 +116,21 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="border rounded p-3">
-                                    <h6 class="text-muted mb-2">Grade Information</h6>
+                                    <h6 class="text-muted mb-2">{{ trans('messages.grade_information') }}</h6>
                                     <h6 class="mb-0">{{ $student->grade->name }}</h6>
                                     <small class="text-muted">{{ $student->grade->description }}</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="border rounded p-3">
-                                    <h6 class="text-muted mb-2">Date of Birth</h6>
+                                    <h6 class="text-muted mb-2">{{ trans('messages.date_of_birth') }}</h6>
                                     <h6 class="mb-0">{{ \Carbon\Carbon::parse($student->date_of_birth)->format('M d, Y') }}</h6>
-                                    <small class="text-muted">{{ \Carbon\Carbon::parse($student->date_of_birth)->age }} years old</small>
+                                    <small class="text-muted">{{ \Carbon\Carbon::parse($student->date_of_birth)->age }} {{ trans('messages.years_old') }}</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="border rounded p-3">
-                                    <h6 class="text-muted mb-2">Current Grade</h6>
+                                    <h6 class="text-muted mb-2">{{ trans('messages.current_grade') }}</h6>
                                     <h6 class="mb-0">{{ $student->grade->name }}</h6>
                                     <div class="progress mt-2" style="height: 6px;">
                                         @php
@@ -150,27 +150,27 @@
 
                         <!-- Recent Activity -->
                         <div class="mt-4">
-                            <h6 class="mb-3">Recent Activity</h6>
+                            <h6 class="mb-3">{{ trans('messages.recent_activity') }}</h6>
                             <div class="timeline">
                                 <div class="timeline-item">
                                     <div class="timeline-marker bg-primary"></div>
                                     <div class="timeline-content">
-                                        <h6 class="mb-0">Completed Mid-term Examination</h6>
-                                        <small class="text-muted">2 days ago</small>
+                                        <h6 class="mb-0">{{ trans('messages.completed_mid_term_examination') }}</h6>
+                                        <small class="text-muted">{{ trans('messages.days_ago', ['days' => 2]) }}</small>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="timeline-marker bg-success"></div>
                                     <div class="timeline-content">
-                                        <h6 class="mb-0">Submitted Mathematics Assignment</h6>
-                                        <small class="text-muted">5 days ago</small>
+                                        <h6 class="mb-0">{{ trans('messages.submitted_mathematics_assignment') }}</h6>
+                                        <small class="text-muted">{{ trans('messages.days_ago', ['days' => 2]) }}</small>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="timeline-marker bg-info"></div>
                                     <div class="timeline-content">
-                                        <h6 class="mb-0">Participated in Science Fair</h6>
-                                        <small class="text-muted">1 week ago</small>
+                                        <h6 class="mb-0">{{ trans('messages.participated_in_science_fair') }}</h6>
+                                        <small class="text-muted">{{ trans('messages.week_ago', ['weeks' => 1]) }}</small>
                                     </div>
                                 </div>
                             </div>

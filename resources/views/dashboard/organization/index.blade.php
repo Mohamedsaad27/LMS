@@ -1,8 +1,8 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Organizations')
+@section('title', trans('messages.organizations'))
 
 @section('content')
-    @include('layouts.dashboard.breadcrumb', ['component' => 'Organizations'])
+    @include('layouts.dashboard.breadcrumb', ['component' => trans('messages.organizations')])
     @if (session('success'))
         <script>
             iziToast.success({
@@ -24,9 +24,9 @@
     <div class="container-fluid px-4">
         <!-- Header Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h3 text-gray-800 mb-0">Organizations</h2>
+            <h2 class="h3 text-gray-800 mb-0">{{trans('messages.organizations')}}</h2>
             <a href="{{ route('organizations.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Add Organization
+                <i class="fas fa-plus me-2"></i>{{trans('messages.add_organization')}}
             </a>
         </div>
 
@@ -40,7 +40,7 @@
                                 <i class="fas fa-search text-muted"></i>
                             </span>
                             <input type="text" class="form-control border-0 bg-light"
-                                placeholder="Search organizations...">
+                                placeholder="{{trans('messages.search_organizations')}}">
                         </div>
                     </div>
                 </div>
@@ -52,10 +52,10 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="px-4 py-3 text-muted">#</th>
-                                <th class="px-4 py-3 text-muted">Organization</th>
-                                <th class="px-4 py-3 text-muted">Contact Info</th>
-                                <th class="px-4 py-3 text-muted">Location</th>
-                                <th class="px-4 py-3 text-muted">Actions</th>
+                                <th class="px-4 py-3 text-muted">{{trans('messages.organization')}}</th>
+                                <th class="px-4 py-3 text-muted">{{trans('messages.contact_info')}}</th>
+                                <th class="px-4 py-3 text-muted">{{trans('messages.location')}}</th>
+                                <th class="px-4 py-3 text-muted">{{trans('messages.actions')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,11 +80,11 @@
                                         <div class="d-flex flex-column">
                                             <span class="text-dark">
                                                 <i
-                                                    class="fas fa-envelope me-2 text-muted"></i><span class="text-muted">Email :</span> : {{ $organization->email ?? 'N/A' }}
+                                                    class="fas fa-envelope me-2 text-muted"></i><span class="text-muted">{{trans('messages.email')}} :</span> {{ $organization->email ?? 'N/A' }}
                                             </span>
                                             <span class="text-dark mt-1">
                                                 <i
-                                                    class="fas fa-phone me-2 text-muted"></i><span class="text-muted">Phone :</span> {{ $organization->phone ?? 'N/A' }}
+                                                    class="fas fa-phone me-2 text-muted"></i><span class="text-muted">{{trans('messages.phone')}} :</span> {{ $organization->phone ?? 'N/A' }}
                                             </span>
                                         </div>
                                     </td>
@@ -98,17 +98,17 @@
                                         <div class="d-flex gap-2">
                                             <a href="{{ route('organizations.show', $organization->id) }}"
                                                 class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
-                                                title="Show Organization">
+                                                title="{{trans('messages.show_organization')}}">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ route('organizations.edit', $organization->id) }}"
                                                 class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
-                                                title="Edit Organization">
+                                                title="{{trans('messages.edit_organization')}}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-light-danger"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal{{ $organization->id }}"
-                                                title="Delete Organization">
+                                                title="{{trans('messages.delete_organization')}}">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </div>  
@@ -119,21 +119,21 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel">Delete Organization</h5>
+                                                        <h5 class="modal-title" id="deleteModalLabel">{{trans('messages.delete_organization')}}</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Are you sure you want to delete this Organization?
+                                                        {{trans('messages.are_you_sure_you_want_to_delete_this_organization')}}
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Cancel</button>
+                                                            data-bs-dismiss="modal">{{trans('messages.cancel')}}</button>
                                                         <form action="{{ route('organizations.destroy', $organization->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                            <button type="submit" class="btn btn-danger">{{trans('messages.delete')}}</button>
                                                         </form>
                                                     </div>
                                                 </div>

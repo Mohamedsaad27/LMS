@@ -28,7 +28,7 @@ class StudentRepository implements StudentRepositoryInterface
     public function create()
     {
         $schools = DB::Table('schools')->select('id', 'name_en')->get();
-        $grades = DB::Table('grades')->select('id', 'name')->get();
+        $grades = DB::Table('grades')->select('id', 'name_en', 'name_ar')->get();
         return compact('schools', 'grades');
     }
     public function store(StoreStudentRequest $request)
@@ -62,9 +62,7 @@ class StudentRepository implements StudentRepositoryInterface
                 'grade_id' => $validated['grade_id'],
             ]);
             DB::commit();
-            if ($student && $user) {
-                return redirect()->route('students.index')->with('success', 'Student created successfully');
-            }
+            
         } catch (\Exception $e) {
             Log::error('Error creating student: ' . $e->getMessage());
             DB::rollBack();
@@ -79,7 +77,7 @@ class StudentRepository implements StudentRepositoryInterface
     public function edit(Student $student)
     {
         $schools = DB::Table('schools')->select('id', 'name_en')->get();
-        $grades = DB::Table('grades')->select('id', 'name')->get();
+        $grades = DB::Table('grades')->select('id', 'name_en', 'name_ar')->get();
         return compact('student', 'schools', 'grades');
     }
     public function update(UpdateStudentRequest $request, Student $student)

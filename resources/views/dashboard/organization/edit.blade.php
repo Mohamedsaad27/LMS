@@ -1,15 +1,15 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Edit Organization')
+@section('title', trans('messages.edit_organization'))
 
 @section('content')
-    @include('layouts.dashboard.breadcrumb', ['component' => 'Edit Organization'])
+    @include('layouts.dashboard.breadcrumb', ['component' => trans('messages.edit_organization')])
 
     <div class="container-fluid px-4">
         <!-- Header Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h3 text-gray-800 mb-0">Edit Organization</h2>
+            <h2 class="h3 text-gray-800 mb-0">{{ trans('messages.edit_organization') }}</h2>
             <a href="{{ route('organizations.index') }}" class="btn btn-secondary">
-                Back to List
+                {{ trans('messages.back_to_list') }}
             </a>
         </div>
 
@@ -24,11 +24,11 @@
                                 <div class="col-lg-6">
                                     <!-- English Name -->
                                     <div class="mb-4">
-                                        <label for="name_en" class="form-label">Name (English)</label>
+                                        <label for="name_en" class="form-label">{{ trans('messages.name_en') }}</label>
                                         <input type="text" class="form-control @error('name_en') is-invalid @enderror"
                                                id="name_en" name="name_en" 
                                                value="{{ old('name_en', $organization->name_en) }}" 
-                                               placeholder="Enter English name">
+                                               placeholder="{{ trans('messages.enter_english_name') }}">
                                         @error('name_en')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -36,11 +36,11 @@
 
                                     <!-- Email -->
                                     <div class="mb-4">
-                                        <label for="email" class="form-label">Email address</label>
+                                        <label for="email" class="form-label">{{ trans('messages.email') }}</label>
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                                id="email" name="email"
                                                value="{{ old('email', $organization->email) }}" 
-                                               placeholder="Enter email">
+                                               placeholder="{{ trans('messages.enter_email') }}">
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -51,11 +51,11 @@
 
                                     <!-- Phone -->
                                     <div class="mb-4">
-                                        <label for="phone" class="form-label">Phone</label>
+                                        <label for="phone" class="form-label">{{ trans('messages.phone') }}</label>
                                         <input type="text" class="form-control @error('phone') is-invalid @enderror"
                                                id="phone" name="phone" 
                                                value="{{ old('phone', $organization->phone) }}" 
-                                               placeholder="Enter phone number">
+                                               placeholder="{{ trans('messages.enter_phone_number') }}">
                                         @error('phone')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -63,11 +63,11 @@
 
                                     <!-- Description English -->
                                     <div class="mb-4">
-                                        <label for="description_en" class="form-label">Description (English)</label>
+                                        <label for="description_en" class="form-label">{{ trans('messages.description_en') }}</label>
                                         <textarea class="form-control @error('description_en') is-invalid @enderror"
                                                   id="description_en" name="description_en" 
                                                   rows="4" 
-                                                  placeholder="Enter English description">{{ old('description_en', $organization->description_en) }}</textarea>
+                                                  placeholder="{{ trans('messages.enter_english_description') }}">{{ old('description_en', $organization->description_en) }}</textarea>
                                         @error('description_en')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -77,11 +77,11 @@
                                 <div class="col-lg-6">
                                     <!-- Arabic Name -->
                                     <div class="mb-4">
-                                        <label for="name_ar" class="form-label">Name (Arabic)</label>
+                                        <label for="name_ar" class="form-label">{{ trans('messages.name_ar') }}</label>
                                         <input type="text" class="form-control @error('name_ar') is-invalid @enderror"
                                                id="name_ar" name="name_ar" 
                                                value="{{ old('name_ar', $organization->name_ar) }}" 
-                                               placeholder="Enter Arabic name">
+                                               placeholder="{{ trans('messages.enter_arabic_name') }}">
                                         @error('name_ar')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -89,11 +89,11 @@
 
                                     <!-- Address -->
                                     <div class="mb-4">
-                                        <label for="address" class="form-label">Address</label>
+                                        <label for="address" class="form-label">{{ trans('messages.address') }}</label>
                                         <input type="text" class="form-control @error('address') is-invalid @enderror"
                                                id="address" name="address" 
                                                value="{{ old('address', $organization->address) }}" 
-                                               placeholder="Enter address">
+                                               placeholder="{{ trans('messages.enter_address') }}">
                                         @error('address')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -101,12 +101,12 @@
 
                                     <!-- Established Year -->
                                     <div class="mb-4">
-                                        <label for="established_year" class="form-label">Established Year</label>
+                                        <label for="established_year" class="form-label">{{ trans('messages.established_year') }}</label>
                                         <input type="number" class="form-control @error('established_year') is-invalid @enderror"
                                                id="established_year" name="established_year" 
                                                value="{{ old('established_year', $organization->established_year) }}" 
                                                min="1900" max="{{ date('Y') }}" 
-                                               placeholder="Enter established year">
+                                               placeholder="{{ trans('messages.enter_established_year') }}">
                                         @error('established_year')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -114,7 +114,7 @@
 
                                     <!-- Logo -->
                                     <div class="mb-4">
-                                        <label for="logo" class="form-label">Logo</label>
+                                        <label for="logo" class="form-label">{{ trans('messages.logo') }}</label>
                                         <input type="file" class="form-control @error('logo') is-invalid @enderror"
                                                id="logo" name="logo" accept="image/*">
                                         @error('logo')
@@ -124,11 +124,11 @@
 
                                     <!-- Description Arabic -->
                                     <div class="mb-4">
-                                        <label for="description_ar" class="form-label">Description (Arabic)</label>
+                                        <label for="description_ar" class="form-label">{{ trans('messages.description_ar') }}</label>
                                         <textarea class="form-control @error('description_ar') is-invalid @enderror"
                                                   id="description_ar" name="description_ar" 
                                                   rows="4" 
-                                                  placeholder="Enter Arabic description">{{ old('description_ar', $organization->description_ar) }}</textarea>
+                                                  placeholder="{{ trans('messages.enter_arabic_description') }}">{{ old('description_ar', $organization->description_ar) }}</textarea>
                                         @error('description_ar')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -138,7 +138,7 @@
 
                             <div class="row">
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">Update Organization</button>
+                                    <button type="submit" class="btn btn-primary">{{ trans('messages.update_organization') }}</button>
                                 </div>
                             </div>
                         </form>

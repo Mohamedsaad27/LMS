@@ -1,11 +1,11 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Students')
+@section('title', trans('messages.students'))
 @section('content')
-@include('layouts.dashboard.breadcrumb', ['component' => 'Organizations'])
+@include('layouts.dashboard.breadcrumb', ['component' => trans('messages.students')])
 @if (session('success'))
     <script>
         iziToast.success({
-            title: 'Success',
+            title: trans('messages.success'),
             message: '{{ session('success') }}',
             position: 'topRight'
         });
@@ -14,7 +14,7 @@
 @if (session('error'))
     <script>
         iziToast.error({
-            title: 'Error',
+            title: trans('messages.error'),
             message: '{{ session('error') }}',
             position: 'topRight'
         });
@@ -23,9 +23,9 @@
 <div class="container-fluid px-4">
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h3 text-gray-800 mb-0">Students</h2>
+        <h2 class="h3 text-gray-800 mb-0">{{ trans('messages.students') }}</h2>
         <a href="{{ route('students.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus me-2"></i>Add Student
+            <i class="fas fa-plus me-2"></i>{{ trans('messages.add_student') }}
         </a>
     </div>
 
@@ -39,7 +39,7 @@
                             <i class="fas fa-search text-muted"></i>
                         </span>
                         <input type="text" class="form-control border-0 bg-light"
-                            placeholder="Search students...">
+                            placeholder="{{ trans('messages.search_students') }}">
                     </div>
                 </div>
             </div>
@@ -51,11 +51,11 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="px-4 py-3 text-muted">#</th>
-                            <th class="px-4 py-3 text-muted">Student</th>
-                            <th class="px-4 py-3 text-muted">Contact Info</th>
-                            <th class="px-4 py-3 text-muted">Grade</th>
-                            <th class="px-4 py-3 text-muted">School</th>
-                            <th class="px-4 py-3 text-muted">Actions</th>
+                            <th class="px-4 py-3 text-muted">{{ trans('messages.student') }}</th>
+                            <th class="px-4 py-3 text-muted">{{ trans('messages.contact_info') }}</th>
+                            <th class="px-4 py-3 text-muted">{{ trans('messages.grade') }}</th>
+                            <th class="px-4 py-3 text-muted">{{ trans('messages.school') }}</th>
+                            <th class="px-4 py-3 text-muted">{{ trans('messages.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,17 +80,17 @@
                                     <div class="d-flex flex-column">
                                         <span class="text-dark">
                                             <i
-                                                class="fas fa-envelope me-2 text-muted"></i><span class="text-muted">Email :</span> : {{ $student->user->email ?? 'N/A' }}
+                                                class="fas fa-envelope me-2 text-muted"></i><span class="text-muted">{{ trans('messages.email') }} :</span> : {{ $student->user->email ?? 'N/A' }}
                                         </span>
                                         <span class="text-dark mt-1">
                                             <i
-                                                class="fas fa-phone me-2 text-muted"></i><span class="text-muted">Phone :</span> {{ $student->user->phone ?? 'N/A' }}
+                                                class="fas fa-phone me-2 text-muted"></i><span class="text-muted">{{ trans('messages.phone') }} :</span> {{ $student->user->phone ?? 'N/A' }}
                                         </span>
                                     </div>
                                 </td>
                                 <td class="px-4">
                                     <div class="d-flex align-items-center">
-                                        <span>{{ $student->grade->name ?? 'N/A' }}</span>
+                                        <span>{{ app()->getLocale() == 'en' ? $student->grade->name_en ?? 'N/A' : $student->grade->name_ar ?? 'N/A' }}</span>
                                     </div>
                                 </td>
                                 <td class="px-4">
@@ -102,17 +102,17 @@
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('students.show', $student->id) }}"
                                             class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
-                                            title="Show Student">
+                                            title="{{ trans('messages.show_student') }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="{{ route('students.edit', $student->id) }}"
                                             class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
-                                            title="Edit Student">
+                                            title="{{ trans('messages.edit_student') }}">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-light-danger"
                                             data-bs-toggle="modal" data-bs-target="#deleteModal{{ $student->id }}"
-                                            title="Delete Student">
+                                            title="{{ trans('messages.delete_student') }}">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>  
@@ -123,21 +123,21 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteModalLabel">Delete Student</h5>
+                                                    <h5 class="modal-title" id="deleteModalLabel">{{ trans('messages.delete_student') }}</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Are you sure you want to delete this Student?
+                                                    {{ trans('messages.are_you_sure') }} {{ trans('messages.delete_student') }}?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Cancel</button>
+                                                        data-bs-dismiss="modal">{{ trans('messages.cancel') }}</button>
                                                     <form action="{{ route('students.destroy', $student->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        <button type="submit" class="btn btn-danger">{{ trans('messages.delete') }}</button>
                                                     </form>
                                                 </div>
                                             </div>
