@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\Dashboard\GradeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\Dashboard\Admin\GradeController;
+use App\Http\Controllers\Web\Dashboard\Admin\OrganizationController;
+use App\Http\Controllers\Web\Dashboard\Admin\SchoolController;
+use App\Http\Controllers\Web\Dashboard\Admin\StudentController;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Dashboard\SchoolController;
-use App\Http\Controllers\Dashboard\StudentController;
-use App\Http\Controllers\Dashboard\OrganizationController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
