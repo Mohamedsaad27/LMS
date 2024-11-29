@@ -3,8 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\Dashboard\Admin\GradeController;
 use App\Http\Controllers\Web\Dashboard\Admin\OrganizationController;
+use App\Http\Controllers\Web\Dashboard\Admin\RoleController;
 use App\Http\Controllers\Web\Dashboard\Admin\SchoolController;
 use App\Http\Controllers\Web\Dashboard\Admin\StudentController;
+use App\Http\Controllers\Web\Dashboard\Admin\UserController;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Organization;
@@ -45,6 +47,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         // -------------------------- Grade Route -------------------------------- //
         Route::resource('grades', GradeController::class);
+
+        // -------------------------- User Route -------------------------------- //
+        Route::resource('users', UserController::class);
+
+        // -------------------------- Roles Routes -------------------------------- //
+        Route::resource('roles', RoleController::class);
     });
 
     Route::get('/dashboard', function () {

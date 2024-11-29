@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Admin Account
-        User::create([
-            'name_ar'=> 'محمد عادل',
+        $admin = User::create([
+            'name_ar' => 'محمد عادل',
             'name_en' => 'Mohamed Adel',
             'email' => 'admin@gmail.com',
             'password' => 'admin@123',
@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
             'is_verified' => 1,
         ]);
 
+        $admin->assignRole('admin');
         // User::factory()->count(20)->create();
     }
 }

@@ -16,6 +16,7 @@ class GradeController extends Controller
     {
         $this->gradeRepository = $gradeRepositoryInterface;
     }
+    
     /**
      * Display a listing of the resource.
      */
