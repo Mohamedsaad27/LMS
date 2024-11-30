@@ -4,6 +4,26 @@
     --bs-font-sans-serif: "Rubik", sans-serif;
 }
 
+.avatar-group .avatar+.avatar {
+    margin-right: -1rem;
+}
+
+.border-e-2 {
+    border-left: 2px solid #9CA3AF !important;
+}
+
+.border-s-2 {
+    border-right: 2px solid #9CA3AF !important;
+}
+
+.border-e-3 {
+    border-left: 3px solid #9CA3AF !important;
+}
+
+.border-s-3 {
+    border-right: 3px solid #9CA3AF !important;
+}
+
 .me-0 {
     margin-left: 0 !important;
 }
@@ -158,6 +178,10 @@
 
 .ms-4 {
     margin-right: 1.5rem !important;
+}
+
+.ms-4_5 {
+    margin-right: 30px !important;
 }
 
 .ms-5 {
@@ -430,10 +454,6 @@
 
 .sidebar .nav-link .link-arrow {
     transform: rotate(180deg);
-}
-
-.sidebar .multi-level .nav-link {
-    padding-right: 53px;
 }
 
 .modal-header .btn-close {

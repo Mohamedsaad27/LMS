@@ -95,4 +95,7 @@ return [
     'role_updated_successfully' => 'Role updated successfully',
     'role_deleted_successfully' => 'Role deleted successfully',
     'role' => 'Role',
+    'roles_permissions' => 'Roles & Permissions',
+    'total_num_user' => '[0,1]Total :count user|[2,*]Total :count users',
+    'edit_role' => 'Edit Role',
 ];

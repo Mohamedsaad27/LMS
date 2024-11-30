@@ -94,5 +94,7 @@ return [
         'role_updated_successfully' => 'تم تحديث الدور بنجاح',
         'role_deleted_successfully' => 'تم حذف الدور بنجاح',
         'role' => 'دور',
-
+        'roles_permissions' => 'الأدوار والصلاحيات',
+        'total_num_user' => '[0,1,2]إجمالي :count مستخدم|[3,*]إجمالي :count مستخدمين',
+        'edit_role' => 'تعديل الدور',
 ];

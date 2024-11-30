@@ -28,6 +28,9 @@
 
     <!-- LMS CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard/lms.css') }}">
+    
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard/icons/plugins.bundle.css') }}">
 
     <!-- Preloader CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard/preloader.css') }}">

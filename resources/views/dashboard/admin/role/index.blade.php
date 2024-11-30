@@ -15,397 +15,77 @@
 @section('content')
     @include('layouts.dashboard.partials.breadcrumb', ['component' => 'Roles'])
 
-    <div class="container-fluid px-4">
-        <!-- Header Section -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h3 text-gray-800 mb-0">{{ __('dashboard.roles') }}</h2>
-            <a href="{{ route('roles.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>{{ __('dashboard.add_role') }}
-            </a>
-        </div>
-
-        <!-- Main Card -->
-        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
-            <div class="card-header bg-white py-3">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-0">
-                                <i class="fas fa-search text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-0 bg-light"
-                                placeholder="{{ __('dashboard.search_role') }}">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="px-4 py-3 text-muted">#</th>
-                                <th class="px-4 py-3 text-muted">{{ __('dashboard.role') }}</th>
-                                <th class="px-4 py-3 text-muted">{{ __('dashboard.description') }}</th>
-                                <th class="px-4 py-3 text-muted">{{ __('dashboard.actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($roles as $role)
-                                <tr>
-                                    <td class="px-4">
-                                        <span class="text-primary fw-medium">{{ $role->id }}</span>
-                                    </td>
-                                    <td class="px-4">
-                                        <div class="d-flex align-items-center">
-                                            <span>{{ $role->name }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4">
-                                        {{-- button modal --}}
-                                        <div class="d-flex align-items-center">
-                                            <button type="button" class="btn btn-sm btn-light-primary"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#permissionsModal{{ $role->id }}">
-                                                {{ __('dashboard.view_permissions') }}
-                                            </button>
-                                        </div>
-
-                                        {{-- modal for permissions --}}
-                                        <div class="modal fade" id="permissionsModal{{ $role->id }}" tabindex="-1"
-                                            aria-labelledby="permissionsModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="permissionsModalLabel">
-                                                            {{ __('dashboard.view_permissions') }}</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body fmxw-400 ">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-hover align-middle mb-0">
-                                                                <thead class="bg-light">
-                                                                    <tr>
-                                                                        <th class="px-4 py-3 text-muted">
-                                                                            {{ __('dashboard.permission') }}</th>
-                                                                        <th class="px-4 py-3 text-muted">
-                                                                            {{ __('dashboard.read') }}</th>
-                                                                        <th class="px-4 py-3 text-muted">
-                                                                            {{ __('dashboard.write') }}</th>
-                                                                        <th class="px-4 py-3 text-muted">
-                                                                            {{ __('dashboard.create') }}</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @foreach ($role->permissions as $permission)
-                                                                        <tr>
-                                                                            <td class="px-4">
-                                                                                <span>{{ $permission->name }}</span>
-                                                                            </td>
-                                                                            <td class="px-4">
-                                                                                <span>{{ $permission->pivot->read ? 'Yes' : 'No' }}</span>
-                                                                            </td>
-                                                                            <td class="px-4">
-                                                                                <span>{{ $permission->pivot->write ? 'Yes' : 'No' }}</span>
-                                                                            </td>
-                                                                            <td class="px-4">
-                                                                                <span>{{ $permission->pivot->create ? 'Yes' : 'No' }}</span>
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">{{ __('dashboard.close') }}</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4">
-                                        <div class="d-flex gap-2">
-                                            <a href="{{ route('roles.edit', $role->id) }}"
-                                                class="btn btn-sm btn-light-primary" data-bs-toggle="tooltip"
-                                                title="Edit Role">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-light-danger"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $role->id }}"
-                                                title="Delete Role">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-
-                                        <!-- Delete Modal -->
-                                        <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"
-                                            aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel">Delete Role</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Are you sure you want to delete this Role?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Cancel</button>
-                                                        <form action="{{ route('roles.destroy', $role->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="content-wrapper px-4">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="mb-1">Roles List</h4>
-            <p class="mb-6 fs-7">A role provided access to predefined menus and features so that depending on assigned role
+            <p class="mb-4 fs-7">A role provided access to predefined menus and features so that depending on assigned role
                 an
                 administrator can have access to what user needs.</p>
             <!-- Role cards -->
             <div class="row g-2">
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h6 class="fw-normal mb-0 text-body">Total 4 users</h6>
-                                <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Vinnie Mostowy"
-                                        data-bs-original-title="Vinnie Mostowy">
-                                        <img class="rounded-circle"
-                                            src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/5.png"
+                @foreach ($roles as $role)
+                    <div class="col-xl-4 col-lg-6 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h6 class="fw-normal mb-0 text-body">
+                                        {{ trans_choice('dashboard.total_num_user', $role->users()->count() , ['count' => $role->users()->count()])}}</h6>
+                                    @forelse ($role->users as $user )
+                                    <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                            class="avatar pull-up cursor-pointer d-flex align-items-center justify-content-center bg-gray-200 rounded-circle" aria-label="Vinnie Mostowy"
+                                            data-bs-original-title="{{ $user->name }}">
+                                            @if ($user->image)
+                                            <img class="rounded-circle object-fit-contain"
+                                            src="{{ $user->image }}"
                                             alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Allen Rieske"
-                                        data-bs-original-title="Allen Rieske">
-                                        <img class="rounded-circle"
-                                            src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/5.png"
-                                            alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Julee Rossignol"
-                                        data-bs-original-title="Julee Rossignol">
-                                        <img class="rounded-circle"
-                                            src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/5.png"
-                                            alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Kaith D'souza"
-                                        data-bs-original-title="Kaith D'souza">
-                                        <img class="rounded-circle"
-                                            src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/5.png"
-                                            alt="Avatar">
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-end">
-                                <div class="role-heading">
-                                    <h5 class="mb-1">Administrator</h5>
-                                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
-                                        class="role-edit-modal"><span>Edit Role</span></a>
+                                            @else
+                                            <span class="avatar-initial rounded-circle fs-8">
+                                                {{ implode(' ', array_map(function($word) { return mb_substr($word, 0, 1); }, explode(' ', $user->name))) }}
+                                            </span>
+                                            @endif
+                                        </li>
+                                    </ul>
+                                    @empty
+                                    @endforelse
                                 </div>
-                                <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div class="role-heading">
+                                        <h5 class="mb-1">{{ $role->name }}</h5>
+                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
+                                            class="role-edit-modal"><span>{{ __('dashboard.edit_role') }}</span></a>
+                                    </div>
+                                    <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h6 class="fw-normal mb-0 text-body">Total 7 users</h6>
-                                <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Jimmy Ressula"
-                                        data-bs-original-title="Jimmy Ressula">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/4.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="John Doe" data-bs-original-title="John Doe">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/1.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Kristi Lawker"
-                                        data-bs-original-title="Kristi Lawker">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/2.png" alt="Avatar">
-                                    </li>
-                                    <li class="avatar">
-                                        <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" data-bs-original-title="4 more">+4</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-end">
-                                <div class="role-heading">
-                                    <h5 class="mb-1">Manager</h5>
-                                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
-                                        class="role-edit-modal"><span>Edit Role</span></a>
-                                </div>
-                                <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h6 class="fw-normal mb-0 text-body">Total 5 users</h6>
-                                <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Andrew Tye"
-                                        data-bs-original-title="Andrew Tye">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/6.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Rishi Swaat"
-                                        data-bs-original-title="Rishi Swaat">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/9.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Rossie Kim"
-                                        data-bs-original-title="Rossie Kim">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/12.png" alt="Avatar">
-                                    </li>
-                                    <li class="avatar">
-                                        <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" data-bs-original-title="2 more">+2</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-end">
-                                <div class="role-heading">
-                                    <h5 class="mb-1">Users</h5>
-                                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
-                                        class="role-edit-modal"><span>Edit Role</span></a>
-                                </div>
-                                <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h6 class="fw-normal mb-0 text-body">Total 3 users</h6>
-                                <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Kim Karlos"
-                                        data-bs-original-title="Kim Karlos">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/3.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Katy Turner"
-                                        data-bs-original-title="Katy Turner">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/9.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Peter Adward"
-                                        data-bs-original-title="Peter Adward">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/4.png" alt="Avatar">
-                                    </li>
-                                    <li class="avatar">
-                                        <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" data-bs-original-title="3 more">+3</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-end">
-                                <div class="role-heading">
-                                    <h5 class="mb-1">Support</h5>
-                                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
-                                        class="role-edit-modal"><span>Edit Role</span></a>
-                                </div>
-                                <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h6 class="fw-normal mb-0 text-body">Total 2 users</h6>
-                                <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Kim Merchent"
-                                        data-bs-original-title="Kim Merchent">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/10.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Sam D'souza"
-                                        data-bs-original-title="Sam D'souza">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/13.png" alt="Avatar">
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                        class="avatar pull-up" aria-label="Nurvi Karlos"
-                                        data-bs-original-title="Nurvi Karlos">
-                                        <img class="rounded-circle" src="../../assets/img/avatars/5.png" alt="Avatar">
-                                    </li>
-                                    <li class="avatar">
-                                        <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" data-bs-original-title="7 more">+7</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-end">
-                                <div class="role-heading">
-                                    <h5 class="mb-1">Restricted User</h5>
-                                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
-                                        class="role-edit-modal"><span>Edit Role</span></a>
-                                </div>
-                                <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
                 <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="card h-100">
                         <div class="row h-100">
                             <div class="col-sm-5">
-                                <div class="d-flex align-items-end h-100 justify-content-center mt-sm-0 mt-4 ps-6">
-                                    <img src="../../assets/img/illustrations/lady-with-laptop-light.png" class="img-fluid"
-                                        alt="Image" width="120"
+                                <div class="d-flex align-items-end h-100 justify-content-center mt-sm-0 mt-4 ps-3">
+                                    <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/illustrations/lady-with-laptop-light.png"
+                                        class="img-fluid" alt="Image" width="120"
                                         data-app-light-img="illustrations/lady-with-laptop-light.png"
                                         data-app-dark-img="illustrations/lady-with-laptop-dark.png">
                                 </div>
                             </div>
                             <div class="col-sm-7">
-                                <div class="card-body text-sm-end text-center ps-sm-0">
-                                    <button data-bs-target="#addRoleModal" data-bs-toggle="modal"
-                                        class="btn btn-sm btn-primary mb-4 text-nowrap add-new-role">Add New Role</button>
-                                    <p class="mb-0"> Add new role, <br> if it doesn't exist.</p>
+                                <div class="card-body text-sm-end text-center ps-sm-0 pe-3 pt-4">
+                                    <a href="{{ route('roles.create') }}" class="btn btn-primary fs-8 py-2">
+                                        <i class="fas fa-plus me-2 fs-9"></i>Add New Role
+                                    </a>
+                                    <p class="mb-0 fs-7 text-center text-gray-500 mt-2"> Add new role, <br> if it
+                                        doesn't exist.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-12">
                     <h4 class="mt-6 mb-1">Total users with their roles</h4>
                     <p class="mb-0">Find all of your company’s administrator accounts and their associate roles.</p>
@@ -1042,16 +722,14 @@
                                                             <div class="form-check mb-0 me-4 me-lg-12">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     id="dispManagementRead">
-                                                                <label class="form-check-label"
-                                                                    for="dispManagementRead">
+                                                                <label class="form-check-label" for="dispManagementRead">
                                                                     Read
                                                                 </label>
                                                             </div>
                                                             <div class="form-check mb-0 me-4 me-lg-12">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     id="dispManagementWrite">
-                                                                <label class="form-check-label"
-                                                                    for="dispManagementWrite">
+                                                                <label class="form-check-label" for="dispManagementWrite">
                                                                     Write
                                                                 </label>
                                                             </div>
@@ -1088,8 +766,7 @@
                                                             <div class="form-check mb-0">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     id="dbManagementCreate">
-                                                                <label class="form-check-label"
-                                                                    for="dbManagementCreate">
+                                                                <label class="form-check-label" for="dbManagementCreate">
                                                                     Create
                                                                 </label>
                                                             </div>
@@ -1111,16 +788,14 @@
                                                             <div class="form-check mb-0 me-4 me-lg-12">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     id="finManagementWrite">
-                                                                <label class="form-check-label"
-                                                                    for="finManagementWrite">
+                                                                <label class="form-check-label" for="finManagementWrite">
                                                                     Write
                                                                 </label>
                                                             </div>
                                                             <div class="form-check mb-0">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     id="finManagementCreate">
-                                                                <label class="form-check-label"
-                                                                    for="finManagementCreate">
+                                                                <label class="form-check-label" for="finManagementCreate">
                                                                     Create
                                                                 </label>
                                                             </div>
@@ -1275,8 +950,8 @@
                         ©
                         <script>
                             document.write(new Date().getFullYear())
-                        </script>2024, made with ❤️ by <a href="https://themeselection.com"
-                            target="_blank" class="footer-link">ThemeSelection</a>
+                        </script>2024, made with ❤️ by <a href="https://themeselection.com" target="_blank"
+                            class="footer-link">ThemeSelection</a>
                     </div>
                     <div class="d-none d-lg-inline-block">
 

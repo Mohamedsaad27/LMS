@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -55,20 +56,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getNameAttribute()
+    {
+        $locale = App ::getLocale();
+        return $this->{"name_{$locale}"};
+    }
     public function type()
     {
-     return $this->belongsTo(UserType::class, 'user_type_id');
+        return $this->belongsTo(UserType::class, 'user_type_id');
     }
-    public function publishing_house(){
+    public function publishing_house()
+    {
         return $this->hasone(Organization::class, 'user_id');
     }
-    public function teacher(){
+    public function teacher()
+    {
         return $this->hasone(Teacher::class, 'user_id');
     }
-    public function student(){
+    public function student()
+    {
         return $this->hasOne(Student::class, 'user_id');
     }
-    public function admin(){
+    public function admin()
+    {
         return $this->hasOne(Admin::class, 'user_id');
     }
 }
