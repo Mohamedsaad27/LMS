@@ -11,7 +11,7 @@ class StoreRoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'permissions' => 'required',
+            'permissions.*' => 'exists:permissions,name',
+            'role' => 'required|unique:roles,name|max:60'
         ];
     }
 }

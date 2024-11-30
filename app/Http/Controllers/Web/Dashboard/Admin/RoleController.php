@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoleRequest\StoreRoleRequest;
 use App\Services\Interfaces\Dashboard\Admin\RoleRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -38,9 +39,15 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        //
+        try{
+            $role = $this->roleRepository->store($request);
+            
+            return redirect()->route('roles.index')->with('success', __('dashboard.role_created_successfully'));
+        }catch (\Exception $e) {
+            return redirect()->route('roles.create')->with('error', __('dashboard.error_occurred_try_again'));
+        }
     }
 
     /**

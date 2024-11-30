@@ -37,7 +37,14 @@ class RoleRepository implements RoleRepositoryInterface
 
     public function store(StoreRoleRequest $request)
     {
-        // Implementation for store method
+        try {
+            $data = $request->validated();
+            
+            $role = Role::create(['name' => $request->role, 'guard_name' => 'web'])->givePermissionTo($request->permissions);
+            return $role;
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public function update(UpdateRoleRequest $request, $id)
