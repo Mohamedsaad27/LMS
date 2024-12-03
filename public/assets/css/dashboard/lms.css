@@ -9844,6 +9844,78 @@ fieldset:disabled .btn {
     }
 }
 
+.modal-simple .btn-close {
+    position: absolute;
+    top: -1.5rem
+}
+
+[dir=rtl] .modal-simple .btn-close {
+    left: -1.5rem
+}
+
+html:not([dir=rtl]) .modal-simple .btn-close {
+    right: -1.5rem
+}
+
+@media(max-width: 767.98px) {
+    .modal-simple .btn-close {
+        top:0
+    }
+
+    [dir=rtl] .modal-simple .btn-close {
+        left: 0
+    }
+
+    html:not([dir=rtl]) .modal-simple .btn-close {
+        right: 0
+    }
+}
+
+.modal .modal-header .btn-close {
+    position: absolute;
+    top: 1.6875rem
+}
+
+html:not([dir=rtl]) .modal .modal-header .btn-close {
+    right: .8125rem
+}
+
+[dir=rtl] .modal .modal-header .btn-close {
+    left: 1.3rem
+}
+
+.modal .btn-close {
+    background-color: #fff;
+    border-radius: .25rem;
+    background-image: url("data:image/svg+xml,%3Csvg width='150px' height='151px' viewBox='0 0 150 151' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3Cpolygon id='path-1' points='131.251657 0 74.9933705 56.25 18.7483426 0 0 18.75 56.2450278 75 0 131.25 18.7483426 150 74.9933705 93.75 131.251657 150 150 131.25 93.7549722 75 150 18.75'%3E%3C/polygon%3E%3C/defs%3E%3Cg id='🎨-%5BSetup%5D:-Colors-&amp;-Shadows' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Artboard' transform='translate(-225.000000, -250.000000)'%3E%3Cg id='Icon-Color' transform='translate(225.000000, 250.500000)'%3E%3Cuse fill='%23a7acb2' xlink:href='%23path-1'%3E%3C/use%3E%3Cuse fill-opacity='0.5' fill='%23a7acb2' xlink:href='%23path-1'%3E%3C/use%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 1;
+    padding: .563rem;
+    box-shadow: 0 .0625rem .3175rem 0 rgba(34,48,62,.06);
+    background-size: .75rem .6875rem;
+    transition: all .23s ease .1s
+}
+
+html:not([dir=rtl]) .modal .btn-close {
+    transform: translate(23px, -25px);
+}
+
+[dir=rtl] .modal .btn-close {
+    transform: translate(-31px, -25px)
+}
+
+.modal .btn-close:hover,.modal .btn-close:focus,.modal .btn-close:active {
+    opacity: 1;
+    outline: none
+}
+
+html:not([dir=rtl]) .modal .btn-close:hover,html:not([dir=rtl]) .modal .btn-close:focus,html:not([dir=rtl]) .modal .btn-close:active {
+    transform: translate(20px, -20px)
+}
+
+[dir=rtl] .modal .btn-close:hover,[dir=rtl] .modal .btn-close:focus,[dir=rtl] .modal .btn-close:active {
+    transform: translate(-26px, -20px)
+}
+
 .tooltip {
     position: absolute;
     z-index: 1070;
@@ -11154,6 +11226,10 @@ fieldset:disabled .btn {
     width: auto !important;
 }
 
+.w-fit{
+    width: fit-content !important;
+}
+
 .fmxw-100 {
     max-width: 100px !important;
 }
@@ -11204,6 +11280,10 @@ fieldset:disabled .btn {
 
 .h-auto {
     height: auto !important;
+}
+
+.h-fit{
+    height: fit-content !important;
 }
 
 .mh-100 {
@@ -12830,6 +12910,56 @@ fieldset:disabled .btn {
     color: rgba(var(--bs-gray-900-rgb), var(--bs-text-opacity)) !important;
 }
 
+.text-red-50,
+.text-red-50:hover {
+    color: #FEF2F2 !important;
+}
+
+.text-red-100,
+.text-red-100:hover {
+    color: #FEE2E2 !important;
+}
+
+.text-red-200,
+.text-red-200:hover {
+    color: #FECACA !important;
+}
+
+.text-red-300,
+.text-red-300:hover {
+    color: #FCA5A5 !important;
+}
+
+.text-red-400,
+.text-red-400:hover {
+    color: #F87171 !important;
+}
+
+.text-red-500,
+.text-red-500:hover {
+    color: #EF4444 !important;
+}
+
+.text-red-600,
+.text-red-600:hover {
+    color: #DC2626 !important;
+}
+
+.text-red-700,
+.text-red-700:hover {
+    color: #B91C1C !important;
+}
+
+.text-red-800,
+.text-red-800:hover {
+    color: #991B1B !important;
+}
+
+.text-red-900,
+.text-red-900:hover {
+    color: #7F1D1D !important;
+}
+
 .text-black {
     --bs-text-opacity: 1;
     color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important;
@@ -12875,6 +13005,47 @@ fieldset:disabled .btn {
 .text-opacity-100 {
     --bs-text-opacity: 1;
 }
+
+.hover-text-red-50:hover {
+    color: #FEF2F2 !important;
+}
+
+.hover-text-red-100:hover {
+    color: #FEE2E2 !important;
+}
+
+.hover-text-red-200:hover {
+    color: #FECACA !important;
+}
+
+.hover-text-red-300:hover {
+    color: #FCA5A5 !important;
+}
+
+.hover-text-red-400:hover {
+    color: #F87171 !important;
+}
+
+.hover-text-red-500:hover {
+    color: #EF4444 !important;
+}
+
+.hover-text-red-600:hover {
+    color: #DC2626 !important;
+}
+
+.hover-text-red-700:hover {
+    color: #B91C1C !important;
+}
+
+.hover-text-red-800:hover {
+    color: #991B1B !important;
+}
+
+.hover-text-red-900:hover {
+    color: #7F1D1D !important;
+}
+
 
 .bg-primary {
     --bs-bg-opacity: 1;

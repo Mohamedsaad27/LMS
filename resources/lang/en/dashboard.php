@@ -41,6 +41,14 @@ return [
     'close' => 'Close',
     'error_occurred_try_again' => 'An error occurred. Please try again.',
     'name' => 'Name',
+    'cancel' => 'Cancel',
+    'yes_delete' => 'Yes, Delete',
+    'are_you_sure' => 'Are you sure?',
+    'text_delete' => 'You won\'t be able to revert this!',
+    'title_delete' => 'Delete :name',
+    'message_delete' => 'Are you sure you want to delete this :name?',
+    'save_changes' => 'Save Changes',
+    'title_edit' => 'Edit :name',
 
     // Grade
     'grade' => 'Grade',
@@ -98,4 +106,10 @@ return [
     'roles_permissions' => 'Roles & Permissions',
     'total_num_user' => '[0,1]Total :count user|[2,*]Total :count users',
     'edit_role' => 'Edit Role',
+    'copy_role' => 'Copy Role',
+    'add_new_role' => 'Add New Role',
+    'if_dont' => 'If it does not exist',
+    'permissions_for' => 'Permissions For',
+    'roles_list' => 'Roles List',
+    'description_roles_list' => 'A role provided access to predefined menus and features so that depending on assigned role an administrator can have access to what user needs.',
 ];

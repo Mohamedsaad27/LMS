@@ -11,3 +11,16 @@ window.addEventListener("load", function () {
         preloader.style.display = "none"; // Optionally remove from view
     }, 300); // Match the duration of your fade-out animation (500ms)
 })
+
+//-----------------------------------------
+//Function for copy text 
+
+function copyToClipboard(elementId, message) {
+    const roleText = document.getElementById(elementId).textContent;
+    navigator.clipboard.writeText(roleText).then(() => {
+        iziToast.success({
+            title: 'OK',
+            message: message,
+        });
+    });
+}

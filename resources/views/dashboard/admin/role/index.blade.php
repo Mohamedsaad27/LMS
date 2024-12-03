@@ -10,18 +10,17 @@
             });
         </script>
     @endif
+
 @endpush
 
 @section('content')
-    @include('layouts.dashboard.partials.breadcrumb', ['component' => 'Roles'])
+    @include('layouts.dashboard.partials.breadcrumb', ['component' => __('dashboard.roles_permissions')])
 
     <div class="content-wrapper px-4">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="mb-1">Roles List</h4>
-            <p class="mb-4 fs-7">A role provided access to predefined menus and features so that depending on assigned role
-                an
-                administrator can have access to what user needs.</p>
+            <h4 class="mb-1">{{ __('dashboard.roles_list') }}</h4>
+            <p class="mb-4 fs-7">{{ __('dashboard.description_roles_list') }}</p>
             <!-- Role cards -->
             <div class="row g-2">
                 @foreach ($roles as $role)
@@ -30,33 +29,169 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <h6 class="fw-normal mb-0 text-body">
-                                        {{ trans_choice('dashboard.total_num_user', $role->users()->count() , ['count' => $role->users()->count()])}}</h6>
-                                    @forelse ($role->users as $user )
-                                    <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                            class="avatar pull-up cursor-pointer d-flex align-items-center justify-content-center bg-gray-200 rounded-circle" aria-label="Vinnie Mostowy"
-                                            data-bs-original-title="{{ $user->name }}">
-                                            @if ($user->image)
-                                            <img class="rounded-circle object-fit-contain"
-                                            src="{{ $user->image }}"
-                                            alt="Avatar">
-                                            @else
-                                            <span class="avatar-initial rounded-circle fs-8">
-                                                {{ implode(' ', array_map(function($word) { return mb_substr($word, 0, 1); }, explode(' ', $user->name))) }}
-                                            </span>
-                                            @endif
-                                        </li>
-                                    </ul>
+                                        {{ trans_choice('dashboard.total_num_user', $role->users()->count(), ['count' => $role->users()->count()]) }}
+                                    </h6>
+                                    @forelse ($role->users as $user)
+                                        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                                class="avatar pull-up cursor-pointer d-flex align-items-center justify-content-center bg-gray-200 rounded-circle"
+                                                aria-label="{{ $user->name }}"
+                                                data-bs-original-title="{{ $user->name }}">
+                                                @if ($user->image)
+                                                    <img class="rounded-circle object-fit-contain" src="{{ $user->image }}"
+                                                        alt="Avatar">
+                                                @else
+                                                    <span class="avatar-initial rounded-circle fs-8">
+                                                        {{ implode(' ',array_map(function ($word) {return mb_substr($word, 0, 1);}, explode(' ', $user->name))) }}
+                                                    </span>
+                                                @endif
+                                            </li>
+                                        </ul>
                                     @empty
                                     @endforelse
                                 </div>
                                 <div class="d-flex justify-content-between align-items-end">
                                     <div class="role-heading">
-                                        <h5 class="mb-1">{{ $role->name }}</h5>
-                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal"
+                                        <h5 class="mb-1" id="role-{{ $role->id }}">{{ $role->name }}</h5>
+                                        <a href="javascript:;" data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ $role->id }}"
                                             class="role-edit-modal"><span>{{ __('dashboard.edit_role') }}</span></a>
+
+                                        {{-- Edit Modal --}}
+                                        <div class="modal fade" id="editModal{{ $role->id }}" tabindex="-1"
+                                            aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">
+                                                            {{ trans('dashboard.title_edit', ['name' => $role->name]) }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('roles.update', $role->id) }}"
+                                                            method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <div class="mb-3">
+                                                                <label for="roleName"
+                                                                    class="form-label">{{ __('dashboard.role_name') }}</label>
+                                                                <input type="text" class="form-control" id="roleName"
+                                                                    name="name" value="{{ $role->name }}" required>
+                                                            </div>
+                                                            <p class="fs-5 fw-bold form-label mb-2 ">
+                                                                {{ __('dashboard.permissions_for') . $role->name }}</p>
+
+                                                            <div class="d-flex flex-wrap">
+                                                                @forelse ($role->permissions as $permission)
+                                                                    <div
+                                                                        class="d-flex align-items-center form-check form-check-sm form-check-custom form-check-solid me-3 my-2 mb-0 px-4 py-2 w-fit h-fit rounded bg-gray-100 hover-bg-gray-200 transition">
+                                                                        <span class="form-check-label fs-7">
+                                                                            {{ $permission->name }}
+                                                                        </span>
+                                                                        <form class="w-fit" action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                                                                            @method('DELETE')
+                                                                            @csrf
+                                                                            <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal"
+                                                                                data-bs-target="#deleteModal{{ $role->id }}">
+                                                                                <i
+                                                                                    class="ki-duotone ki-trash fs-5 text-red-500 transition hover-text-red-600">
+                                                                                    <span class="path1"></span>
+                                                                                    <span class="path2"></span>
+                                                                                    <span class="path3"></span>
+                                                                                    <span class="path4"></span>
+                                                                                    <span class="path5"></span>
+                                                                                </i>
+                                                                            </button>
+                                
+                                                                            <!-- Delete Modal -->
+                                                                            <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"
+                                                                                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="deleteModalLabel">
+                                                                                                {{ trans('dashboard.title_delete', ['name' => 'Role']) }}
+                                                                                            </h5>
+                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                                                aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            {{ trans('dashboard.message_delete', ['name' => 'Role']) }}
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button" class="btn btn-secondary"
+                                                                                                data-bs-dismiss="modal">{{ __('dashboard.cancel') }}</button>
+                                                                                            <button type="submit"
+                                                                                                class="btn btn-danger">{{ __('dashboard.yes_delete') }}</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                @empty
+                                                                @endforelse
+                                                            </div>
+                                                            <div class="modal-footer px-0 pb-0">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">{{ __('dashboard.cancel') }}</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">{{ __('dashboard.save_changes') }}</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
+                                    <div class="d-flex align-items-center">
+                                        <a href="#" data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                            data-bs-placement="top" aria-label="{{ $role->name }}"
+                                            data-bs-original-title="{{ __('dashboard.copy_role') . $role->name }}"
+                                            onclick="copyToClipboard('role-{{ $role->id }}' , 'Role name copied to clipboard')"><i
+                                                class="ki-duotone ki-copy fs-5"></i></a>
+                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $role->id }}">
+                                                <i
+                                                    class="ki-duotone ki-trash fs-5 text-red-500 transition hover-text-red-600">
+                                                    <span class="path1"></span>
+                                                    <span class="path2"></span>
+                                                    <span class="path3"></span>
+                                                    <span class="path4"></span>
+                                                    <span class="path5"></span>
+                                                </i>
+                                            </button>
+
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"
+                                                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel">
+                                                                {{ trans('dashboard.title_delete', ['name' => 'Role']) }}
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ trans('dashboard.message_delete', ['name' => 'Role']) }}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">{{ __('dashboard.cancel') }}</button>
+                                                            <button type="submit"
+                                                                class="btn btn-danger">{{ __('dashboard.yes_delete') }}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,10 +211,10 @@
                             <div class="col-sm-7">
                                 <div class="card-body text-sm-end text-center ps-sm-0 pe-3 pt-4">
                                     <a href="{{ route('roles.create') }}" class="btn btn-primary fs-8 py-2">
-                                        <i class="fas fa-plus me-2 fs-9"></i>Add New Role
+                                        <i class="fas fa-plus me-2 fs-9"></i>{{ __('dashboard.add_new_role') }}
                                     </a>
-                                    <p class="mb-0 fs-7 text-center text-gray-500 mt-2"> Add new role, <br> if it
-                                        doesn't exist.</p>
+                                    <p class="mb-0 fs-7 text-center text-gray-500 mt-2">
+                                        {{ __('dashboard.add_new_role') }}, <br> {{ __('dashboard.if_dont') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -602,339 +737,6 @@
                     <!--/ Role Table -->
                 </div>
             </div>
-            <!--/ Role cards -->
-
-            <!-- Add Role Modal -->
-            <!-- Add Role Modal -->
-            <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-lg modal-simple modal-dialog-centered modal-add-new-role">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            <div class="text-center mb-6">
-                                <h4 class="role-title mb-2">Add New Role</h4>
-                                <p>Set role permissions</p>
-                            </div>
-                            <!-- Add role form -->
-                            <form id="addRoleForm" class="row g-6 fv-plugins-bootstrap5 fv-plugins-framework"
-                                onsubmit="return false" novalidate="novalidate">
-                                <div class="col-12 fv-plugins-icon-container fv-plugins-bootstrap5-row-invalid">
-                                    <label class="form-label" for="modalRoleName">Role Name</label>
-                                    <input type="text" id="modalRoleName" name="modalRoleName"
-                                        class="form-control is-invalid" placeholder="Enter a role name" tabindex="-1">
-                                    <div
-                                        class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        <div data-field="modalRoleName" data-validator="notEmpty">Please enter role name
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <h5 class="mb-6">Role Permissions</h5>
-                                    <!-- Permission table -->
-                                    <div class="table-responsive">
-                                        <table class="table table-flush-spacing mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Administrator Access <i
-                                                            class="bx bx-info-circle" data-bs-toggle="tooltip"
-                                                            data-bs-placement="top"
-                                                            aria-label="Allows a full access to the system"
-                                                            data-bs-original-title="Allows a full access to the system"></i>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="selectAll">
-                                                                <label class="form-check-label" for="selectAll">
-                                                                    Select All
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">User Management</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="userManagementRead">
-                                                                <label class="form-check-label" for="userManagementRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="userManagementWrite">
-                                                                <label class="form-check-label" for="userManagementWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="userManagementCreate">
-                                                                <label class="form-check-label"
-                                                                    for="userManagementCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Content Management</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="contentManagementRead">
-                                                                <label class="form-check-label"
-                                                                    for="contentManagementRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="contentManagementWrite">
-                                                                <label class="form-check-label"
-                                                                    for="contentManagementWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="contentManagementCreate">
-                                                                <label class="form-check-label"
-                                                                    for="contentManagementCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Disputes Management
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="dispManagementRead">
-                                                                <label class="form-check-label" for="dispManagementRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="dispManagementWrite">
-                                                                <label class="form-check-label" for="dispManagementWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="dispManagementCreate">
-                                                                <label class="form-check-label"
-                                                                    for="dispManagementCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Database Management
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="dbManagementRead">
-                                                                <label class="form-check-label" for="dbManagementRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="dbManagementWrite">
-                                                                <label class="form-check-label" for="dbManagementWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="dbManagementCreate">
-                                                                <label class="form-check-label" for="dbManagementCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Financial Management
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="finManagementRead">
-                                                                <label class="form-check-label" for="finManagementRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="finManagementWrite">
-                                                                <label class="form-check-label" for="finManagementWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="finManagementCreate">
-                                                                <label class="form-check-label" for="finManagementCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Reporting</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="reportingRead">
-                                                                <label class="form-check-label" for="reportingRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="reportingWrite">
-                                                                <label class="form-check-label" for="reportingWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="reportingCreate">
-                                                                <label class="form-check-label" for="reportingCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">API Control</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="apiRead">
-                                                                <label class="form-check-label" for="apiRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="apiWrite">
-                                                                <label class="form-check-label" for="apiWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="apiCreate">
-                                                                <label class="form-check-label" for="apiCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Repository Management
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="repoRead">
-                                                                <label class="form-check-label" for="repoRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="repoWrite">
-                                                                <label class="form-check-label" for="repoWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="repoCreate">
-                                                                <label class="form-check-label" for="repoCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium text-heading">Payroll</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="payrollRead">
-                                                                <label class="form-check-label" for="payrollRead">
-                                                                    Read
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0 me-4 me-lg-12">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="payrollWrite">
-                                                                <label class="form-check-label" for="payrollWrite">
-                                                                    Write
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-check mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="payrollCreate">
-                                                                <label class="form-check-label" for="payrollCreate">
-                                                                    Create
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- Permission table -->
-                                </div>
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary me-3">Submit</button>
-                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">Cancel</button>
-                                </div>
-                                <input type="hidden">
-                            </form>
-                            <!--/ Add role form -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/ Add Role Modal -->
-
-            <!-- / Add Role Modal -->
         </div>
         <!-- / Content -->
 
