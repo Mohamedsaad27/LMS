@@ -24,3 +24,25 @@ function copyToClipboard(elementId, message) {
         });
     });
 }
+
+//--------------------------------------------
+// Make labal permistion like removed 
+function togglePermissionStyle(checkbox, roleIdPermissionId) {
+    const label = document.getElementById('permissionLabel' + roleIdPermissionId);
+    if (checkbox.checked) {
+        label.style.textDecoration = 'line-through';
+        label.classList.add('text-gray-500');
+        checkbox.closest('div').classList.remove('hover-bg-gray-200');
+    } else {
+        label.style.textDecoration = 'none';
+        label.classList.remove('text-gray-500');
+        checkbox.closest('div').classList.add('hover-bg-gray-200');
+    }
+}
+
+// Run the function for all checkboxes on page load
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('input[name="permissions[]"]').forEach(function (checkbox) {
+        togglePermissionStyle(checkbox, checkbox.id.replace('permissionCheck', ''));
+    });
+}); 

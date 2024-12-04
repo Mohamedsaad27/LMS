@@ -112,4 +112,7 @@ return [
     'permissions_for' => 'Permissions For',
     'roles_list' => 'Roles List',
     'description_roles_list' => 'A role provided access to predefined menus and features so that depending on assigned role an administrator can have access to what user needs.',
+    'permissions' => 'Permissions',
+    'delete_permission' => 'Delete Permission',
+
 ];

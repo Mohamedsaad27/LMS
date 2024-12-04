@@ -39,7 +39,7 @@ class RoleRepository implements RoleRepositoryInterface
     {
         try {
             $data = $request->validated();
-            
+
             $role = Role::create(['name' => $request->role, 'guard_name' => 'web'])->givePermissionTo($request->permissions);
             return $role;
         } catch (\Exception $e) {
@@ -47,13 +47,32 @@ class RoleRepository implements RoleRepositoryInterface
         }
     }
 
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        // Implementation for update method
+        try {
+            $data = $request->validated();
+
+            $roleUpdated = $role->update([
+                'name' => $request->name
+            ]);
+
+            if ($request->has('permissions')) {
+                $role->revokePermissionTo($request->permissions);
+            }
+
+            return $roleUpdated;
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
-    public function destroy($id)
+    public function destroy($role)
     {
-        // Implementation for destroy method
+        try {
+            $role->delete();
+            return $role;
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
