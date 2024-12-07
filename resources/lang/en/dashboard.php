@@ -115,4 +115,20 @@ return [
     'permissions' => 'Permissions',
     'delete_permission' => 'Delete Permission',
 
+    // Teacher
+    'teachers' => 'Teachers',
+    'add_teacher' => 'Add Teacher',
+    'teacher_list' => 'Teachers List',
+    'address' => 'Address',
+    'select_school' => 'Select School',
+    'hire_date' => 'Hire Date',
+    'qualification' => 'Qualification',
+    'experience_years' => 'Experience Years',
+    'status' => 'Status',
+    'teacher_created_successfully' => 'Teacher created successfully',
+    'teacher_updated_successfully' => 'Teacher updated successfully',
+    'teacher_deleted_successfully' => 'Teacher deleted successfully',
+    'photo' => 'Photo',
+    'select_gender' => 'Select Gender',
+    'subjects' => 'Subjects',
 ];

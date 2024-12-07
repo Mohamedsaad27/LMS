@@ -153,6 +153,8 @@ return [
     'days_ago' => '{{ days }} يوم مضى',
     'week_ago' => '{{ weeks }} أسبوع مضى',
     'enrolled' => 'مسجل',
-    'grade_information' => 'معلومات المرحلة'
+    'grade_information' => 'معلومات المرحلة',
+    'grades' => 'الصفوف',
+    'subjects' => 'المواد',
 ];
 

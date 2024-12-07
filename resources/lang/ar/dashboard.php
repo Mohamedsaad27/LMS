@@ -113,4 +113,21 @@ return [
         'description_roles_list' => 'هذه قائمة الأدوار المتاحة في النظام، والتي توفر الوصول إلى القوائم والسمات المحددة مسبقاً بحيث يمكن لمدير النظام أن يمنح الوصول إلى ما يحتاجه المستخدم',
         'permissions' => 'الصلاحيات',
         'delete_permission' => 'حذف الصلاحية',
+
+        // Teacher
+        'teachers' => 'المعلمين',
+        'add_teacher' => 'إضافة معلم',
+        'teacher_list' => 'قائمة المعلمين',
+        'address' => 'العنوان',
+        'select_school' => 'إختر المدرسة',
+        'hire_date' => 'تاريخ التعيين',
+        'qualification' => 'الشهادة',
+        'experience_years' => 'سنوات الخبرة',
+        'status' => 'الحالة',
+        'teacher_created_successfully' => 'تم إنشاء المعلم بنجاح',
+        'teacher_updated_successfully' => 'تم تحديث المعلم بنجاح',
+        'teacher_deleted_successfully' => 'تم حذف المعلم بنجاح',
+        'photo' => 'الصورة',
+        'select_gender' => 'إختر الجنسية',
+        'subjects' => 'المواد',
 ];

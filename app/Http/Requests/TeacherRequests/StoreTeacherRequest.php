@@ -22,16 +22,21 @@ class StoreTeacherRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd($this->all());
         return [
-            'user_id' => 'required|integer|exists:users,id',
-            'school_id' => 'nullable|integer|exists:schools,id',
-            'hire_date' => 'nullable|date',
-            'qualification' => 'nullable|string|max:255',
+            'grades' => 'required|array',
+            'grades.*' => 'required|integer|exists:grades,id',
+            'subjects' => 'required|array',
+            'subjects.*' => 'required|integer|exists:subjects,id',
+            'specialization' => 'required|string|max:255',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date',
+            'hire_date' => 'required|date',
+            'qualification' => 'required|string|max:255',
             'experience_years' => 'required|integer|min:0',
             'status' => 'required|in:active,inactive',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'salary' => 'nullable|numeric', 
-            'date_of_birth' => 'nullable|date',
+            'salary' => 'required|numeric',
         ];
     }
 }

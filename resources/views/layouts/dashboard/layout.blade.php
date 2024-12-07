@@ -38,6 +38,9 @@
     <!-- izitoast -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
 
+    <!-- Tagify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.32.1/tagify.min.css">
+
     @if (LaravelLocalization::getCurrentLocaleDirection() == 'rtl')
         <link rel="stylesheet" href="{{ asset('assets/css/dashboard/rtl.css') }}">
     @else
@@ -375,6 +378,11 @@
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    <!-- Tagify -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.32.1/tagify.min.js"
+        integrity="sha512-rLrm9+wpZG0GwHDPxX5HA/QL5OKSL/v/MwJkz6wlSbpQrhKDaM1/vjQOJIQlChAXHR46mKjBVIONGldCS+sDXQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     {{-- Custom Scripts --}}
     @stack('scripts')

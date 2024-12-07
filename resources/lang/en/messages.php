@@ -143,6 +143,9 @@ return [
     'years_old' => 'years old',
     'current_grade' => 'Current Grade',
     'days_ago' => '{{ days }} days ago',
-    'week_ago' => '{{ weeks }} week ago'
-    
+    'week_ago' => '{{ weeks }} week ago',
+    'grades' => 'Grades',
+    'subjects' => 'Subjects',
+    'gender' => 'Gender',
+    'specialization' => 'Specialization',
 ];
