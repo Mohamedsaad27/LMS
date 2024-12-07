@@ -18,9 +18,6 @@ class Subject extends Model
     public function grade(){
         return $this->belongsTo(Grade::class);
     }
-    public function teacher(){
-        return $this->belongsTo(Teacher::class);
-    }
     public function book(){
         return $this->hasOne(Book::class);
     }
@@ -29,5 +26,8 @@ class Subject extends Model
     }
     public function units(){
         return $this->hasMany(Unit::class);
+    }
+    public function teachers(){
+        return $this->belongsToMany(Teacher::class, 'subject_teacher', 'subject_id', 'teacher_id');
     }
 }

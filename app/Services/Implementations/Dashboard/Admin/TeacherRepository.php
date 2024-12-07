@@ -120,7 +120,9 @@ class TeacherRepository implements TeacherRepositoryInterface
                 'password' => Hash::make($request->password),
                 'gender' => $request->gender,
                 'phone' => $request->phone,
-                'address' => $request->address
+                'address' => $request->address,
+                'role' => 'teacher',
+                'status' => 'active',
             ]);
 
             $imagePath = null;
@@ -134,9 +136,18 @@ class TeacherRepository implements TeacherRepositoryInterface
                 'user_id' => $user->id,
                 'school_id' => $request->school_id,
                 'photo' => $imagePath,
-                'specialization' => $request->specialization
+                'specialization' => $request->specialization,
+                'status' => $request->status,
+                'salary' => $request->salary,
+                'date_of_birth' => $request->date_of_birth,
+                'hire_date' => $request->hire_date,
+                'qualification' => $request->qualification,
+                'experience_years' => $request->experience_years,
             ]);
 
+            $teacher->grades()->sync($request->grades);
+            $teacher->subjects()->sync($request->subjects);
+            
             DB::commit();
             return $teacher;
         } catch (\Exception $e) {

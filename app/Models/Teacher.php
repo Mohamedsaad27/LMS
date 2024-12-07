@@ -19,7 +19,7 @@ class Teacher extends Model
         'status',
         'photo',
         'salary',
-        'date_of_birth'
+        'date_of_birth',
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -27,7 +27,10 @@ class Teacher extends Model
     public function school(){
         return $this->belongsTo(School::class);
     }
+    public function grades(){
+        return $this->belongsToMany(Grade::class, 'grade_teacher', 'teacher_id', 'grade_id');
+    }
     public function subjects(){
-        return $this->hasMany(Subject::class);
+        return $this->belongsToMany(Subject::class, 'subject_teacher', 'teacher_id', 'subject_id');
     }
 }

@@ -73,6 +73,7 @@ return [
         'select_educational_stage' => 'إختر مرحلة التعليمية',
         'grade_updated_successfully' => 'تم تحديث الصف بنجاح',
         'grade_deleted_successfully' => 'تم حذف الصف بنجاح',
+        'no_grades_available' => 'لا يوجد صفوف متاحة',
 
         // User
         'users' => "المستخدمين",
@@ -130,4 +131,5 @@ return [
         'photo' => 'الصورة',
         'select_gender' => 'إختر الجنسية',
         'subjects' => 'المواد',
+        'no_subjects_available' => 'لا يوجد مواد متاحة',
 ];

@@ -74,6 +74,7 @@ return [
     'grade_created_successfully' => 'Grade created successfully',
     'grade_updated_successfully' => 'Grade updated successfully',
     'grade_deleted_successfully' => 'Grade deleted successfully',
+    'no_grades_available' => 'No grades available',
 
     // User
     'users' => "Users",
@@ -131,4 +132,5 @@ return [
     'photo' => 'Photo',
     'select_gender' => 'Select Gender',
     'subjects' => 'Subjects',
+    'no_subjects_available' => 'No subjects available',
 ];

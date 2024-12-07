@@ -22,7 +22,6 @@ class StoreTeacherRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd($this->all());
         return [
             'grades' => 'required|array',
             'grades.*' => 'required|integer|exists:grades,id',
@@ -36,7 +35,7 @@ class StoreTeacherRequest extends FormRequest
             'experience_years' => 'required|integer|min:0',
             'status' => 'required|in:active,inactive',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'salary' => 'required|numeric',
+            'salary' => 'required|numeric'
         ];
     }
 }
