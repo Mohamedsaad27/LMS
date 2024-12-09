@@ -7,6 +7,7 @@ use App\Http\Requests\RoleRequest\UpdateRoleRequest;
 use App\Services\Interfaces\Dashboard\Admin\RoleRepositoryInterface;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 
 class RoleRepository implements RoleRepositoryInterface
 {
@@ -35,15 +36,22 @@ class RoleRepository implements RoleRepositoryInterface
         return $permissions;
     }
 
-    public function store(StoreRoleRequest $request)
+    public function store(Request $request)
     {
         try {
-            $data = $request->validated();
-
-            $role = Role::create(['name' => $request->role, 'guard_name' => 'web'])->givePermissionTo($request->permissions);
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'permissions' => 'required|array|exists:permissions,id',
+            ],[
+                'name.required' => __('messages.name_is_required'),
+                'permissions.required' => __('messages.permissions_are_required'),
+                'permissions.array' => __('messages.permissions_must_be_an_array'),
+                'permissions.exists' => __('messages.permissions_must_exist'),
+            ]);
+            $role = Role::create(['name' => $request->name, 'guard_name' => 'web'])->givePermissionTo($request->permissions);
             return $role;
         } catch (\Exception $e) {
-            throw $e;
+            throw new \Exception($e->getMessage());
         }
     }
 

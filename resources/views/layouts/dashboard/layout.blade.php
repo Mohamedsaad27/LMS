@@ -43,6 +43,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
 
     <!-- Tagify -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.32.1/tagify.min.css">
 
     @if (LaravelLocalization::getCurrentLocaleDirection() == 'rtl')
@@ -380,7 +381,20 @@
 
     <!-- LMS JS -->
     <script src="{{ asset('assets/js/dashboard/lms.js') }}"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- select2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <!-- Initialization Script -->
+    <script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Select options",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+    </script>
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

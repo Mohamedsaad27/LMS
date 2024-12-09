@@ -41,7 +41,7 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoleRequest $request)
+    public function store(Request $request)
     {
         try {
             $role = $this->roleRepository->store($request);

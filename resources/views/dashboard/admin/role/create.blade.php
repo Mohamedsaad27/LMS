@@ -51,15 +51,28 @@
                                 @enderror
 
                                 <div class="d-flex flex-wrap">
-                                    @forelse ($permissions as $permission)
-                                        <label
-                                            class="form-check form-check-sm form-check-custom form-check-solid me-3 my-2 mb-0 ps-5 pe-4 py-2 rounded bg-gray-100 hover-bg-gray-200 transition cursor-pointer permission">
-                                            <input class="form-check-input" type="checkbox" @checked(in_array($permission->name, old('permissions', []))) value="{{ $permission->name }}"
-                                                name="permissions[]">
-                                            <span class="form-check-label">
-                                                {{ $permission->name }}
-                                            </span>
-                                        </label>
+                                    @forelse (config('permissions.roles') as $role => $permissions)
+                                    <div class="col-lg-3">
+                                        <div class="card card-primary">
+                                            <div class="card-header">
+                                                <h3 class="card-title">{{ trans('messages.' . $role) }}</h3>
+                                            </div>
+
+                                            <div class="card-body d-flex flex-wrap ">
+                        
+                                                @foreach ($permissions as $permission)
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="{{ $permission }}" id="{{ $permission }}" name="permissions[]"
+                                                        @checked(isset($data) && $data->hasPermission($role . '-' . $permission))
+                                                        >
+                                                        <label class="form-check-label" for="{{ $permission }}">
+                                                            {{ trans('messages.' . $permission) }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
                                     @empty
                                     @endforelse
                                 </div>
