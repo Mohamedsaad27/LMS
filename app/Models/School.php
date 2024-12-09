@@ -21,7 +21,9 @@ class School extends Model
         'address',
         'logo',
         'type',
-        'organization_id'
+        'organization_id',
+        'max_students',
+        'max_teachers'
     ];
 
     public function getNameAttribute()
@@ -54,6 +56,14 @@ class School extends Model
     public function classrooms()
     {
         return $this->hasMany(Classroom::class);
+    }
+    public function grades()
+    {
+        return $this->belongsToMany(Grade::class, 'school_grade');
+    }
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'school_subject');
     }
 
 }

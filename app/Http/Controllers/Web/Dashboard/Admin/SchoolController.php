@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Web\Dashboard\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SchoolRequests\StoreSchoolRequest;
 use App\Http\Requests\SchoolRequests\UpdateSchoolRequest;
+use App\Models\Grade;
+use App\Models\Organization;
+use App\Models\School;
+use App\Models\Subject;
 use App\Services\Interfaces\Dashboard\Admin\SchoolRepositoryInterface;
+use Illuminate\Http\Request;
 
 class SchoolController extends Controller
 {
@@ -25,8 +29,10 @@ class SchoolController extends Controller
 
     public function create()
     {
-        $organizations = $this->schoolRepository->create();
-        return view('dashboard.admin.schools.create', compact('organizations'));
+        $organizations = Organization::all();
+        $grades = Grade::all();
+        $subjects = Subject::all();
+        return view('dashboard.admin.schools.create', compact('organizations', 'grades', 'subjects'));
     }
 
     public function store(StoreSchoolRequest $request)
@@ -41,10 +47,12 @@ class SchoolController extends Controller
         return view('dashboard.admin.schools.show', compact('school'));
     }
 
-    public function edit($id)
+    public function edit(School $school)
     {
-        $school = $this->schoolRepository->edit($id);
-        return view('dashboard.admin.schools.edit', $school);
+        $organizations = Organization::all();
+        $grades = Grade::all();
+        $subjects = Subject::all();
+        return view('dashboard.admin.schools.edit', compact('school', 'organizations', 'grades', 'subjects'));
     }
 
     public function update(UpdateSchoolRequest $request, $id)
@@ -58,5 +66,4 @@ class SchoolController extends Controller
         $this->schoolRepository->destroy($id);
         return redirect()->route('schools.index')->with('success', 'School deleted successfully');
     }
-
 }

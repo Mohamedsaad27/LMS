@@ -37,6 +37,7 @@ class StoreOrganizationRequest extends FormRequest
             'established_year' => ['nullable', 'integer'],
             'description_ar' => ['nullable', 'string'],
             'description_en' => ['nullable', 'string'],
+            'max_schools' => ['nullable', 'integer', 'min:1'],
         ];
     }
     public function messages(): array
@@ -56,6 +57,8 @@ class StoreOrganizationRequest extends FormRequest
             'established_year.integer' => 'The established year must be a valid year.',
             'description_ar.string' => 'The Arabic description must be a string.',
             'description_en.string' => 'The English description must be a string.',
+            'max_schools.integer' => 'The maximum number of schools must be a valid number.',
+            'max_schools.min' => 'The maximum number of schools must be at least 1.',
         ];
     }
   

@@ -55,6 +55,7 @@
                                 <th class="px-4 py-3 text-muted">{{trans('messages.organization')}}</th>
                                 <th class="px-4 py-3 text-muted">{{trans('messages.contact_info')}}</th>
                                 <th class="px-4 py-3 text-muted">{{trans('messages.location')}}</th>
+                                <th class="px-4 py-3 text-muted">{{trans('messages.max_schools')}}</th>
                                 <th class="px-4 py-3 text-muted">{{trans('messages.actions')}}</th>
                             </tr>
                         </thead>
@@ -93,6 +94,9 @@
                                             <i class="fas fa-map-marker-alt me-2 text-muted"></i>
                                             <span>{{ $organization->address ?? 'N/A' }}</span>
                                         </div>
+                                    </td>
+                                    <td class="px-4">
+                                        <span>{{ $organization->max_schools ?? 'N/A' }}</span>
                                     </td>
                                     <td class="px-4">
                                         <div class="d-flex gap-2">

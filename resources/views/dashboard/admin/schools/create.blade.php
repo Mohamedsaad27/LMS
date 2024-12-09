@@ -43,12 +43,15 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
 
+                                <div class="col-lg-6">
                                     <!-- Password -->
                                     <div class="mb-4">
                                         <label for="password" class="form-label">{{ trans('messages.password') }}</label>
                                         <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                            id="password" name="password" placeholder="{{ trans('messages.enter_password') }}">
+                                            id="password" name="password"
+                                            placeholder="{{ trans('messages.enter_password') }}">
                                         @error('password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -67,7 +70,8 @@
 
                                     <!-- Description English -->
                                     <div class="mb-4">
-                                        <label for="description_en" class="form-label">{{ trans('messages.description_en') }}</label>
+                                        <label for="description_en"
+                                            class="form-label">{{ trans('messages.description_en') }}</label>
                                         <textarea class="form-control @error('description_en') is-invalid @enderror" id="description_en" name="description_en"
                                             rows="4" placeholder="{{ trans('messages.enter_english_description') }}">{{ old('description_en') }}</textarea>
                                         @error('description_en')
@@ -75,7 +79,9 @@
                                         @enderror
                                     </div>
                                 </div>
+                            </div>
 
+                            <div class="row mb-4">
                                 <div class="col-lg-6">
                                     <!-- Arabic Name -->
                                     <div class="mb-4">
@@ -98,7 +104,9 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
 
+                                <div class="col-lg-6">
                                     <!-- Established Year -->
                                     <div class="mb-4">
                                         <label for="type" class="form-label">{{ trans('messages.type') }}</label>
@@ -120,24 +128,35 @@
                                     <div class="mb-4">
                                         <label for="logo" class="form-label">{{ trans('messages.logo') }}</label>
                                         <input type="file" class="form-control @error('logo') is-invalid @enderror"
-                                            id="logo" name="logo" accept="image/*" placeholder="{{ trans('messages.select_logo') }}">
+                                            id="logo" name="logo" accept="image/*"
+                                            placeholder="{{ trans('messages.select_logo') }}">
                                         @error('logo')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
+                            </div>
 
+                            <div class="row mb-4">
+                                <div class="col-lg-6">
                                     <!-- Description Arabic -->
                                     <div class="mb-4">
-                                        <label for="description_ar" class="form-label">{{ trans('messages.description_ar') }}</label>
+                                        <label for="description_ar"
+                                            class="form-label">{{ trans('messages.description_ar') }}</label>
                                         <textarea class="form-control @error('description_ar') is-invalid @enderror" id="description_ar"
                                             name="description_ar" rows="4" placeholder="{{ trans('messages.enter_arabic_description') }}">{{ old('description_ar') }}</textarea>
                                         @error('description_ar')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    {{-- if role organxzation remove this field  --}}
                                     <!-- Organization -->
                                     <div class="mb-4">
-                                        <label for="organization_id" class="form-label">{{ trans('messages.organizations') }}</label>
+                                        <label for="organization_id"
+                                            class="form-label">{{ trans('messages.organizations') }}</label>
                                         <select class="form-control @error('organization_id') is-invalid @enderror"
                                             id="organization_id" name="organization_id">
                                             @foreach ($organizations as $organization)
@@ -154,9 +173,76 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-4">
+                                <div class="col-lg-6">
+                                    <label for="max_students"
+                                        class="form-label">{{ trans('messages.max_students') }}</label>
+                                    <input type="number"
+                                        class="form-control @error('max_students') is-invalid @enderror"
+                                        placeholder="{{ trans('messages.enter_max_students') }}"
+                                        id="max_students" name="max_students" value="{{ old('max_students') }}">
+                                    @error('max_students')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="max_teachers"
+                                        class="form-label">{{ trans('messages.max_teachers') }}</label>
+                                    <input type="number"
+                                        class="form-control @error('max_teachers') is-invalid @enderror"
+                                        placeholder="{{ trans('messages.enter_max_teachers') }}"
+                                        id="max_teachers" name="max_teachers" value="{{ old('max_teachers') }}">
+                                    @error('max_teachers')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-lg-6">
+                                    <!-- Grades Multiselect -->
+                                    <div class="col-12 mb-4">
+                                        <label for="grades" class="form-label">{{ trans('messages.grades') }}</label>
+                                        <select class="form-control select2 @error('grades') is-invalid @enderror"
+                                            id="grades" name="grades[]" multiple="multiple">
+                                            @foreach ($grades as $grade)
+                                                <option value="{{ $grade->id }}"
+                                                    {{ is_array(old('grades')) && in_array($grade->id, old('grades')) ? 'selected' : '' }}>
+                                                    {{ $grade->name_en }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('grades')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <!-- Subjects Multiselect -->
+                                    <div class="col-12 mb-4">
+                                        <label for="subjects" class="form-label">{{ trans('messages.subjects') }}</label>
+                                        <select class="form-control select2 @error('subjects') is-invalid @enderror"
+                                            id="subjects" name="subjects[]" multiple="multiple">
+                                            @foreach ($subjects as $subject)
+                                                <option value="{{ $subject->id }}"
+                                                    {{ is_array(old('subjects')) && in_array($subject->id, old('subjects')) ? 'selected' : '' }}>
+                                                    {{ $subject->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('subjects')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">{{ trans('messages.create_school') }}</button>
+                                    <button type="submit"
+                                        class="btn btn-primary">{{ trans('messages.create_school') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -166,3 +252,4 @@
         </div>
     </div>
 @endsection
+

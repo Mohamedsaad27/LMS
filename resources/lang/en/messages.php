@@ -143,6 +143,19 @@ return [
     'years_old' => 'years old',
     'current_grade' => 'Current Grade',
     'days_ago' => '{{ days }} days ago',
-    'week_ago' => '{{ weeks }} week ago'
-    
+    'week_ago' => '{{ weeks }} week ago',
+    'max_schools' => 'Max Schools',
+    'enter_max_schools' => 'Enter max schools',
+    'max_teachers' => 'Max Teachers',
+    'enter_max_teachers' => 'Enter max teachers',
+    'max_students' => 'Max Students',
+    'enter_max_students' => 'Enter max students',
+    'grade_information' => 'Grade Information',
+    'grade_name_en' => 'Grade Name (English)',
+    'enter_grade_name_en' => 'Enter grade name (English)',
+    'grade_name_ar' => 'Grade Name (Arabic)',
+    'enter_grade_name_ar' => 'Enter grade name (Arabic)',
+    'grade_description_en' => 'Grade Description (English)',
+    'grades' => 'Grades',
+    'subjects' => 'Subjects',
 ];

@@ -60,6 +60,10 @@
                             <strong>{{ trans('messages.address') }}:</strong>
                             <p>{{ $organization->address }}</p>
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>{{ trans('messages.max_schools') }}:</strong>
+                            <p>{{ $organization->max_schools ?? 'N/A' }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

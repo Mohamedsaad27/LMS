@@ -31,7 +31,11 @@
 
     <!-- Preloader CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard/preloader.css') }}">
+    <!-- Tagify CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.10/dist/tagify.css" rel="stylesheet">
 
+    <!-- select2 JavaScript -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- izitoast -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
 
@@ -357,6 +361,7 @@
 
     <!-- Notyf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.10/dist/tagify.min.js"></script>
 
     <!-- Simplebar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/6.2.7/simplebar.min.js"></script>
@@ -372,7 +377,19 @@
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <!-- Initialization Script -->
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select options",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
     {{-- Custom Scripts --}}
     @stack('scripts')
     @stack('alerts')

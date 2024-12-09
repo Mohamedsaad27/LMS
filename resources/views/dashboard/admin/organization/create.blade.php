@@ -124,6 +124,17 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+
+                                    <!-- Max Schools -->
+                                    <div class="mb-4">
+                                        <label for="max_schools" class="form-label">{{trans('messages.max_schools')}}</label>
+                                        <input type="number" class="form-control @error('max_schools') is-invalid @enderror" 
+                                               id="max_schools" name="max_schools" 
+                                               value="{{ old('max_schools') }}" min="1" placeholder="{{trans('messages.enter_max_schools')}}">
+                                        @error('max_schools')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 

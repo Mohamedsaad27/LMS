@@ -153,6 +153,13 @@ return [
     'days_ago' => '{{ days }} يوم مضى',
     'week_ago' => '{{ weeks }} أسبوع مضى',
     'enrolled' => 'مسجل',
-    'grade_information' => 'معلومات المرحلة'
+    'grade_information' => 'معلومات المرحلة',
+    'max_schools' => 'الحد الأقصى للمدارس',
+    'enter_max_schools' => 'أدخل الحد الأقصى للمدارس',
+    'max_teachers' => 'الحد الأقصى للمعلمين',
+    'enter_max_teachers' => 'أدخل الحد الأقصى للمعلمين',
+    'max_students' => 'الحد الأقصى للطلاب',
+    'enter_max_students' => 'أدخل الحد الأقصى للطلاب',
+    'grades' => 'المراحل',
+    'subjects' => 'المواد',
 ];
-

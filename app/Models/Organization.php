@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\School;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
@@ -20,6 +21,7 @@ class Organization extends Model
         'address',
         'logo',
         'established_year',
+        'max_schools'
     ];
     public function schools()
     {
