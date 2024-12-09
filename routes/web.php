@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\Dashboard\Admin\OrganizationController;
 use App\Http\Controllers\Web\Dashboard\Admin\RoleController;
 use App\Http\Controllers\Web\Dashboard\Admin\SchoolController;
 use App\Http\Controllers\Web\Dashboard\Admin\StudentController;
+use App\Http\Controllers\Web\Dashboard\Admin\TeacherController;
 use App\Http\Controllers\Web\Dashboard\Admin\UserController;
 use App\Models\School;
 use App\Models\Student;
@@ -53,6 +54,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         // -------------------------- Roles Routes -------------------------------- //
         Route::resource('roles', RoleController::class);
+
+        // -------------------------- Teacher Route -------------------------------- //
+        Route::resource('teachers', TeacherController::class);
     });
 
     Route::get('/dashboard', function () {

@@ -29,6 +29,9 @@
     <!-- LMS CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard/lms.css') }}">
 
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard/icons/plugins.bundle.css') }}">
+
     <!-- Preloader CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard/preloader.css') }}">
     <!-- Tagify CSS -->
@@ -38,6 +41,9 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- izitoast -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+
+    <!-- Tagify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.32.1/tagify.min.css">
 
     @if (LaravelLocalization::getCurrentLocaleDirection() == 'rtl')
         <link rel="stylesheet" href="{{ asset('assets/css/dashboard/rtl.css') }}">
@@ -380,16 +386,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <!-- Initialization Script -->
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: "Select options",
-                allowClear: true,
-                width: '100%'
-            });
-        });
-    </script>
     {{-- Custom Scripts --}}
     @stack('scripts')
     @stack('alerts')

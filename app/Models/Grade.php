@@ -31,4 +31,7 @@ class Grade extends Model
     {
         return $this->hasMany(Unit::class);
     }
+    public function teachers(){
+        return $this->belongsToMany(Teacher::class, 'grade_teacher', 'grade_id', 'teacher_id');
+    }
 }

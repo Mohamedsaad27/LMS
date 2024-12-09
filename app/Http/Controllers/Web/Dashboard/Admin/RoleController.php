@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Web\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest\StoreRoleRequest;
+use App\Http\Requests\RoleRequest\UpdateRoleRequest;
 use App\Services\Interfaces\Dashboard\Admin\RoleRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
@@ -41,11 +43,11 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        try{
+        try {
             $role = $this->roleRepository->store($request);
-            
+
             return redirect()->route('roles.index')->with('success', __('dashboard.role_created_successfully'));
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->route('roles.create')->with('error', __('dashboard.error_occurred_try_again'));
         }
     }
@@ -69,16 +71,27 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        try {
+            $updateRole = $this->roleRepository->update($request, $role);
+
+            return redirect()->route('roles.index')->with('success', __('dashboard.role_updated_successfully'));
+        } catch (Exception $e) {
+            return redirect()->route('roles.index')->with('error', __('dashboard.error_occurred_try_again'));
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        try {
+            $role = $this->roleRepository->destroy($role);
+            return redirect()->route('roles.index')->with('success', __('dashboard.role_deleted_successfully'));
+        } catch (\Exception $e) {
+            return redirect()->route('roles.index')->with('error', __('dashboard.error_occurred_try_again'));
+        }
     }
 }

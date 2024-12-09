@@ -4,6 +4,26 @@
     --bs-font-sans-serif: "Inter", sans-serif;
 }
 
+.avatar-group .avatar+.avatar {
+    margin-left: -1rem;
+}
+
+.border-e-2 {
+    border-right: 2px solid #9CA3AF !important;
+}
+
+.border-s-2 {
+    border-left: 2px solid #9CA3AF !important;
+}
+
+.border-e-3 {
+    border-right: 3px solid #9CA3AF !important;
+}
+
+.border-s-3 {
+    border-left: 3px solid #9CA3AF !important;
+}
+
 .me-0 {
     margin-right: 0 !important;
 }
@@ -158,6 +178,10 @@
 
 .ms-4 {
     margin-left: 1.5rem !important;
+}
+
+.ms-4_5 {
+    margin-left: 30px !important;
 }
 
 .ms-5 {
@@ -440,10 +464,6 @@
 
 .sidebar {
     left: 0;
-}
-
-.sidebar .multi-level .nav-link {
-    padding-left: 53px;
 }
 
 /**

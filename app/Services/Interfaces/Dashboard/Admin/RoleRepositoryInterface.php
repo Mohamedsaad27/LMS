@@ -14,6 +14,6 @@ interface RoleRepositoryInterface
     public function edit(Role $role);
     public function create();
     public function store(StoreRoleRequest $request);
-    public function update(UpdateRoleRequest $request, $id);
-    public function destroy($id);
+    public function update(UpdateRoleRequest $request, Role $role);
+    public function destroy(Role $role);
 }
