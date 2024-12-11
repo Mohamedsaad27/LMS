@@ -1,34 +1,32 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Web\Dashboard\Admin\GradeController;
-use App\Http\Controllers\Web\Dashboard\Admin\OrganizationController;
-use App\Http\Controllers\Web\Dashboard\Admin\RoleController;
-use App\Http\Controllers\Web\Dashboard\Admin\SchoolController;
-use App\Http\Controllers\Web\Dashboard\Admin\StudentController;
-use App\Http\Controllers\Web\Dashboard\Admin\TeacherController;
-use App\Http\Controllers\Web\Dashboard\Admin\UserController;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\Dashboard\Admin\RoleController;
+use App\Http\Controllers\Web\Dashboard\Admin\UserController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-
+use App\Http\Controllers\Web\Dashboard\Admin\GradeController;
+use App\Http\Controllers\Web\Dashboard\Admin\SchoolController;
+use App\Http\Controllers\Web\Dashboard\Admin\StudentController;
+use App\Http\Controllers\Web\Dashboard\Admin\SubjectController;
+use App\Http\Controllers\Web\Dashboard\Admin\TeacherController;
+use App\Http\Controllers\Web\Dashboard\Admin\OrganizationController;
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
-
     /*
-        |--------------------------------------------------------------------------
-        | DASHBOARD ROUTES
-        |--------------------------------------------------------------------------
-        | These routes handle all the DASHBOARD views and functionalities accessible
-        | by users or guests. They manage the user interface, site navigation, and
-        | public-facing content.
-        |--------------------------------------------------------------------------
-    */
+     * |--------------------------------------------------------------------------
+     * | DASHBOARD ROUTES
+     * |--------------------------------------------------------------------------
+     * | These routes handle all the DASHBOARD views and functionalities accessible
+     * | by users or guests. They manage the user interface, site navigation, and
+     * | public-facing content.
+     * |--------------------------------------------------------------------------
+     */
 
     Route::group(['prefix' => 'admin'], function () {
-
         // ------------------------------ DASHBOARD ROUTE ------------------------------ //
         Route::get('/dashboard', function () {
             $schools = School::all();
@@ -57,6 +55,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         // -------------------------- Teacher Route -------------------------------- //
         Route::resource('teachers', TeacherController::class);
+
+        // -------------------------- Subjects Route -------------------------------- //
+        Route::resource('subjects', SubjectController::class);
     });
 
     Route::get('/dashboard', function () {

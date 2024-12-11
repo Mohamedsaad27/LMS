@@ -14,6 +14,7 @@ class Subject extends Model
         'organization_id',
         'name',
         'description',
+        'is_premium',
     ];
     public function grade(){
         return $this->belongsTo(Grade::class);
@@ -29,5 +30,9 @@ class Subject extends Model
     }
     public function teachers(){
         return $this->belongsToMany(Teacher::class, 'subject_teacher', 'subject_id', 'teacher_id');
+    }
+    public function scopePremium($query)
+    {
+        return $query->where('is_premium', true);
     }
 }
