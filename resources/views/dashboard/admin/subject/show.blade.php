@@ -20,14 +20,20 @@
         </div>
 
         <div class="row">
-            <!-- School Overview Card -->
+            <!-- Subject Overview Card -->
             <div class="col-xl-4 col-lg-5 mb-4">
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body text-center pt-4">
                         <div class="mb-4">
                             <h4 class="mb-1">{{ $subject->name }}</h4>
-                            <span class="badge {{ $subject->is_premium ? 'bg-success text-dark' : 'bg-primary-soft text-primary' }} mb-3">Premium</span>
+                            <span
+                                class="badge {{ $subject->is_premium ? 'bg-success text-dark' : 'bg-primary-soft text-primary' }}">
+                                {{ $subject->is_premium ? 'Premium' : 'Standard' }}
+                            </span>
                         </div>
+                        @if ($subject->grade)
+                            <p class="text-muted">Grade: {{ $subject->grade->name }}</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -46,44 +52,36 @@
                                     </div>
                                 </div>
                                 <h3 class="mb-2">{{ $subject->teachers->count() }}</h3>
-                                <a href="#teachersTab" class="small text-primary" data-bs-toggle="pill">View All Teachers</a>
+                                <a href="#teachersTab" class="small text-primary" data-bs-toggle="pill">View All
+                                    Teachers</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Students Card -->
+                    <!-- Units Card -->
                     <div class="col-sm-6 col-xl-6 mb-4">
                         <div class="card border-0 shadow-sm rounded-3">
                             <div class="card-body">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <h6 class="mb-0">Units</h6>
                                     <div class="avatar bg-success-soft rounded p-1">
-                                        <i class="fas fa-user-graduate text-success"></i>
+                                        <i class="fas fa-book text-success"></i>
                                     </div>
                                 </div>
                                 <h3 class="mb-2">{{ $subject->units->count() }}</h3>
-                                <a href="#studentsTab" class="small text-success" data-bs-toggle="pill">View All Units</a>
+                                <a href="#unitsTab" class="small text-success" data-bs-toggle="pill">View All Units</a>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Description Card -->
                 <div class="card border-0 shadow-sm rounded-3 mb-4">
                     <div class="card-header bg-white py-3">
-                        <ul class="nav nav-pills card-header-pills" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="pill" href="#arabicDesc">Description</a>
-                            </li>
-                        </ul>
+                        <h6 class="mb-0">Description</h6>
                     </div>
                     <div class="card-body">
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="englishDesc">
-                                <p class="mb-0">{{ $subject->description ?? 'No description available.' }}</p>
-                            </div>
-                        </div>
+                        <p class="mb-0">{{ $subject->description ?? 'No description available.' }}</p>
                     </div>
                 </div>
             </div>
@@ -97,10 +95,10 @@
                         <a class="nav-link active" data-bs-toggle="pill" href="#teachersTab">Teachers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="pill" href="#studentsTab">Units</a>
+                        <a class="nav-link" data-bs-toggle="pill" href="#unitsTab">Units</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="pill" href="#classroomsTab">book</a>
+                        <a class="nav-link" data-bs-toggle="pill" href="#bookTab">Book</a>
                     </li>
                 </ul>
             </div>
@@ -126,7 +124,8 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <img src="{{ asset($teacher->photo) }}" alt=""
-                                                        class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                        class="rounded-circle me-2"
+                                                        style="width: 40px; height: 40px; object-fit: cover;">
                                                     <div>
                                                         <h6 class="mb-0">{{ $teacher->user->name }}</h6>
                                                         <small class="text-muted">{{ $teacher->user->email }}</small>
@@ -137,12 +136,14 @@
                                             <td>{{ $teacher->qualification }}</td>
                                             <td>{{ $teacher->experience_years }} years</td>
                                             <td>
-                                                <span class="badge bg-{{ $teacher->status === 'active' ? 'success' : 'danger' }}-soft">
+                                                <span
+                                                    class="badge bg-{{ $teacher->status === 'active' ? 'success' : 'danger' }}-soft">
                                                     {{ ucfirst($teacher->status) }}
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-light-primary">
+                                                <a href="{{ route('teachers.show', $teacher->id) }}"
+                                                    class="btn btn-sm btn-light-primary">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
@@ -158,14 +159,14 @@
                     </div>
 
                     <!-- Units Tab -->
-                    <div class="tab-pane fade" id="studentsTab">
+                    <div class="tab-pane fade" id="unitsTab">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Unit</th>
                                         <th>Grade</th>
-                                        <th>Subject</th>
+                                        <th>Description</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -176,62 +177,71 @@
                                                 <div class="d-flex align-items-center">
                                                     <div>
                                                         <h6 class="mb-0">{{ $unit->name_en }}</h6>
-                                                        <small class="text-muted">{{ $unit->description_en }}</small>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>{{ $unit->grade->name ?? 'N/A' }}</td>
-                                            <td>{{ $unit->subject->name }}</td>
+                                            <td>{{ $unit->description_en }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-light-primary">
+                                                <a href="{{ route('units.show', $unit->id) }}"
+                                                    class="btn btn-sm btn-light-primary">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="5" class="text-center py-4">No students found</td>
+                                            <td colspan="4" class="text-center py-4">No units found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    {{-- Book Tab --}}
-                    <div class="tab-pane fade" id="studentsTab">
+
+                    <!-- Book Tab -->
+                    <div class="tab-pane fade" id="bookTab">
                         <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Book</th>
-                                        <th>Description</th>
-                                        <th>Author</th>
-                                        <th>publication Year</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            @if ($subject->book)
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Book</th>
+                                            <th>Description</th>
+                                            <th>Author</th>
+                                            <th>Publication Year</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="{{ asset($subject->book->cover_image ?? 'default_image.png') }}" alt=""
-                                                        class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    <img src="{{ asset($subject->book->cover_image ?? 'default_image.png') }}"
+                                                        alt="" class="rounded-circle me-2"
+                                                        style="width: 40px; height: 40px; object-fit: cover;">
                                                     <div>
-                                                        <h6 class="mb-0">{{ $subject->title}}</h6>
+                                                        <h6 class="mb-0">{{ $subject->book->title }}</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>{{ $subject->book->description ?? 'N/A' }}</td>
                                             <td>{{ $subject->book->author ?? 'N/A' }}</td>
-                                            <td>{{ $subject->book->publication_year ?? 'N/A'}}</td>
+                                            <td>{{ $subject->book->publication_year ?? 'N/A' }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-light-primary">
+                                                <a href="{{ route('books.show', $subject->book->id) }}"
+                                                    class="btn btn-sm btn-light-primary">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
                                         </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            @else
+                                <div class="text-center py-4">
+                                    <p class="text-muted">No book associated with this subject</p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -239,36 +249,34 @@
         </div>
     </div>
 @endsection
-    @push('styles')
-        <style>
-            .bg-primary-soft {
-                background-color: rgba(85, 110, 230, 0.1) !important;
-            }
-            
-            .bg-success-soft {
-                background-color: rgba(34, 197, 94, 0.1) !important;
-            }
-            
-            .bg-warning-soft {
-                background-color: rgba(255, 171, 0, 0.1) !important;
-            }
-            
-            .text-primary {
-                color: #556ee6 !important;
-            }
-            
-            .text-success {
-                color: #22c55e !important;
-            }
-            
-            .text-warning {
-                color: #ffab00 !important;
-            }
+@push('styles')
+    <style>
+        .bg-primary-soft {
+            background-color: rgba(85, 110, 230, 0.1) !important;
+        }
 
-            .badge.bg-success-soft {
-                color: #22c55e !important;
-            }
+        .bg-success-soft {
+            background-color: rgba(34, 197, 94, 0.1) !important;
+        }
 
-        </style>
-    @endpush
+        .bg-warning-soft {
+            background-color: rgba(255, 171, 0, 0.1) !important;
+        }
 
+        .text-primary {
+            color: #556ee6 !important;
+        }
+
+        .text-success {
+            color: #22c55e !important;
+        }
+
+        .text-warning {
+            color: #ffab00 !important;
+        }
+
+        .badge.bg-success-soft {
+            color: #22c55e !important;
+        }
+    </style>
+@endpush
