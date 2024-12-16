@@ -70,6 +70,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         // -------------------------- Lessons Route -------------------------------- //
         Route::resource('lessons', controller: LessonController::class);
+
+        // -------------------------- Books Route -------------------------------- //
+        Route::resource('books', controller: BookController::class);
     });
 
     Route::get('/dashboard', function () {

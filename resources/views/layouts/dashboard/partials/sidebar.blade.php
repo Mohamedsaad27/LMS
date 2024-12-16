@@ -378,9 +378,47 @@
                             <span class="sidebar-text">{{ __('messages.view_lesson') }}</span>
                         </a>
                     </li>
-                </ul>
-            </div>
-        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ request()->is('admin/books*') ? 'active' : '' }}">
+                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-books">
+                    <span>
+                        <span class="sidebar-icon">
+                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="sidebar-text">{{ __('messages.books') }}</span>
+                    </span>
+                    <span class="link-arrow">
+                        <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </span>
+                <div class="multi-level collapse mt-2" role="list" id="submenu-books" aria-expanded="false">
+                    <ul class="flex-column nav ms-4_5 border-s-3 ps-2">
+                        <li class="nav-item {{ request()->is('admin/books/create') ? 'active' : '' }}">
+                            <a class="nav-link fs-7 py-1-px" href="{{ route('books.create') }}">
+                                <span class="sidebar-text">{{ __('messages.add_book') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ request()->is('admin/books') ? 'active' : '' }}">
+                            <a class="nav-link fs-7 py-1-px" href="{{ route('books.index') }}">
+                                <span class="sidebar-text">{{ __('messages.view_book') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
         </ul>
       
     </div>

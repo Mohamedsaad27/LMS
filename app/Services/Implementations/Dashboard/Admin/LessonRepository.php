@@ -43,6 +43,7 @@ class LessonRepository implements LessonRepositoryInterface
         $lesson = $this->lesson->with('unit')->find($lesson->id);
         return compact('lesson', 'units');
     }
+    
     public function update(UpdateLessonRequest $request, Lesson $lesson){
         $validated = $request->validated();
         if($request->hasFile('image')){

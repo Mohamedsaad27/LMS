@@ -251,4 +251,11 @@ return [
     'lesson_created' => 'Lesson created successfully',
     'lesson_not_found' => 'Lesson not found',
     'update_lesson' => 'Update Lesson',
+    'lesson_image' => 'Lesson Image',
+    'last_updated' => 'Last Updated',
+    'basic_information' => 'Basic Information',
+    'lesson_details' => 'Lesson Details',
+    'books' => 'Books',
+    'add_book' => 'Add Book',
+    'view_book' => 'View Book',
 ];

@@ -246,5 +246,7 @@ return [
     'enter_description_en' => 'أدخل الوصف بالانجليزية',
     'select_subject' => 'إختر المادة',
     'no_units_found' => 'لا يوجد وحدات',
+    'lesson_image' => 'صورة الدرس',
+    'last_updated' => 'آخر تحديث',
 ];
 
