@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Web\Dashboard\Admin;
 
-use App\Models\Book;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequests\StoreBookRequest;
 use App\Http\Requests\BookRequests\UpdateBookRequest;
+use App\Models\Book;
 use App\Services\Interfaces\Dashboard\Admin\BookRepositoryInterface;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {

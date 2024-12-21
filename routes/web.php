@@ -5,7 +5,7 @@ use App\Models\Student;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Web\Dashboard\BookController;
+use App\Http\Controllers\Web\Dashboard\Admin\BookController;
 use App\Http\Controllers\Web\Dashboard\Admin\RoleController;
 use App\Http\Controllers\Web\Dashboard\Admin\UnitController;
 use App\Http\Controllers\Web\Dashboard\Admin\UserController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\Web\Dashboard\Admin\SchoolController;
 use App\Http\Controllers\Web\Dashboard\Admin\StudentController;
 use App\Http\Controllers\Web\Dashboard\Admin\SubjectController;
 use App\Http\Controllers\Web\Dashboard\Admin\TeacherController;
+use App\Http\Controllers\Web\Dashboard\Admin\ClassRoomController;
 use App\Http\Controllers\Web\Dashboard\Admin\OrganizationController;
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
@@ -73,6 +74,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         // -------------------------- Books Route -------------------------------- //
         Route::resource('books', controller: BookController::class);
+
+        // -------------------------- Books Route -------------------------------- //
+        Route::resource('classrooms', controller: ClassRoomController::class);
     });
 
     Route::get('/dashboard', function () {

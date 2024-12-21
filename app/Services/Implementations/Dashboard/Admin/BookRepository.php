@@ -2,9 +2,10 @@
 
 namespace App\Services\Implementations\Dashboard\Admin;
 
+use App\Models\Book;
+use App\Models\Subject;
 use App\Http\Requests\BookRequests\StoreBookRequest;
 use App\Http\Requests\BookRequests\UpdateBookRequest;
-use App\Models\Book;
 use App\Services\Interfaces\Dashboard\Admin\BookRepositoryInterface;
 
 class BookRepository implements BookRepositoryInterface
@@ -24,7 +25,7 @@ class BookRepository implements BookRepositoryInterface
 
     public function create()
     {
-        $subjects = $this->book->subject->get();
+        $subjects = Subject::all();
         return $subjects;
     }
 
@@ -50,7 +51,7 @@ class BookRepository implements BookRepositoryInterface
 
     public function edit(Book $book)
     {
-        $subjects = $this->book->subject->get();
+        $subjects = Subject::all();
         return $subjects;
     }
 
