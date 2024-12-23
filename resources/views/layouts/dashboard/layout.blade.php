@@ -384,16 +384,19 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- select2 --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
+
+    {{-- tagify script --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.33.0/tagify.min.js"></script>
+
     <!-- Initialization Script -->
     <script>
-    $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: "Select options",
-            allowClear: true,
-            width: '100%'
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select options",
+                allowClear: true,
+                width: '100%'
+            });
         });
-    });
     </script>
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>

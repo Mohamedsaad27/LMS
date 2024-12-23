@@ -23,7 +23,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return $this->teacherRepository->index();
+        $teachers = $this->teacherRepository->index();
+        $users = $teachers->pluck('user');
+        $schools = $teachers->pluck('school');
+        
+        return view('dashboard.admin.teacher.index', compact('users' , 'schools'));
     }
 
     /**
@@ -49,7 +53,7 @@ class TeacherController extends Controller
 
             return redirect()->route('teachers.index')->with('success', __('teacher_created_successfully'));
         } catch (\Exception $e) {
-            return redirect()->route('teachers.create')->with('error', __('teacher_creation_failed'));
+            return redirect()->back()->with('error', __('teacher_creation_failed') . ' ' . $e->getMessage());
         }
     }
 
