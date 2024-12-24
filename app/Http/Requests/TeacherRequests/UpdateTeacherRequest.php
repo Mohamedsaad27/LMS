@@ -22,14 +22,25 @@ class UpdateTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'school_id' => 'nullable|exists:schools,id',
-            'experience_years' => 'nullable|integer|min:0', 
-            'hire_date' => 'nullable|date',
+            'name_en' => 'required|string|max:255',
+            'name_ar' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $this->teacher->user->id,
+            'phone' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8',
+            'address' => 'required|string|max:255',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date',
+            'hire_date' => 'required|date',
             'qualification' => 'nullable|string|max:255', 
+            'experience_years' => 'nullable|integer|min:0', 
+            'school_id' => 'nullable|exists:schools,id',
+            'grades' => 'nullable|array',
+            'grades.*' => 'nullable|integer|exists:grades,id',
+            'subjects' => 'nullable|array',
+            'subjects.*' => 'nullable|integer|exists:subjects,id',
             'salary' => 'nullable|numeric', 
             'status' => 'nullable|in:active,inactive',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'date_of_birth' => 'nullable|date',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 }

@@ -24,10 +24,8 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers = $this->teacherRepository->index();
-        $users = $teachers->pluck('user');
-        $schools = $teachers->pluck('school');
         
-        return view('dashboard.admin.teacher.index', compact('users' , 'schools'));
+        return view('dashboard.admin.teacher.index', compact('teachers'));
     }
 
     /**
@@ -51,9 +49,9 @@ class TeacherController extends Controller
         try {
             $teacher = $this->teacherRepository->store($request);
 
-            return redirect()->route('teachers.index')->with('success', __('teacher_created_successfully'));
+            return redirect()->route('teachers.index')->with('success', __('dashboard.teacher_created_successfully'));
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', __('teacher_creation_failed') . ' ' . $e->getMessage());
+            return redirect()->back()->with('error', __('dashboard.teacher_creation_failed') . ' ' . $e->getMessage());
         }
     }
 
@@ -62,7 +60,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        return $this->teacherRepository->show($teacher);
+        return view('dashboard.admin.teacher.show' , compact('teacher'));
     }
 
     /**
@@ -70,7 +68,12 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        return $this->teacherRepository->edit($teacher);
+        $teacher = $this->teacherRepository->edit($teacher);
+        $schools = $this->teacherRepository->create()['schools'];
+        $grades = $this->teacherRepository->create()['grades']; 
+        $subjects = $this->teacherRepository->create()['subjects'];
+        
+        return view('dashboard.admin.teacher.edit', compact('teacher', 'schools', 'grades', 'subjects'));
     }
 
     /**
@@ -81,9 +84,9 @@ class TeacherController extends Controller
         try {
             $this->teacherRepository->update($request, $teacher);
 
-            return redirect()->route('teachers.index')->with('success', __('teacher_updated_successfully'));
+            return redirect()->route('teachers.index')->with('success', __('dashboard.teacher_updated_successfully'));
         } catch (\Exception $e) {
-            return redirect()->route('teachers.edit', $teacher)->with('error', __('teacher_update_failed'));
+            return redirect()->route('teachers.edit', $teacher)->with('error', __('dashboard.teacher_update_failed'));
         }
     }
 
@@ -95,9 +98,9 @@ class TeacherController extends Controller
         try {
             $this->teacherRepository->destroy($teacher);
 
-            return redirect()->route('teachers.index')->with('success', __('teacher_deleted_successfully'));
+            return redirect()->route('teachers.index')->with('success', __('dashboard.teacher_deleted_successfully'));
         } catch (\Exception $e) {
-            return redirect()->route('teachers.index')->with('error', __('teacher_deletion_failed'));
+            return redirect()->route('teachers.index')->with('error', __('dashboard.teacher_deletion_failed'));
         }
     }
 }

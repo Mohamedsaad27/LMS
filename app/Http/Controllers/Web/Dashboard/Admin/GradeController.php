@@ -70,7 +70,7 @@ class GradeController extends Controller
     {
         $educationalStages = $this->gradeRepository->edit();
 
-        return view("dashboard.grade.edit", compact('educationalStages', 'grade'));
+        return view("dashboard.admin.grade.edit", compact('educationalStages', 'grade'));
     }
 
     /**

@@ -25,71 +25,36 @@ class TeacherRepository implements TeacherRepositoryInterface
 
     public function index()
     {
-        return $this->teacher->with('user', 'school')->get();
+        $teachers = Teacher::with(['user', 'school', 'grades', 'subjects'])
+            ->latest()
+            ->paginate(10);
+        return $teachers;
     }
+
 
     public function show(Teacher $teacher)
     {
         return $teacher->load('user', 'school');
     }
 
-    public function update(UpdateTeacherRequest $request, $id)
+    public function destroy(Teacher $teacher)
     {
-        $validated = $request->validated();
         try {
-            if ($request->hasFile('photo')) {
-                $image = $request->file('photo');
-                $imagePath = 'Uploads/Teachers/' . time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('Uploads/Teachers'), $imagePath);
-                $validated['photo'] = $imagePath;
-
-                $teacher = $this->teacher->findOrFail($id);
-                if ($teacher->photo && file_exists(public_path($teacher->photo))) {
-                    unlink(public_path($teacher->photo));
-                }
-            }
-
             DB::beginTransaction();
-            
-            $teacher = $this->teacher->findOrFail($id);
-            $user = User::find($teacher->user_id);
-            
-            $user->update([
-                'name_en' => $validated['name_en'],
-                'name_ar' => $validated['name_ar'],
-                'email' => $validated['email'],
-                'gender' => $validated['gender'],
-                'phone' => $validated['phone'],
-                'address' => $validated['address']
-            ]);
-
-            $teacher->update([
-                'school_id' => $validated['school_id'],
-                'photo' => $validated['photo'] ?? $teacher->photo,
-                'specialization' => $validated['specialization']
-            ]);
-
-            DB::commit();
-            return redirect()->route('teachers.index')->with('success', 'Teacher updated successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error updating teacher: ' . $e->getMessage());
-            return redirect()->back()->with('error', $e->getMessage());
-        }
-    }
-
-    public function destroy($id)
-    {
-        try {
-            $teacher = $this->teacher->findOrFail($id);
             if ($teacher->photo && file_exists(public_path($teacher->photo))) {
                 unlink(public_path($teacher->photo));
             }
+
             $teacher->delete();
-            return redirect()->route('teachers.index')->with('success', 'Teacher deleted successfully');
+            $teacher->user->delete();
+            $teacher->grades()->detach();
+            $teacher->subjects()->detach();
+
+            DB::commit();
+    
         } catch (\Exception $e) {
-            Log::error('Error deleting teacher: ' . $e->getMessage());
-            return redirect()->back()->with('error', $e->getMessage());
+            DB::rollBack();
+            return $e;
         }
     }
 
@@ -98,21 +63,78 @@ class TeacherRepository implements TeacherRepositoryInterface
         $schools = School::all();
         $grades = Grade::all();
         $subjects = Subject::all();
-        
+
         return compact('schools', 'grades', 'subjects');
     }
 
     public function edit(Teacher $teacher)
     {
-        $schools = School::all();
-        return view('dashboard.admin.teacher.edit', compact('teacher', 'schools'));
+        return $teacher->load('user', 'school', 'grades', 'subjects');
+    }
+
+    public function update(UpdateTeacherRequest $request, Teacher $teacher)
+    {
+        $validated = $request->validated();
+        try {
+            DB::beginTransaction();
+
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $imagePath = 'Uploads/Teachers/' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('Uploads/Teachers'), $imagePath);
+                $validated['photo'] = $imagePath;
+
+                if ($teacher->photo && file_exists(public_path($teacher->photo))) {
+                    unlink(public_path($teacher->photo));
+                }
+            }
+
+            $teacher->user->update([
+                'name_en' => $validated['name_en'],
+                'name_ar' => $validated['name_ar'],
+                'email' => $validated['email'],
+                'gender' => $validated['gender'],
+                'phone' => $validated['phone'],
+                'address' => $validated['address'],
+                'status' => $validated['status'],
+                'password' => Hash::make($validated['password']),
+            ]);
+
+            $teacher->update([
+                'school_id' => $validated['school_id'],
+                'photo' => $validated['photo'] ?? $teacher->photo,
+                'status' => $validated['status'],
+                'salary' => $validated['salary'],
+                'date_of_birth' => $validated['date_of_birth'],
+                'hire_date' => $validated['hire_date'],
+                'qualification' => $validated['qualification'],
+                'experience_years' => $validated['experience_years'],
+            ]);
+
+            if ($request->grades) {
+                $teacher->grades()->sync($request->grades);
+            } else {
+                $teacher->grades()->detach();
+            }
+            if ($request->subjects) {
+                $teacher->subjects()->sync($request->subjects);
+            } else {
+                $teacher->subjects()->detach();
+            }
+
+            DB::commit();
+            return $teacher;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function store(StoreTeacherRequest $request)
     {
         try {
             DB::beginTransaction();
-            
+
             $user = User::create([
                 'name_en' => $request->name_en,
                 'name_ar' => $request->name_ar,
@@ -136,7 +158,6 @@ class TeacherRepository implements TeacherRepositoryInterface
                 'user_id' => $user->id,
                 'school_id' => $request->school_id,
                 'photo' => $imagePath,
-                'specialization' => $request->specialization,
                 'status' => $request->status,
                 'salary' => $request->salary,
                 'date_of_birth' => $request->date_of_birth,
@@ -145,9 +166,13 @@ class TeacherRepository implements TeacherRepositoryInterface
                 'experience_years' => $request->experience_years,
             ]);
 
-            $teacher->grades()->sync($request->grades);
-            $teacher->subjects()->sync($request->subjects);
-            
+            if ($request->grades) {
+                $teacher->grades()->sync($request->grades);
+            }
+            if ($request->subjects) {
+                $teacher->subjects()->sync($request->subjects);
+            }
+
             DB::commit();
             return $teacher;
         } catch (\Exception $e) {
