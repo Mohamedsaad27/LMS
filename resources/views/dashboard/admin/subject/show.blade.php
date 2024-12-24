@@ -26,10 +26,6 @@
                     <div class="card-body text-center pt-4">
                         <div class="mb-4">
                             <h4 class="mb-1">{{ $subject->name }}</h4>
-                            <span
-                                class="badge {{ $subject->is_premium ? 'bg-success text-dark' : 'bg-primary-soft text-primary' }}">
-                                {{ $subject->is_premium ? 'Premium' : 'Standard' }}
-                            </span>
                         </div>
                         @if ($subject->grade)
                             <p class="text-muted">Grade: {{ $subject->grade->name }}</p>

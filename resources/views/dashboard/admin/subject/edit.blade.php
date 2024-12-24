@@ -74,22 +74,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-4">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <div
-                                            class="custom-control custom-switch custom-traffic-light d-flex align-items-center">
-                                            <input type="checkbox" class="custom-control-input" id="trafficLightSwitch" value="1"
-                                                name="is_premium" {{ old('is_premium', $subject->is_premium) ? 'checked' : '' }}>
-                                            <label class="custom-control-label mr-3" for="trafficLightSwitch"></label>
-                                            <span class="ml-2">{{ trans('messages.is_premium') }}</span>
-                                        </div>
-                                        @error('is_premium')
-                                            <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-12">
                                     <button type="submit"

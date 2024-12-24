@@ -13,8 +13,7 @@ class Subject extends Model
         'grade_id',
         'organization_id',
         'name',
-        'description',
-        'is_premium',
+        'description'
     ];
     public function grade(){
         return $this->belongsTo(Grade::class);

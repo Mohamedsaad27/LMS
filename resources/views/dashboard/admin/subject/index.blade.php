@@ -55,7 +55,6 @@
                                 <th class="px-4 py-3 text-muted">{{ __('messages.description') }}</th>
                                 <th class="px-4 py-3 text-muted">{{ __('messages.grade') }}</th>
                                 <th class="px-4 py-3 text-muted">{{ __('messages.organization') }}</th>
-                                <th class="px-4 py-3 text-muted">{{ __('messages.is_premium') }}</th>
                                 <th class="px-4 py-3 text-muted">{{ __('messages.actions') }}</th>
                             </tr>
                         </thead>
@@ -107,13 +106,6 @@
                                     </td>
                                     <td>
                                         {{ $subject->organization->name_ar }}
-                                    </td>
-                                    <td>
-                                        @if ($subject->is_premium)
-                                            <span class="badge bg-success">{{ __('messages.yes') }}</span>
-                                        @else
-                                            <span class="badge bg-danger">{{ __('messages.no') }}</span>
-                                        @endif
                                     </td>
                                     <td class="px-4">
                                         <div class="d-flex gap-2">

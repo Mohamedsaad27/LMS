@@ -21,37 +21,42 @@ class SubjectRepository implements SubjectRepositoryInterface
         $this->model = $subject;
     }
 
-    public function index() {
-        $subjects = $this->model->with('grade','organization','book','units','teachers')->get();
+    public function index()
+    {
+        $subjects = $this->model->with('grade', 'organization', 'book', 'units', 'teachers')->get();
         return $subjects;
     }
-    Public function create() {
+    public function create()
+    {
         $grades = Grade::all();
         $organizations = Organization::all();
         return compact('grades', 'organizations');
     }
-    public function store(StoreSubjectRequest $request) {
+    public function store(StoreSubjectRequest $request)
+    {
         $data = $request->validated();
-        $data['is_premium'] = $request->has('is_premium');
         $subject = $this->model->create($data);
         return $subject;
     }
-    public function show(Subject $subject) {
-        $subject = $this->model->with('grade','teachers','organization','book','units')->find($subject->id);
+    public function show(Subject $subject)
+    {
+        $subject = $this->model->with('grade', 'teachers', 'organization', 'book', 'units')->find($subject->id);
         return $subject;
     }
-    public function edit(Subject $subject) {
+    public function edit(Subject $subject)
+    {
         $grades = Grade::all();
         $organizations = Organization::all();
-        return compact('grades', 'organizations','subject');
+        return compact('grades', 'organizations', 'subject');
     }
-    public function update(UpdateSubjectRequest $request, Subject $subject) {
+    public function update(UpdateSubjectRequest $request, Subject $subject)
+    {
         $data = $request->validated();
-        $data['is_premium'] = $request->has('is_premium');
         $subject->update($data);
         return $subject;
     }
-    public function destroy(Subject $subject) {
+    public function destroy(Subject $subject)
+    {
         $subject->delete();
         return true;
     }

@@ -26,7 +26,6 @@ class StoreSubjectRequest extends FormRequest
             'description' => 'nullable|string|max:255',
             'grade_id' => 'required|exists:grades,id',
             'organization_id' => 'required|exists:organizations,id',
-            'is_premium' => 'nullable|boolean',
         ];
     }
     public function messages(): array
@@ -40,9 +39,7 @@ class StoreSubjectRequest extends FormRequest
             'grade_id.required' => 'The grade field is required.',
             'grade_id.exists' => 'The grade field is not valid.',
             'organization_id.required' => 'The organization field is required.',
-            'organization_id.exists' => 'The organization field is not valid.',
-            'is_premium.boolean' => 'The premium field must be a boolean.',
-            
+            'organization_id.exists' => 'The organization field is not valid.',            
         ];      
     }
 }

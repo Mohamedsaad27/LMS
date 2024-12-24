@@ -26,7 +26,6 @@ class UpdateSubjectRequest extends FormRequest
             'description' => 'nullable|string',
             'grade_id' => 'required|exists:grades,id',
             'organization_id' => 'required|exists:organizations,id',
-            'is_premium' => 'nullable|boolean',
         ];
     }
     public function messages(): array
@@ -40,7 +39,6 @@ class UpdateSubjectRequest extends FormRequest
             'grade_id.exists' => __('messages.grade_must_exist'),
             'organization_id.required' => __('messages.organization_is_required'),
             'organization_id.exists' => __('messages.organization_must_exist'),
-            'is_premium.boolean' => __('messages.is_premium_must_be_a_boolean'),
         ];
     }
 }
