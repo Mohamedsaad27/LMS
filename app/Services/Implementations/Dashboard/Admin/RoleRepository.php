@@ -15,8 +15,9 @@ class RoleRepository implements RoleRepositoryInterface
     public function index()
     {
         $roles = Role::all();
+        $permissions = Permission::all();
 
-        return $roles;
+        return compact('roles', 'permissions');
     }
 
     public function show(Role $role)
@@ -66,6 +67,10 @@ class RoleRepository implements RoleRepositoryInterface
 
             if ($request->has('permissions')) {
                 $role->revokePermissionTo($request->permissions);
+            }
+
+            if ($request->has('add_permissions')) {
+                $role->givePermissionTo($request->add_permissions);
             }
 
             return $roleUpdated;

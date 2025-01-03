@@ -35,10 +35,10 @@
                                     <!-- Role Name -->
                                     <div class="mb-4">
                                         <label for="name" class="form-label">{{ __('dashboard.name') }}</label>
-                                        <input type="text" class="form-control @error('role') is-invalid @enderror"
-                                            id="name" name="role" value="{{ old('role') }}"
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            id="name" name="name" value="{{ old('name') }}"
                                             placeholder="{{ __('dashboard.enter_role_name') }}">
-                                        @error('role')
+                                        @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

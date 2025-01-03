@@ -21304,26 +21304,26 @@ html:not([dir=rtl]) .modal .btn-close:hover,html:not([dir=rtl]) .modal .btn-clos
     color: #9CA3AF;
 }
 
-.sidebar .nav-link .link-arrow {
+.nav-link .link-arrow {
     font-size: 0.875rem;
 }
 
-.sidebar .nav-link[data-bs-toggle=collapse][aria-expanded=true] .link-arrow {
+.nav-link[data-bs-toggle=collapse][aria-expanded=true] .link-arrow {
     transform: rotate(90deg);
     transition: all 0.2s ease;
 }
 
-.sidebar .nav-link[data-bs-toggle=collapse][aria-expanded=false] .link-arrow {
+.nav-link[data-bs-toggle=collapse][aria-expanded=false] .link-arrow {
     transform: rotate(0deg);
     transition: all 0.2s ease;
 }
 
-.sidebar .nav-link.active {
+.nav-link.active {
     color: #F2F4F6;
 }
 
 .sidebar .sidebar-text,
-.sidebar .link-arrow,
+.link-arrow,
 .sidebar .badge,
 .sidebar .notification-count {
     opacity: 1;

@@ -23,9 +23,11 @@ class RoleController extends Controller
      */
     public function index(Request $request): View
     {
-        $roles = $this->roleRepository->index();
+        $data = $this->roleRepository->index();
+        $roles = $data['roles'];
+        $permissions = $data['permissions'];
 
-        return view('dashboard.admin.role.index', compact('roles'));
+        return view('dashboard.admin.role.index', compact('roles', 'permissions'));
     }
 
     /**
@@ -48,7 +50,7 @@ class RoleController extends Controller
 
             return redirect()->route('roles.index')->with('success', __('dashboard.role_created_successfully'));
         } catch (\Exception $e) {
-            return redirect()->route('roles.create')->with('error', __('dashboard.error_occurred_try_again'));
+            return redirect()->route('roles.create')->with('error', __('dashboard.error_occurred_try_again') . ' ' . $e->getMessage());
         }
     }
 

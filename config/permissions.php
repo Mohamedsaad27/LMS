@@ -1,6 +1,7 @@
 <?php
 return [
     'roles' => [
+        'admin' => ['administrator-access'],
         'school' => ['school-create', 'school-view', 'school-edit', 'school-delete'],
         'organization' => ['organization-create', 'organization-view', 'organization-edit', 'organization-delete'],
         'grade' => ['grade-create', 'grade-view', 'grade-edit', 'grade-delete'],

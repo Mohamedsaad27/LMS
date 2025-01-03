@@ -34,6 +34,15 @@
 
 @endpush
 
+@push('styles')
+    <style>
+        .delete-check:checked {
+            background-color: red !important;
+            border-color: red !important;
+        }
+    </style>
+@endpush
+
 @section('content')
     @include('layouts.dashboard.partials.breadcrumb', ['component' => __('dashboard.roles_permissions')])
 
@@ -122,7 +131,7 @@
                                                                 @enderror
                                                             @endif
 
-                                                            <div class="d-flex flex-wrap mb-3">
+                                                            <div class="d-flex flex-wrap mb-3 border-bottom pb-3">
                                                                 @forelse ($role->permissions as $permission)
                                                                     <div
                                                                         class="d-flex align-items-center form-check form-check-sm form-check-custom form-check-solid me-3 my-2 mb-0 px-4 py-2 w-fit h-fit rounded bg-gray-100 transition">
@@ -137,7 +146,7 @@
                                                                             data-bs-placement="top"
                                                                             aria-label="{{ $permission->name }}"
                                                                             data-bs-original-title="{{ __('dashboard.delete_permission') }}"
-                                                                            class="form-check-input ms-1 mb-1"
+                                                                            class="delete-check form-check-input ms-1 mb-1 check:bg-red-500 "
                                                                             id="permissionCheck{{ $role->id . $permission->id }}"
                                                                             name="permissions[]"
                                                                             @checked(in_array($permission->name, old('permissions', [])))
@@ -147,6 +156,64 @@
                                                                 @empty
                                                                 @endforelse
                                                             </div>
+
+                                                            {{-- add new permission --}}
+                                                            <div class="nav-item ">
+                                                                <span
+                                                                    class="nav-link collapsed d-flex justify-content-between align-items-center"
+                                                                    data-bs-toggle="collapse" 
+                                                                    data-bs-target="#add-new-permission">
+                                                                    <span>
+                                                                        <span class="sidebar-icon">
+                                                                            <svg class="icon icon-xs me-2"
+                                                                                fill="currentColor" viewBox="0 0 20 20"
+                                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                                <path
+                                                                                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                                                                                </path>
+                                                                            </svg>
+                                                                        </span>
+                                                                        <span class="sidebar-text">Add New Permission</span>
+                                                                    </span>
+                                                                    <span class="link-arrow">
+                                                                        <svg class="icon icon-sm" fill="currentColor"
+                                                                            viewBox="0 0 20 20"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path fill-rule="evenodd"
+                                                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                                                clip-rule="evenodd"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </span>
+                                                                <div class="multi-level collapse mt-2" role="list" id="add-new-permission" aria-expanded="false">
+                                                                    <ul class="flex align-items-center nav ps-2">
+                                                                        @foreach ($permissions as $permission)
+                                                                            @if (!$role->permissions->contains('name', $permission->name))
+                                                                                <div
+                                                                                    class="d-flex align-items-center form-check form-check-sm form-check-custom form-check-solid me-3 my-2 mb-0 px-4 py-2 w-fit h-fit rounded bg-gray-100 transition">
+                                                                                    <span
+                                                                                        class="form-check-label fs-7 permission-label"
+                                                                                        id="permissionLabel{{ $role->id . $permission->id }}">
+                                                                                        {{ $permission->name }}
+                                                                                    </span>
+                                                                                    <input type="checkbox"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-popup="tooltip-custom"
+                                                                                        value="{{ $permission->name }}"
+                                                                                        data-bs-placement="top"
+                                                                                        aria-label="{{ $permission->name }}"
+                                                                                        data-bs-original-title="{{ __('dashboard.add_new_permission') }}"
+                                                                                        class="form-check-input ms-1 mb-1"
+                                                                                        id="permissionCheck{{ $role->id . $permission->id }}"
+                                                                                        name="add_permissions[]"
+                                                                                        value="{{ $permission->name }}">
+                                                                                </div>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
                                                             <div class="modal-footer px-0 pb-0">
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-bs-dismiss="modal">{{ __('dashboard.cancel') }}</button>
@@ -158,12 +225,14 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="d-flex align-items-center">
 
                                         {{-- Copy Role --}}
-                                        <div class="text-main cursor-pointer" data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                            data-bs-placement="top" aria-label="{{ $role->name }}"
+                                        <div class="text-main cursor-pointer" data-bs-toggle="tooltip"
+                                            data-popup="tooltip-custom" data-bs-placement="top"
+                                            aria-label="{{ $role->name }}"
                                             data-bs-original-title="{{ __('dashboard.copy_role') . $role->name }}"
                                             onclick="copyToClipboard('role-{{ $role->id }}' , 'Role name copied to clipboard')">
                                             <i class="ki-duotone ki-copy fs-5"></i>
